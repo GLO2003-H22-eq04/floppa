@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.URI;
 
 public class Main {
+    //Test pour discord
     public static void main(String[] args) throws IOException {
         ResourceConfig resourceConfig = new ResourceConfig()
                 .packages("ulaval.glo2003");
