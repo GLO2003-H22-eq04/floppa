@@ -11,7 +11,7 @@ public class Main {
     //Test pour discord
     public static void main(String[] args) throws IOException {
         ResourceConfig resourceConfig = new ResourceConfig()
-                .packages("ulaval.glo2003");
+                .register(new SellerController());
         URI uri = URI.create("http://localhost:8080/");
 
         HttpServer server = GrizzlyHttpServerFactory.createHttpServer(uri, resourceConfig);
