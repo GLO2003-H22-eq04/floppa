@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         ResourceConfig resourceConfig = new ResourceConfig()
                 .property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true)
-                .register(new SellerController());
+                .register(SellerController.class);
 
         URI uri = URI.create("http://localhost:8080/");
 
