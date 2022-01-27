@@ -5,7 +5,7 @@ import jakarta.validation.ConstraintValidatorContext;
 
 import java.time.LocalDate;
 
-public class AgeValidator implements ConstraintValidator<MinimumAge, LocalDate> {
+public class MinimumAgeValidator implements ConstraintValidator<MinimumAge, LocalDate> {
 
     private int minimumAge;
 
@@ -17,6 +17,7 @@ public class AgeValidator implements ConstraintValidator<MinimumAge, LocalDate> 
 
     @Override
     public boolean isValid(LocalDate birthDate, ConstraintValidatorContext constraintValidatorContext) {
-         return birthDate.isBefore(LocalDate.now().minusYears(minimumAge));
+        // Ajoute une journée pour pouvoir accepter l'age exact à la journée prêt.
+        return birthDate.isBefore(LocalDate.now().minusYears(minimumAge).plusDays(1));
     }
 }

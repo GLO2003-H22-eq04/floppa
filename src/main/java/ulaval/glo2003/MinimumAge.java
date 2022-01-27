@@ -7,7 +7,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = {AgeValidator.class})
+@Constraint(validatedBy = {MinimumAgeValidator.class})
 public @interface MinimumAge {
     String message() default "Invalid birthdate.";
 
