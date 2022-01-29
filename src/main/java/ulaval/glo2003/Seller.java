@@ -3,10 +3,8 @@ package ulaval.glo2003;
 import jakarta.json.bind.annotation.JsonbDateFormat;
 import jakarta.validation.constraints.NotEmpty;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Seller {
@@ -14,14 +12,14 @@ public class Seller {
     private String name;
     private String bio;
     private LocalDate birthDate;
-    private Date createdAt;
+    private OffsetDateTime createdAt;
 
 
     public Seller(SellerDTO seller){
         name = seller.name;
         bio = seller.bio;
         birthDate = seller.birthDate;
-        createdAt = new Date();
+        createdAt = Instant.now().atOffset(ZoneOffset.UTC);
     }
 
     public String getName() {
@@ -36,7 +34,7 @@ public class Seller {
         return birthDate;
     }
 
-    public Date getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
