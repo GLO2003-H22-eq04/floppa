@@ -4,6 +4,7 @@ import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.net.URI;
@@ -24,7 +25,7 @@ public class SellerController {
 
     @GET
     @Path("/{sellerId}")
-    @Produces("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
     public SellerInfoResponseDTO getSeller(@PathParam("sellerId") int sellerId){
         var seller = sellerRepository.findById(sellerId);
         return new SellerInfoResponseDTO(sellerId, seller.getName(), seller.getCreatedAt(), seller.getBio(), seller.getProducts());
