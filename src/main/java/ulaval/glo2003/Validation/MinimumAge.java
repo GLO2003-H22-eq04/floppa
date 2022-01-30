@@ -1,7 +1,8 @@
-package ulaval.glo2003;
+package ulaval.glo2003.Validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
+import ulaval.glo2003.Validation.AgeValidator;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -11,7 +12,7 @@ import java.lang.annotation.RetentionPolicy;
 public @interface MinimumAge {
     String message() default "Invalid birthdate.";
 
-    int age() default 18;
+    int age();
 
     Class<?>[] groups() default {};
 
