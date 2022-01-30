@@ -2,10 +2,12 @@ package ulaval.glo2003;
 
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import ulaval.glo2003.Validation.MissingParameterError;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ public class SellerController {
     private SellerRepository sellerRepository;
 
     @POST
-    public Response postCreatingSeller(@Valid @NotNull SellerDTO seller) {
+    public Response postCreatingSeller(@Valid @NotNull(payload = MissingParameterError.class) SellerDTO seller) {
         var id = sellerRepository.add(new Seller(seller));
         return Response.created(URI.create(Integer.toString(id))).build();
     }
@@ -26,7 +28,7 @@ public class SellerController {
     @GET
     @Path("/{sellerId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public SellerInfoResponseDTO getSeller(@PathParam("sellerId") int sellerId){
+    public SellerInfoResponseDTO getSeller(@NotEmpty(payload = MissingParameterError.class) @PathParam("sellerId") int sellerId){
         var seller = sellerRepository.findById(sellerId);
         return new SellerInfoResponseDTO(sellerId, seller.getName(), seller.getCreatedAt(), seller.getBio(), seller.getProducts());
     }
