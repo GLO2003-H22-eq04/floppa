@@ -5,6 +5,7 @@ import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import ulaval.glo2003.Validation.Handler.ConstraintViolationExceptionHandler;
+import ulaval.glo2003.Validation.ValidationExceptionResponseBuilder;
 
 import java.io.IOException;
 import java.net.URI;
@@ -20,7 +21,8 @@ public class Main {
                     }
                 })
                 .register(HealthController.class)
-                .register(ConstraintViolationExceptionHandler.class);
+                .register(ConstraintViolationExceptionHandler.class)
+                .register(ValidationExceptionHandler.class);
 
         URI uri = URI.create("http://localhost:8080/");
 

@@ -1,0 +1,16 @@
+package ulaval.glo2003;
+
+import jakarta.inject.Inject;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.ext.ExceptionMapper;
+import ulaval.glo2003.Validation.ValidationError;
+import ulaval.glo2003.Validation.ValidationExceptionResponseBuilder;
+
+public class ValidationExceptionHandler implements ExceptionMapper<ValidationError> {
+    private ValidationExceptionResponseBuilder responseBuilder = new ValidationExceptionResponseBuilder();
+
+    @Override
+    public Response toResponse(ValidationError e) {
+        return responseBuilder.buildFromException(e);
+    }
+}
