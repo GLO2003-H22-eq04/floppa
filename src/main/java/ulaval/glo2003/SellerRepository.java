@@ -1,8 +1,10 @@
 package ulaval.glo2003;
 
+import java.util.Optional;
+
 public interface SellerRepository {
 
     int add(Seller seller);
 
-    Seller findById(int id);
+    Optional<Seller> findById(int id);
 }
