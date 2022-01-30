@@ -1,4 +1,4 @@
-package ulaval.glo2003.Validation;
+package ulaval.glo2003.Validation.Errors;
 
 import jakarta.validation.Payload;
 

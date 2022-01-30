@@ -7,7 +7,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import ulaval.glo2003.Validation.MissingParameterError;
+import ulaval.glo2003.Validation.Errors.InvalidParameterError;
+import ulaval.glo2003.Validation.Errors.MissingParameterError;
 
 import java.net.URI;
 import java.util.ArrayList;

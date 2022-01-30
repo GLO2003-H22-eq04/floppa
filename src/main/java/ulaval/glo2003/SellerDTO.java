@@ -5,9 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import ulaval.glo2003.Validation.HighPriority;
-import ulaval.glo2003.Validation.InvalidParameterError;
+import ulaval.glo2003.Validation.Errors.InvalidParameterError;
 import ulaval.glo2003.Validation.MinimumAge;
-import ulaval.glo2003.Validation.MissingParameterError;
+import ulaval.glo2003.Validation.Errors.MissingParameterError;
 
 import java.time.LocalDate;
 

@@ -1,6 +1,5 @@
 package ulaval.glo2003.Validation.Handler;
 
-import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Payload;
 import jakarta.ws.rs.Produces;
@@ -8,8 +7,8 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
-import ulaval.glo2003.Validation.InvalidParameterError;
-import ulaval.glo2003.Validation.ValidationError;
+import ulaval.glo2003.Validation.Errors.InvalidParameterError;
+import ulaval.glo2003.Validation.Errors.ValidationError;
 import ulaval.glo2003.Validation.ValidationExceptionResponseBuilder;
 
 import java.util.Optional;

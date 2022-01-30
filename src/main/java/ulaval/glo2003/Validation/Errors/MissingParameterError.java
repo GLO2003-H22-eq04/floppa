@@ -1,4 +1,4 @@
-package ulaval.glo2003.Validation;
+package ulaval.glo2003.Validation.Errors;
 
 public class MissingParameterError extends ValidationError {
 
@@ -8,7 +8,7 @@ public class MissingParameterError extends ValidationError {
 
     @Override
     public String getCode() {
-        return "MISSING_PARAM";
+        return "MISSING_PARAMETER";
     }
 }
 

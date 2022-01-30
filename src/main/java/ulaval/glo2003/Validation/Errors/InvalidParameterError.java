@@ -1,4 +1,4 @@
-package ulaval.glo2003.Validation;
+package ulaval.glo2003.Validation.Errors;
 
 public class InvalidParameterError extends ValidationError {
 
@@ -8,6 +8,6 @@ public class InvalidParameterError extends ValidationError {
 
     @Override
     public String getCode() {
-        return "INVALID_PARAM";
+        return "INVALID_PARAMETER";
     }
 }

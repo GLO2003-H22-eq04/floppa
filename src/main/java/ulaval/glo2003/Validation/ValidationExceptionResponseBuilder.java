@@ -1,10 +1,8 @@
 package ulaval.glo2003.Validation;
 
-import jakarta.annotation.ManagedBean;
 import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.ext.Provider;
+import ulaval.glo2003.Validation.Errors.ValidationError;
 
-import java.beans.JavaBean;
 
 
 public class ValidationExceptionResponseBuilder {
