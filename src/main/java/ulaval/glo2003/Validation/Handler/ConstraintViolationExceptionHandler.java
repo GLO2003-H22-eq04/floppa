@@ -25,12 +25,12 @@ public class ConstraintViolationExceptionHandler implements ExceptionMapper<Cons
         for (var error : e.getConstraintViolations())
             for (var payload : error.getConstraintDescriptor().getPayload())
                 if (ValidationError.class.isAssignableFrom(payload))
-                    return new ErrorDTO(getCode(payload), error.getMessage());
+                    return new ErrorDTO(getErrorCode(payload), error.getMessage());
 
         return new ErrorDTO(DEFAULT_ERROR_CODE, "Paramètre invalide");
     }
 
-    private String getCode(Class<? extends Payload> payload) {
+    private String getErrorCode(Class<? extends Payload> payload) {
         try {
             var instance = (ValidationError) payload.getDeclaredConstructor().newInstance();
             return instance.getCode();
