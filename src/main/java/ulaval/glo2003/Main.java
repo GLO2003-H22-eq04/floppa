@@ -1,6 +1,7 @@
 package ulaval.glo2003;
 
 import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import ulaval.glo2003.Validation.Handler.ConstraintViolationExceptionHandler;
@@ -12,6 +13,12 @@ public class Main {
     public static void main(String[] args) throws IOException {
         ResourceConfig resourceConfig = new ResourceConfig()
                 .register(SellerController.class)
+                .register(new AbstractBinder() {
+                    @Override
+                    protected void configure() {
+                        bind(new SellerListRepository()).to(SellerRepository.class);
+                    }
+                })
                 .register(HealthController.class)
                 .register(ConstraintViolationExceptionHandler.class);
 
