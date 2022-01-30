@@ -1,6 +1,7 @@
 package ulaval.glo2003;
 
 import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.ServerProperties;
@@ -13,6 +14,12 @@ public class Main {
         ResourceConfig resourceConfig = new ResourceConfig()
                 .property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true)
                 .register(SellerController.class)
+                .register(new AbstractBinder() {
+                    @Override
+                    protected void configure() {
+                        bind(new SellerListRepository()).to(SellerRepository.class);
+                    }
+                })
                 .register(HealthController.class);
 
         URI uri = URI.create("http://localhost:8080/");
