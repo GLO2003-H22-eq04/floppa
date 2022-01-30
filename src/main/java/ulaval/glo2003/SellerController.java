@@ -7,11 +7,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import ulaval.glo2003.Validation.MissingParameterError;
+import ulaval.glo2003.Validation.Errors.InvalidParameterError;
+import ulaval.glo2003.Validation.Errors.ItemNotFoundError;
+import ulaval.glo2003.Validation.Errors.MissingParameterError;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 
 @Path("/sellers")
 public class SellerController {
@@ -28,8 +28,13 @@ public class SellerController {
     @GET
     @Path("/{sellerId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public SellerInfoResponseDTO getSeller(@NotEmpty(payload = MissingParameterError.class) @PathParam("sellerId") int sellerId){
+    public SellerInfoResponseDTO getSeller(@PathParam("sellerId") int sellerId) throws ItemNotFoundError {
         var seller = sellerRepository.findById(sellerId);
-        return new SellerInfoResponseDTO(sellerId, seller.getName(), seller.getCreatedAt(), seller.getBio(), seller.getProducts());
+        if (seller.isPresent()) {
+            var sellerInfos = seller.get();
+            return new SellerInfoResponseDTO(sellerId, sellerInfos.getName(), sellerInfos.getCreatedAt(), sellerInfos.getBio(), sellerInfos.getProducts());
+        }
+
+        throw new ItemNotFoundError("L'id fourni n'existe pas.");
     }
 }

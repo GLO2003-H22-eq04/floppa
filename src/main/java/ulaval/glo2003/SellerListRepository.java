@@ -2,6 +2,7 @@ package ulaval.glo2003;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class SellerListRepository implements SellerRepository {
 
@@ -14,7 +15,10 @@ public class SellerListRepository implements SellerRepository {
     }
 
     @Override
-    public Seller findById(int id) {
-        return sellerList.get(id);
+    public Optional<Seller> findById(int id) {
+        if (sellerList.size() > id)
+            return Optional.of(sellerList.get(id));
+
+        return Optional.empty();
     }
 }
