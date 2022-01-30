@@ -3,7 +3,7 @@ package ulaval.glo2003;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.server.ServerProperties;
+import ulaval.glo2003.Validation.Handler.ConstraintViolationExceptionHandler;
 
 import java.io.IOException;
 import java.net.URI;
@@ -11,9 +11,9 @@ import java.net.URI;
 public class Main {
     public static void main(String[] args) throws IOException {
         ResourceConfig resourceConfig = new ResourceConfig()
-                .property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true)
                 .register(SellerController.class)
-                .register(HealthController.class);
+                .register(HealthController.class)
+                .register(ConstraintViolationExceptionHandler.class);
 
         URI uri = URI.create("http://localhost:8080/");
 
