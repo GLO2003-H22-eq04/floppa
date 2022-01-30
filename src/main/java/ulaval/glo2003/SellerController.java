@@ -2,12 +2,10 @@ package ulaval.glo2003;
 
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import ulaval.glo2003.Validation.Errors.InvalidParameterError;
 import ulaval.glo2003.Validation.Errors.ItemNotFoundError;
 import ulaval.glo2003.Validation.Errors.MissingParameterError;
 

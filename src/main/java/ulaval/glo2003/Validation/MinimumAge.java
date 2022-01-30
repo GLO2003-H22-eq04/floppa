@@ -2,7 +2,6 @@ package ulaval.glo2003.Validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import ulaval.glo2003.Validation.AgeValidator;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
