@@ -1,8 +1,5 @@
 package ulaval.glo2003;
 
-import jakarta.json.bind.annotation.JsonbDateFormat;
-import jakarta.validation.constraints.NotEmpty;
-
 import java.time.*;
 import java.util.ArrayList;
 import java.util.List;

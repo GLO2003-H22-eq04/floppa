@@ -1,7 +1,5 @@
 package ulaval.glo2003.Validation.Handler;
 
-import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.Payload;
 import jakarta.ws.rs.ProcessingException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
