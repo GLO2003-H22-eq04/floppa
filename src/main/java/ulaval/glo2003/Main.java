@@ -13,7 +13,14 @@ import java.net.URI;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        ResourceConfig resourceConfig = new ResourceConfig()
+        URI uri = URI.create("http://localhost:8080/");
+
+        HttpServer server = GrizzlyHttpServerFactory.createHttpServer(uri, getRessourceConfig());
+        server.start();
+    }
+
+    public static ResourceConfig getRessourceConfig(){
+        return new ResourceConfig()
                 .register(SellerController.class)
                 .register(new AbstractBinder() {
                     @Override
@@ -25,10 +32,5 @@ public class Main {
                 .register(ConstraintViolationExceptionHandler.class)
                 .register(ValidationExceptionHandler.class)
                 .register(ProcessingExceptionHandler.class);
-
-        URI uri = URI.create("http://localhost:8080/");
-
-        HttpServer server = GrizzlyHttpServerFactory.createHttpServer(uri, resourceConfig);
-        server.start();
     }
 }

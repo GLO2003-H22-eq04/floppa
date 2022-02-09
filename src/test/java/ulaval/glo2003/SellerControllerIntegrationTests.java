@@ -3,7 +3,6 @@ package ulaval.glo2003;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.Application;
 import jakarta.ws.rs.core.MediaType;
-import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,7 +17,7 @@ public class SellerControllerIntegrationTests extends JerseyTest {
     private SellerDTO sellerDTO;
 
     @Before
-    public void setUp() {
+    public void before() {
         sellerDTO = new SellerDTO();
         sellerDTO.name = "testnom";
         sellerDTO.bio = "testbio";
@@ -27,7 +26,7 @@ public class SellerControllerIntegrationTests extends JerseyTest {
 
     @Override
     protected Application configure() {
-        return new ResourceConfig(SellerController.class);
+        return Main.getRessourceConfig();
     }
 
     private boolean isUrl(String sequence) {
@@ -41,8 +40,8 @@ public class SellerControllerIntegrationTests extends JerseyTest {
     }
 
     @Test
-    public void canReceive() {
-        var response = target("sellers").request().post(Entity.entity(sellerDTO, MediaType.APPLICATION_JSON_TYPE));
+    public void canReceiveUrlOfCreatedSeller() {
+        var response = target("/sellers").request().post(Entity.entity(sellerDTO, MediaType.APPLICATION_JSON_TYPE));
         var locationHeader = (String) response.getHeaders().getFirst("Location");
         Assert.assertTrue(isUrl(locationHeader));
         Assert.assertEquals(locationHeader.lastIndexOf('0'), locationHeader.length() - 1);
