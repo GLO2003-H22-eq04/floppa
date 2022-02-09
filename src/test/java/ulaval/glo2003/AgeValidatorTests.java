@@ -9,6 +9,7 @@ import ulaval.glo2003.Validation.MinimumAge;
 
 import java.time.LocalDate;
 
+import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -34,12 +35,12 @@ public class AgeValidatorTests {
 
     @Test
     public void canRejectTooYoungBirthdate() {
-        Assert.assertFalse(testValidator(LocalDate.now().minusYears(1)));
+        assertThat(testValidator(LocalDate.now().minusYears(1))).isFalse();
     }
 
     @Test
     public void canAcceptValidBirthdate() {
-        Assert.assertTrue(testValidator(LocalDate.now().minusYears(20)));
+        assertThat(testValidator(LocalDate.now().minusYears(20))).isTrue();
     }
 
     @Test(expected = NullPointerException.class)
@@ -54,6 +55,6 @@ public class AgeValidatorTests {
 
     @Test
     public void canRejectFutureDate(){
-        Assert.assertFalse(testValidator(LocalDate.now().plusYears(5)));
+        assertThat(testValidator(LocalDate.now().plusYears(5))).isFalse();
     }
 }
