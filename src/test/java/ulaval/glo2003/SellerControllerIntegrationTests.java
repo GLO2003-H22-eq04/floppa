@@ -9,12 +9,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.net.URI;
 import java.time.LocalDate;
 import java.util.regex.Pattern;
 
 
-public class SellerControllerTest extends JerseyTest {
+public class SellerControllerIntegrationTests extends JerseyTest {
 
     private SellerDTO sellerDTO;
 

@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class AgeValidatorTest {
+public class AgeValidatorTests {
 
     MinimumAgeValidator validator;
     MinimumAge annotationMock;
