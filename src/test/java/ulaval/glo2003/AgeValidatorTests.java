@@ -4,6 +4,8 @@ import jakarta.validation.ConstraintValidatorContext;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import ulaval.glo2003.Validation.AgeValidator;
+import ulaval.glo2003.Validation.MinimumAge;
 
 import java.time.LocalDate;
 
@@ -12,14 +14,14 @@ import static org.mockito.Mockito.when;
 
 public class AgeValidatorTests {
 
-    MinimumAgeValidator validator;
+    AgeValidator validator;
     MinimumAge annotationMock;
     ConstraintValidatorContext contextMock;
     private static final int DEFAULT_ANNOTATION_MOCK_MINIMUM_AGE = 18;
 
     @Before
     public void setUp() {
-        validator = new MinimumAgeValidator();
+        validator = new AgeValidator();
         contextMock = mock(ConstraintValidatorContext.class);
         annotationMock = mock(MinimumAge.class);
         when(annotationMock.age()).thenReturn(DEFAULT_ANNOTATION_MOCK_MINIMUM_AGE);
