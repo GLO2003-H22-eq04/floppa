@@ -9,6 +9,12 @@ public class Product {
     private double suggestedPrice;
     private List<ProductCategory> categories;
 
+    public Product(ProductDTO product){
+        title = product.title;
+        description = product.description;
+        suggestedPrice = product.suggestedPrice;
+    }
+
     public String getTitle() {
         return title;
     }
