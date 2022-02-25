@@ -21,14 +21,18 @@ public class Main {
 
     public static ResourceConfig getRessourceConfig(){
         return new ResourceConfig()
-                .register(SellerController.class)
                 .register(new AbstractBinder() {
                     @Override
                     protected void configure() {
                         bind(new SellerListRepository()).to(SellerRepository.class);
+                        bind(new ProductListRepository()).to(ProductRepository.class);
+                        bind(new SellerFactory()).to(SellerFactory.class);
+                        bind(new ProductFactory()).to(ProductFactory.class);
                     }
                 })
+                .register(SellerController.class)
                 .register(HealthController.class)
+                .register(ProductController.class)
                 .register(ConstraintViolationExceptionHandler.class)
                 .register(ValidationExceptionHandler.class)
                 .register(ProcessingExceptionHandler.class);
