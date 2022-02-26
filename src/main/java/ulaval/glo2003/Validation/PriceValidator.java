@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 public class PriceValidator implements ConstraintValidator<MinimumPrice, Double> {
 
-    private int minimumPrice;
+    private double minimumPrice;
 
     @Override
     public void initialize(MinimumPrice constraintAnnotation) {

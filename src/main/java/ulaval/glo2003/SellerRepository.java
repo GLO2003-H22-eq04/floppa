@@ -7,4 +7,6 @@ public interface SellerRepository {
     int add(Seller seller);
 
     Optional<Seller> findById(int id);
+
+    boolean checkIfSellerExist(int id);
 }

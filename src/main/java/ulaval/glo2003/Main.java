@@ -26,7 +26,6 @@ public class Main {
                     protected void configure() {
                         bind(new SellerListRepository()).to(SellerRepository.class);
                         bind(new ProductListRepository()).to(ProductRepository.class);
-                        bind(new SellerFactory()).to(SellerFactory.class);
                         bind(new ProductFactory()).to(ProductFactory.class);
                     }
                 })

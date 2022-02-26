@@ -5,19 +5,19 @@ import java.util.List;
 
 public class Product {
 
-    private int id;
+    private int productId;
     private String title;
     private String description;
-    private ProductSellerDTO seller;
+    private String sellerId;
     private Amount suggestedPrice;
     private final List<ProductCategory> categories = new ArrayList<>();
 
-    public int getId() {
-        return id;
+    public int getProductId() {
+        return productId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public String getTitle() {
@@ -44,12 +44,12 @@ public class Product {
         categories.add(category);
     }
 
-    public ProductSellerDTO getSeller() {
-        return seller;
+    public String getSellerId() {
+        return sellerId;
     }
 
-    public void setSeller(ProductSellerDTO seller) {
-        this.seller = seller;
+    public void setSellerId(String sellerId) {
+        this.sellerId = sellerId;
     }
 
     public Amount getSuggestedPrice() {return suggestedPrice;}

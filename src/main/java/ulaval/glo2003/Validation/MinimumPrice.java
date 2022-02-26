@@ -11,7 +11,7 @@ import java.lang.annotation.RetentionPolicy;
 public @interface MinimumPrice {
     String message() default "Invalid price";
 
-    int price();
+    double price();
 
     Class<?>[] groups() default {};
 

@@ -26,22 +26,17 @@ public class ProductController {
     @Inject
     private ProductFactory productFactory;
 
-    @Inject
-    private SellerFactory sellerFactory;
-
     @POST
     public Response postCreatingProduct(@HeaderParam("X-Seller-Id") String sellerId,
                                         @Valid @NotNull(payload = MissingParameterError.class) ProductDTO productDTO) throws ItemNotFoundError {
 
-        var seller = sellerRepository.findById(Integer.parseInt(sellerId));
-        if(seller.isPresent()) {
-            var sellerDTO = sellerFactory.createSeller(sellerId, seller.get().getName());
-            var product = productFactory.createProduct(productDTO, sellerDTO);
-            var id = productRepository.add(product);
-            var url = String.format(PRODUCTS_PATH + "/%d", id);
-            return Response.created(URI.create(url)).build();
+        if(!sellerRepository.checkIfSellerExist(Integer.parseInt(sellerId))) {
+            throw new ItemNotFoundError("L'id fourni n'existe pas.");
         }
 
-        throw new ItemNotFoundError("L'id fourni n'existe pas.");
+        var product = productFactory.createProduct(productDTO, sellerId);
+        var productId = productRepository.add(product);
+        var url = String.format(PRODUCTS_PATH + "/%d", productId);
+        return Response.created(URI.create(url)).build();
     }
 }

@@ -2,14 +2,14 @@ package ulaval.glo2003;
 
 public class ProductFactory {
 
-    public Product createProduct(ProductDTO productDTO, ProductSellerDTO sellerDTO){
+    public Product createProduct(ProductDTO productDTO, String sellerId){
         var product = new Product();
         product.setTitle(productDTO.title);
         product.setDescription(productDTO.description);
-        product.setSeller(sellerDTO);
+        product.setSellerId(sellerId);
 
         var categories = productDTO.categories;
-        if(categories != null && !categories.isEmpty()){
+        if(categories != null){
             categories.forEach(category -> {
                 var productCategory = ProductCategory.findByName(category);
                 product.addCategory(productCategory);
