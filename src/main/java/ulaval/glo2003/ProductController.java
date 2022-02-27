@@ -6,6 +6,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Application;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import ulaval.glo2003.Validation.Errors.ItemNotFoundError;
 import ulaval.glo2003.Validation.Errors.MissingParameterError;
@@ -14,6 +17,8 @@ import java.net.URI;
 
 @Path(ProductController.PRODUCTS_PATH)
 public class ProductController {
+
+    public static final String SELLER_ID_HEADER = "X-Seller-Id";
 
     protected static final String PRODUCTS_PATH = "/products";
 
@@ -27,7 +32,8 @@ public class ProductController {
     private ProductFactory productFactory;
 
     @POST
-    public Response postCreatingProduct(@HeaderParam("X-Seller-Id") String sellerId,
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response postCreatingProduct(@HeaderParam(SELLER_ID_HEADER) String sellerId,
                                         @Valid @NotNull(payload = MissingParameterError.class) ProductDTO productDTO) throws ItemNotFoundError {
 
         if(!sellerRepository.checkIfSellerExist(Integer.parseInt(sellerId))) {
