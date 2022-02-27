@@ -1,5 +1,7 @@
 package ulaval.glo2003.Validation.Errors;
 
+import jakarta.ws.rs.core.Response;
+
 public class InvalidParameterError extends ValidationError {
 
     public InvalidParameterError(String message) {
@@ -9,5 +11,10 @@ public class InvalidParameterError extends ValidationError {
     @Override
     public String getCode() {
         return "INVALID_PARAMETER";
+    }
+
+    @Override
+    public Response.Status getStatus() {
+        return Response.Status.BAD_REQUEST;
     }
 }
