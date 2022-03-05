@@ -11,14 +11,14 @@ public class CriteriaMaxPrice implements Criteria{
     }
     @Override
     public List<Product> meetCriteria(List<Product> p_products) {
-        List<Product> sellerIDList = new ArrayList<Product>();
+        List<Product> productPrice = new ArrayList<Product>();
 
         for(Product product : p_products){
             if(product.getSuggestedPrice().getValue() <= maxPrice){
-                sellerIDList.add(product);
+                productPrice.add(product);
             }
         }
 
-        return sellerIDList;
+        return productPrice;
     }
 }
