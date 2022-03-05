@@ -1,5 +1,8 @@
 package ulaval.glo2003;
 
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +14,8 @@ public class Product {
     private String sellerId;
     private Amount suggestedPrice;
     private final List<ProductCategory> categories = new ArrayList<>();
+    private final List<String> categoriesName = new ArrayList<>();
+    private OffsetDateTime createdAt;
 
     public int getProductId() {
         return productId;
@@ -55,4 +60,18 @@ public class Product {
     public Amount getSuggestedPrice() {return suggestedPrice;}
 
     public void setSuggestedPrice(Amount suggestedPrice) {this.suggestedPrice = suggestedPrice;}
+
+    public OffsetDateTime getCreatedAt() { return Instant.now().atOffset(ZoneOffset.UTC); }
+
+    public void setCreatedAt(OffsetDateTime createdAt) { this.createdAt = createdAt; }
+
+    public List<String> getCategoriesName(List<ProductCategory> categories){
+        if(categories != null){
+            categories.forEach(category -> {
+                var productCategory = category.getName();
+                categoriesName.add(productCategory);
+            });
+        }
+        return categoriesName;
+    }
 }

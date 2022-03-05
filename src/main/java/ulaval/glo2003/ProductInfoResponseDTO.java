@@ -17,5 +17,7 @@ public class ProductInfoResponseDTO {
 
     public List<String> categories;
 
+    public ProductSellerDTO seller;
 
+    public OfferDTO offers;
 }
