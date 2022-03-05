@@ -27,6 +27,7 @@ public class Main {
                         bind(new SellerListRepository()).to(SellerRepository.class);
                         bind(new ProductListRepository()).to(ProductRepository.class);
                         bind(new ProductFactory()).to(ProductFactory.class);
+                        bind(new ProductAssembler()).to(ProductAssembler.class);
                     }
                 })
                 .register(SellerController.class)

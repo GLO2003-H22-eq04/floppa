@@ -3,10 +3,7 @@ package ulaval.glo2003;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import jakarta.ws.rs.HeaderParam;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Application;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -31,6 +28,9 @@ public class ProductController {
     @Inject
     private ProductFactory productFactory;
 
+    @Inject
+    private ProductAssembler productAssembler;
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response postCreatingProduct(@HeaderParam(SELLER_ID_HEADER) String sellerId,
@@ -44,5 +44,25 @@ public class ProductController {
         var productId = productRepository.add(product);
         var url = String.format(PRODUCTS_PATH + "/%d", productId);
         return Response.created(URI.create(url)).build();
+    }
+
+    @GET
+    @Path("/{productId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ProductInfoResponseDTO getSeller(@PathParam("productId") int productId) throws ItemNotFoundError {
+        var product = productRepository.findById(productId);
+
+        if (product.isPresent()) {
+            var productInfo = product.get();
+
+            var seller = sellerRepository.findById(Integer.parseInt(product.get().getSellerId()));
+            var sellerInfo = seller.get();
+            ProductSellerDTO productSellerDTO = new ProductSellerDTO(productInfo.getSellerId(), sellerInfo.getName());
+
+            OfferDTO offerDTO = new OfferDTO(0,0);
+
+            return productAssembler.toDto(productInfo, productSellerDTO, offerDTO);
+        }
+        throw new ItemNotFoundError("L'id fourni n'existe pas.");
     }
 }
