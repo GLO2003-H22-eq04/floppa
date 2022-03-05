@@ -12,7 +12,6 @@ public class CriteriaTitle implements Criteria{
     }
     @Override
     public List<Product> meetCriteria(List<Product> p_products) {
-        //Parse le string pour avoir titre inclusif et non case sensative.
         List<Product> sellerTitle = new ArrayList<Product>();
 
         for(Product product : p_products){
