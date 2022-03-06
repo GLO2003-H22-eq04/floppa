@@ -15,6 +15,11 @@ public class ProductListRepository implements ProductRepository {
     }
 
     @Override
+    public List<Product> findAll() {
+        return productList;
+    }
+
+    @Override
     public Optional<Product> findById(int id) {
         if (productList.size() > id)
             return Optional.of(productList.get(id));
