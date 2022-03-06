@@ -47,11 +47,11 @@ public class ProductController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<ProductFilteredResonseDTO> getProductsFromFilter(@QueryParam("sellerId") String p_sellerId,
-                                          @QueryParam("title") String p_title,
-                                          @QueryParam("categories") List<String> p_categories,
-                                          @QueryParam("minPrice") float p_minPrice,
-                                          @QueryParam("maxPrice") float p_maxPrice) {
+    public returnFilterDTO getProductsFromFilter(@QueryParam("sellerId") String p_sellerId,
+                                                 @QueryParam("title") String p_title,
+                                                 @QueryParam("categories") List<String> p_categories,
+                                                 @QueryParam("minPrice") float p_minPrice,
+                                                 @QueryParam("maxPrice") float p_maxPrice) {
 
         List<Product> productList = productRepository.findAll();
         List<ProductFilteredResonseDTO> products = null;
@@ -79,7 +79,7 @@ public class ProductController {
             productList = minPriceFilter.meetCriteria(productList);
         }
         if (p_maxPrice != 0) {
-            Criteria maxPriceFilter = new CriteriaMinPrice(p_maxPrice);
+            Criteria maxPriceFilter = new CriteriaMaxPrice(p_maxPrice);
             productList = maxPriceFilter.meetCriteria(productList);
         }
 
@@ -107,6 +107,6 @@ public class ProductController {
             }
         }
 
-        return products;
+        return new returnFilterDTO(products);
     }
 }
