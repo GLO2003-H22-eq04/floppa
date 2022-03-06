@@ -11,16 +11,19 @@ import ulaval.glo2003.Validation.Errors.MissingParameterError;
 
 import java.net.URI;
 
-@Path("/sellers")
+@Path(SellerController.SELLERS_PATH)
 public class SellerController {
+
+    protected static final String SELLERS_PATH = "/sellers";
 
     @Inject
     private SellerRepository sellerRepository;
 
     @POST
     public Response postCreatingSeller(@Valid @NotNull(payload = MissingParameterError.class) SellerDTO seller) {
-        var id = sellerRepository.add(new Seller(seller));
-        return Response.created(URI.create(Integer.toString(id))).build();
+        var sellerId = sellerRepository.add(new Seller(seller));
+        var url = String.format(SELLERS_PATH + "/%d", sellerId);
+        return Response.created(URI.create(url)).build();
     }
 
     @GET

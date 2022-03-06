@@ -6,7 +6,7 @@ import ulaval.glo2003.Validation.Errors.ValidationError;
 
 public class ValidationExceptionResponseBuilder {
     public Response buildFromException(ValidationError exception) {
-        return Response.status(Response.Status.BAD_REQUEST).entity(new ErrorDTO(exception.getCode(), exception.getMessage())).build();
+        return Response.status(exception.getStatus()).entity(new ErrorDTO(exception.getCode(), exception.getMessage())).build();
     }
 }
 

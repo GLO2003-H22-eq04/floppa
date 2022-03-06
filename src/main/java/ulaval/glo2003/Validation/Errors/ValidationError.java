@@ -1,6 +1,7 @@
 package ulaval.glo2003.Validation.Errors;
 
 import jakarta.validation.Payload;
+import jakarta.ws.rs.core.Response;
 
 public abstract class ValidationError extends Exception implements Payload {
     public ValidationError(String message) {
@@ -8,5 +9,7 @@ public abstract class ValidationError extends Exception implements Payload {
     }
 
     public abstract String getCode();
+
+    public abstract Response.Status getStatus();
 }
 

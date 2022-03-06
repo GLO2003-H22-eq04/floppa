@@ -21,4 +21,9 @@ public class SellerListRepository implements SellerRepository {
 
         return Optional.empty();
     }
+
+    @Override
+    public boolean existById(int id) {
+        return findById(id).isPresent();
+    }
 }

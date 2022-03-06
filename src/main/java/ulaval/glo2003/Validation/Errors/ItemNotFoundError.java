@@ -1,6 +1,8 @@
 package ulaval.glo2003.Validation.Errors;
 
-public class ItemNotFoundError extends ValidationError{
+import jakarta.ws.rs.core.Response;
+
+public class ItemNotFoundError extends ValidationError {
     public ItemNotFoundError(String message) {
         super(message);
     }
@@ -8,5 +10,10 @@ public class ItemNotFoundError extends ValidationError{
     @Override
     public String getCode() {
         return "ITEM_NOT_FOUND";
+    }
+
+    @Override
+    public Response.Status getStatus() {
+        return Response.Status.NOT_FOUND;
     }
 }
