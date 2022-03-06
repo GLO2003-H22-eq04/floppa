@@ -7,6 +7,13 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import ulaval.glo2003.Criteria.*;
+import jakarta.ws.rs.HeaderParam;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import ulaval.glo2003.Validation.Errors.InvalidParameterError;
 import ulaval.glo2003.Validation.Errors.ItemNotFoundError;
 import ulaval.glo2003.Validation.Errors.MissingParameterError;
 
