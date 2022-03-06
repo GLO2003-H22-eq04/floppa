@@ -1,12 +1,12 @@
 package ulaval.glo2003;
 
 public class OffersDTO {
-    public Amount mean;
+    public double mean;
     public int count;
 
 
     public OffersDTO(Amount mean, int count) {
-        this.mean = mean;
+        this.mean = mean.getValue();
         this.count = count;
     }
 
