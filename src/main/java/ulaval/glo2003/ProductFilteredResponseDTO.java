@@ -2,9 +2,8 @@ package ulaval.glo2003;
 
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Map;
 
-public class ProductFilteredResonseDTO {
+public class ProductFilteredResponseDTO {
 
     public String id;
 
@@ -22,14 +21,14 @@ public class ProductFilteredResonseDTO {
 
     public OffersDTO offers;
 
-    public ProductFilteredResonseDTO(String id,
-                                     OffsetDateTime createdAt,
-                                     String title,
-                                     String description,
-                                     double suggestedPrice,
-                                     List<ProductCategory> categories,
-                                     ProductSellerDTO seller,
-                                     OffersDTO offers){
+    public ProductFilteredResponseDTO(String id,
+                                      OffsetDateTime createdAt,
+                                      String title,
+                                      String description,
+                                      double suggestedPrice,
+                                      List<ProductCategory> categories,
+                                      ProductSellerDTO seller,
+                                      OffersDTO offers){
         this.id = id;
         this.createdAt = createdAt;
         this.title = title;
