@@ -8,5 +8,5 @@ public interface SellerRepository {
 
     Optional<Seller> findById(int id);
 
-    boolean checkIfSellerExist(int id);
+    boolean existById(int id);
 }

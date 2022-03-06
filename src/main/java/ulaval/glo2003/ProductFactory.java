@@ -8,13 +8,10 @@ public class ProductFactory {
         product.setDescription(productDTO.description);
         product.setSellerId(sellerId);
 
-        var categories = productDTO.categories;
-        if(categories != null){
-            categories.forEach(category -> {
-                var productCategory = ProductCategory.findByName(category);
-                product.addCategory(productCategory);
-            });
-        }
+        productDTO.categories.forEach(category -> {
+            var productCategory = ProductCategory.findByName(category);
+            product.addCategory(productCategory);
+        });
 
         product.setSuggestedPrice(new Amount(productDTO.suggestedPrice));
 

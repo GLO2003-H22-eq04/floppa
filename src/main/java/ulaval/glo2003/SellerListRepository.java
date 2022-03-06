@@ -23,7 +23,7 @@ public class SellerListRepository implements SellerRepository {
     }
 
     @Override
-    public boolean checkIfSellerExist(int id) {
+    public boolean existById(int id) {
         return findById(id).isPresent();
     }
 }
