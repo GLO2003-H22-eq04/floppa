@@ -7,9 +7,9 @@ import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.Application;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import ulaval.glo2003.Validation.Errors.InvalidParameterError;
 import ulaval.glo2003.Validation.Errors.ItemNotFoundError;
 import ulaval.glo2003.Validation.Errors.MissingParameterError;
 
@@ -34,10 +34,14 @@ public class ProductController {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response postCreatingProduct(@HeaderParam(SELLER_ID_HEADER) String sellerId,
-                                        @Valid @NotNull(payload = MissingParameterError.class) ProductDTO productDTO) throws ItemNotFoundError {
-
-        if(!sellerRepository.checkIfSellerExist(Integer.parseInt(sellerId))) {
-            throw new ItemNotFoundError("L'id fourni n'existe pas.");
+                                        @Valid @NotNull(payload = MissingParameterError.class) ProductDTO productDTO) throws ItemNotFoundError, InvalidParameterError {
+        try {
+            if (!sellerRepository.existById(Integer.parseInt(sellerId))) {
+                throw new ItemNotFoundError("L'id fourni n'existe pas.");
+            }
+        }
+        catch (NumberFormatException e){
+            throw new InvalidParameterError("L'id n'est pas bien formaté.");
         }
 
         var product = productFactory.createProduct(productDTO, sellerId);

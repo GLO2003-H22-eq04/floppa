@@ -8,6 +8,7 @@ import ulaval.glo2003.Validation.Errors.MissingParameterError;
 import ulaval.glo2003.Validation.HighPriority;
 import ulaval.glo2003.Validation.MinimumPrice;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @GroupSequence({HighPriority.class, ProductDTO.class})
@@ -25,5 +26,5 @@ public class ProductDTO {
     @MinimumPrice(price = 1, payload = InvalidParameterError.class, message = "Prix invalide.")
     public double suggestedPrice;
 
-    public List<String> categories;
+    public List<String> categories = new ArrayList<>();
 }
