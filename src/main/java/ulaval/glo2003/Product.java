@@ -17,6 +17,7 @@ public class Product {
     private final List<ProductCategory> categories = new ArrayList<>();
     private final List<String> categoriesName = new ArrayList<>();
 
+
     public Product() {
         createdAt = Instant.now().atOffset(ZoneOffset.UTC);
     }
@@ -77,5 +78,6 @@ public class Product {
             });
         }
         return categoriesName;
+
     }
 }
