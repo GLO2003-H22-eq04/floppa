@@ -9,7 +9,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import static com.google.common.truth.Truth.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ProductRepositoryTests {
+public class ProductRepositoryTest {
 
     @Mock
     private Product productMock1;

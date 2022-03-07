@@ -19,7 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ProductControllerIntegrationTests extends JerseyTest {
+public class ProductControllerIntegrationTest extends JerseyTest {
 
     private final static String VALID_ID = "0";
     private final static String INVALID_ID = "42";

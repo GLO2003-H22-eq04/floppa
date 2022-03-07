@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 import static com.google.common.truth.Truth.assertThat;
 
 
-public class SellerControllerIntegrationTests extends JerseyTest {
+public class SellerControllerIntegrationTest extends JerseyTest {
 
     private SellerDTO aSellerDTO1;
     private SellerDTO aSellerDTO2;
