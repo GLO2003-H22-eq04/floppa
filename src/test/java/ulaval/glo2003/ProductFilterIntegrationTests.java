@@ -59,7 +59,7 @@ public class ProductFilterIntegrationTests extends JerseyTest {
     public void canRequestWithoutArgs(){
         target("/sellers").request().post(Entity.entity(sellerDTO1, MediaType.APPLICATION_JSON_TYPE));
 
-        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(VALID_ID)).post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
+        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, VALID_ID).post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
         var responseGET = getProductResponse("","");
 
         assertThat(responseGET.readEntity(String.class)).contains(productDTO1.title);
@@ -69,8 +69,8 @@ public class ProductFilterIntegrationTests extends JerseyTest {
     public void canRequestWithFilterSingleResultFromTitle(){
         target("/sellers").request().post(Entity.entity(sellerDTO1, MediaType.APPLICATION_JSON_TYPE));
 
-        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(VALID_ID)).post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
-        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(VALID_ID)).post(Entity.entity(productDTO2, MediaType.APPLICATION_JSON_TYPE));
+        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, VALID_ID).post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
+        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, VALID_ID).post(Entity.entity(productDTO2, MediaType.APPLICATION_JSON_TYPE));
         var responseGET = getProductResponse("title","titleDT01").readEntity(String.class);
 
         assertThat(responseGET).contains(productDTO1.title);
@@ -81,8 +81,8 @@ public class ProductFilterIntegrationTests extends JerseyTest {
     public void canRequestWithFilterManyResultFromTitle(){
         target("/sellers").request().post(Entity.entity(sellerDTO1, MediaType.APPLICATION_JSON_TYPE));
 
-        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(VALID_ID)).post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
-        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(VALID_ID)).post(Entity.entity(productDTO2, MediaType.APPLICATION_JSON_TYPE));
+        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, VALID_ID).post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
+        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, VALID_ID).post(Entity.entity(productDTO2, MediaType.APPLICATION_JSON_TYPE));
         var responseGET = getProductResponse("title","DT0").readEntity(String.class);
 
         assertThat(responseGET).contains(productDTO1.title);
@@ -93,8 +93,8 @@ public class ProductFilterIntegrationTests extends JerseyTest {
     public void canRequestWithFilterSingleResultFromMaxPrice(){
         target("/sellers").request().post(Entity.entity(sellerDTO1, MediaType.APPLICATION_JSON_TYPE));
 
-        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(VALID_ID)).post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
-        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(VALID_ID)).post(Entity.entity(productDTO2, MediaType.APPLICATION_JSON_TYPE));
+        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, VALID_ID).post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
+        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, VALID_ID).post(Entity.entity(productDTO2, MediaType.APPLICATION_JSON_TYPE));
         var responseGET = getProductResponse("maxPrice",5).readEntity(String.class);
 
         assertThat(responseGET).contains(productDTO1.title);
@@ -105,8 +105,8 @@ public class ProductFilterIntegrationTests extends JerseyTest {
     public void canRequestWithFilterMultipleResultFromMaxPrice(){
         target("/sellers").request().post(Entity.entity(sellerDTO1, MediaType.APPLICATION_JSON_TYPE));
 
-        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(VALID_ID)).post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
-        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(VALID_ID)).post(Entity.entity(productDTO2, MediaType.APPLICATION_JSON_TYPE));
+        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, VALID_ID).post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
+        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, VALID_ID).post(Entity.entity(productDTO2, MediaType.APPLICATION_JSON_TYPE));
         var responseGET = getProductResponse("maxPrice",10).readEntity(String.class);
 
         assertThat(responseGET).contains(productDTO1.title);
@@ -118,8 +118,8 @@ public class ProductFilterIntegrationTests extends JerseyTest {
     public void canRequestWithFilterSingleResultFromMinPrice(){
         target("/sellers").request().post(Entity.entity(sellerDTO1, MediaType.APPLICATION_JSON_TYPE));
 
-        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(VALID_ID)).post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
-        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(VALID_ID)).post(Entity.entity(productDTO2, MediaType.APPLICATION_JSON_TYPE));
+        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, VALID_ID).post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
+        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, VALID_ID).post(Entity.entity(productDTO2, MediaType.APPLICATION_JSON_TYPE));
         var responseGET = getProductResponse("minPrice",5).readEntity(String.class);
 
         assertThat(responseGET).doesNotContain(productDTO1.title);
@@ -130,8 +130,8 @@ public class ProductFilterIntegrationTests extends JerseyTest {
     public void canRequestWithFilterMultipleResultFromMinPrice(){
         target("/sellers").request().post(Entity.entity(sellerDTO1, MediaType.APPLICATION_JSON_TYPE));
 
-        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(VALID_ID)).post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
-        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(VALID_ID)).post(Entity.entity(productDTO2, MediaType.APPLICATION_JSON_TYPE));
+        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, VALID_ID).post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
+        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, VALID_ID).post(Entity.entity(productDTO2, MediaType.APPLICATION_JSON_TYPE));
         var responseGET = getProductResponse("minPrice",1).readEntity(String.class);
 
         assertThat(responseGET).contains(productDTO1.title);
@@ -143,8 +143,8 @@ public class ProductFilterIntegrationTests extends JerseyTest {
         target("/sellers").request().post(Entity.entity(sellerDTO1, MediaType.APPLICATION_JSON_TYPE));
         target("/sellers").request().post(Entity.entity(sellerDTO2, MediaType.APPLICATION_JSON_TYPE));
 
-        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(VALID_ID)).post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
-        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(VALID_ID2)).post(Entity.entity(productDTO2, MediaType.APPLICATION_JSON_TYPE));
+        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, VALID_ID).post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
+        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, VALID_ID2).post(Entity.entity(productDTO2, MediaType.APPLICATION_JSON_TYPE));
         var responseGET = getProductResponse("sellerId",VALID_ID).readEntity(String.class);
 
         assertThat(responseGET).contains(productDTO1.title);
@@ -156,8 +156,8 @@ public class ProductFilterIntegrationTests extends JerseyTest {
         target("/sellers").request().post(Entity.entity(sellerDTO1, MediaType.APPLICATION_JSON_TYPE));
         target("/sellers").request().post(Entity.entity(sellerDTO2, MediaType.APPLICATION_JSON_TYPE));
 
-        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(VALID_ID)).post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
-        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(VALID_ID)).post(Entity.entity(productDTO2, MediaType.APPLICATION_JSON_TYPE));
+        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, VALID_ID).post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
+        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, VALID_ID).post(Entity.entity(productDTO2, MediaType.APPLICATION_JSON_TYPE));
         var responseGET = getProductResponse("sellerId",VALID_ID).readEntity(String.class);
 
         assertThat(responseGET).contains(productDTO1.title);
@@ -168,8 +168,8 @@ public class ProductFilterIntegrationTests extends JerseyTest {
     public void canRequestWithFilterSingleResultFromCategory(){
         target("/sellers").request().post(Entity.entity(sellerDTO1, MediaType.APPLICATION_JSON_TYPE));
 
-        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(VALID_ID)).post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
-        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(VALID_ID)).post(Entity.entity(productDTO2, MediaType.APPLICATION_JSON_TYPE));
+        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, VALID_ID).post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
+        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, VALID_ID).post(Entity.entity(productDTO2, MediaType.APPLICATION_JSON_TYPE));
         var responseGET = getProductResponse("categories","sports").readEntity(String.class);
 
         assertThat(responseGET).contains(productDTO2.title);
@@ -180,8 +180,8 @@ public class ProductFilterIntegrationTests extends JerseyTest {
     public void canRequestWithFilterMultipleResultFromCategories(){
         target("/sellers").request().post(Entity.entity(sellerDTO1, MediaType.APPLICATION_JSON_TYPE));
 
-        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(VALID_ID)).post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
-        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(VALID_ID)).post(Entity.entity(productDTO2, MediaType.APPLICATION_JSON_TYPE));
+        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, VALID_ID).post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
+        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, VALID_ID).post(Entity.entity(productDTO2, MediaType.APPLICATION_JSON_TYPE));
         var responseGET = getProductResponse("categories","others").readEntity(String.class);
 
         assertThat(responseGET).contains(productDTO1.title);
@@ -192,8 +192,8 @@ public class ProductFilterIntegrationTests extends JerseyTest {
     public void canRequestWithMultipleFilter(){
         target("/sellers").request().post(Entity.entity(sellerDTO1, MediaType.APPLICATION_JSON_TYPE));
 
-        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(VALID_ID)).post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
-        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(VALID_ID)).post(Entity.entity(productDTO2, MediaType.APPLICATION_JSON_TYPE));
+        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, VALID_ID).post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
+        target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, VALID_ID).post(Entity.entity(productDTO2, MediaType.APPLICATION_JSON_TYPE));
         var response = target(ProductController.PRODUCTS_PATH).queryParam("title","DT0").queryParam("minPrice","1").request(MediaType.APPLICATION_JSON_TYPE).get();
         var responseGET = response.readEntity(String.class);
 
