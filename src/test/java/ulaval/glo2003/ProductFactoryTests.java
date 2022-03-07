@@ -2,8 +2,8 @@ package ulaval.glo2003;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import java.util.List;
-import java.util.stream.Stream;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -24,7 +24,7 @@ public class ProductFactoryTests {
         productFactory = new ProductFactory();
     }
 
-    private void checkForNull(Product product){
+    private void checkForNull(Product product) {
         assertThat(product).isNotNull();
         assertThat(product.getProductId()).isNotNull();
         assertThat(product.getTitle()).isNotNull();
@@ -61,13 +61,10 @@ public class ProductFactoryTests {
         assertThat(product.getCategories()).isEmpty();
     }
 
-    @Test
-    public void canCreateProductWithNoCategoryAsNull() {
+    @Test(expected = NullPointerException.class)
+    public void shouldThrowOnCategoriesNull() {
         productDTO.categories = null;
 
-        var product = productFactory.createProduct(productDTO, SELLER_ID);
-
-        checkForNull(product);
-        assertThat(product.getCategories()).isEmpty();
+        productFactory.createProduct(productDTO, SELLER_ID);
     }
 }

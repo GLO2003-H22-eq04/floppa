@@ -4,23 +4,37 @@ import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.Application;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import java.time.LocalDate;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+
 import java.util.List;
-import java.util.regex.Pattern;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.Mockito.when;
 
-
+@RunWith(MockitoJUnitRunner.class)
 public class ProductControllerIntegrationTests extends JerseyTest {
+
+    private final static int VALID_ID = 0;
+    private final static int INVALID_ID = 42;
+
+    @Mock
+    private SellerRepository sellerRepository = new SellerListRepository();
+
+    @Mock
+    private ProductRepository productRepository = new ProductListRepository();
+
+    @Mock
+    private ProductFactory productFactory = new ProductFactory();
 
     private ProductDTO productDTO1;
     private ProductDTO productDTO2;
-    private ProductDTO invalidProductDTO;
-    private SellerDTO aSellerDTO1;
 
     @Before
     public void before() {
@@ -36,77 +50,102 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         productDTO2.suggestedPrice = 6.49;
         productDTO2.categories = List.of("sports");
 
-        invalidProductDTO = new ProductDTO();
-        invalidProductDTO.title = "";
-        invalidProductDTO.description = "";
-        invalidProductDTO.suggestedPrice = 1.29;
-        invalidProductDTO.categories = List.of("test");
-
-        aSellerDTO1 = new SellerDTO();
-        aSellerDTO1.name = "nomDT01";
-        aSellerDTO1.bio = "bioDT01";
-        aSellerDTO1.birthDate = LocalDate.now().minusYears(20);
+        when(sellerRepository.existById(VALID_ID)).thenReturn(true);
+        when(sellerRepository.existById(INVALID_ID)).thenReturn(false);
     }
 
     @Override
     protected Application configure() {
-        return Main.getRessourceConfig();
-    }
-
-    private boolean isUrl(String sequence) {
-        try {
-            var pattern = Pattern.compile("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
-            var matcher = pattern.matcher(sequence);
-            return matcher.matches();
-        } catch (Exception e) {
-            return false;
-        }
+        var ressourceConfig = Main.getRessourceConfig();
+        ressourceConfig.register(new AbstractBinder() {
+            @Override
+            protected void configure() {
+                bind(sellerRepository).to(SellerRepository.class).ranked(2);
+                bind(productRepository).to(ProductRepository.class).ranked(2);
+                bind(productFactory).to(ProductFactory.class).ranked(2);
+            }
+        });
+        return ressourceConfig;
     }
 
     @Test
     public void canReceiveUrlOfCreatedProduct() {
-        createSeller();
-        var response = getResponse(productDTO1, "0");
+        var response = getResponse(productDTO1, VALID_ID);
+
         var locationHeader = (String) response.getHeaders().getFirst("Location");
-        assertThat(isUrl(locationHeader)).isTrue();
+
+        assertThat(IntegrationUtils.isUrl(locationHeader)).isTrue();
     }
 
     @Test
-    public void canRejectRequestOnInvalidHeader() {
-        var response = getResponse(productDTO1, "42");
-        var status = response.getStatus();
-        assertThat(status).isEqualTo(Response.Status.NOT_FOUND.getStatusCode());
-    }
+    public void canRejectRequestOnNullProduct() {
+        var response = getResponse(null, VALID_ID);
 
-    @Test
-    public void canRejectRequestOnInvalidBody() {
-        var response = getResponse(invalidProductDTO, "13");
         var status = response.getStatus();
+
         assertThat(status).isEqualTo(Response.Status.BAD_REQUEST.getStatusCode());
     }
 
     @Test
-    public void canCreateMultipleProducts() {
-        createSeller();
-        var response1 = getResponse(productDTO1, "0");
-        var response2 = getResponse(productDTO2, "0");
+    public void canRejectRequestOnInvalidSellerId() {
+        var response = getResponse(productDTO1, INVALID_ID);
 
-        var locationHeader1 = (String) response1.getHeaders().getFirst("Location");
-        var locationHeader2 = (String) response2.getHeaders().getFirst("Location");
+        var status = response.getStatus();
 
-        var isUrl1 = isUrl(locationHeader1);
-        var isUrl2 = isUrl(locationHeader2);
-        assertThat(locationHeader1).isNotEqualTo(locationHeader2);
-        assertThat(isUrl1).isTrue();
-        assertThat(isUrl2).isTrue();
+        assertThat(status).isEqualTo(Response.Status.NOT_FOUND.getStatusCode());
     }
 
+    @Test
+    public void canRejectRequestOnInvalidPrice() {
+        productDTO2.suggestedPrice = -1;
 
-    private void createSeller(){
-        target(SellerController.SELLERS_PATH).request().post(Entity.entity(aSellerDTO1, MediaType.APPLICATION_JSON_TYPE));
+        var response = getResponse(productDTO2, VALID_ID);
+        var status = response.getStatus();
+
+        assertThat(status).isEqualTo(Response.Status.BAD_REQUEST.getStatusCode());
     }
 
-    private Response getResponse(ProductDTO productDTO, String sellerId){
-        return target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, sellerId).post(Entity.entity(productDTO, MediaType.APPLICATION_JSON_TYPE));
+    @Test
+    public void canRejectRequestOnInvalidTitle() {
+        productDTO2.title = "";
+
+        var response = getResponse(productDTO2, VALID_ID);
+        var status = response.getStatus();
+
+        assertThat(status).isEqualTo(Response.Status.BAD_REQUEST.getStatusCode());
+    }
+
+    @Test
+    public void canRejectRequestOnNullTitle() {
+        productDTO2.title = null;
+
+        var response = getResponse(productDTO2, VALID_ID);
+        var status = response.getStatus();
+
+        assertThat(status).isEqualTo(Response.Status.BAD_REQUEST.getStatusCode());
+    }
+
+    @Test
+    public void canRejectRequestOnInvalidDescription() {
+        productDTO2.description = "";
+
+        var response = getResponse(productDTO2, VALID_ID);
+        var status = response.getStatus();
+
+        assertThat(status).isEqualTo(Response.Status.BAD_REQUEST.getStatusCode());
+    }
+
+    @Test
+    public void canRejectRequestOnNullDescription() {
+        productDTO2.description = null;
+
+        var response = getResponse(productDTO2, VALID_ID);
+        var status = response.getStatus();
+
+        assertThat(status).isEqualTo(Response.Status.BAD_REQUEST.getStatusCode());
+    }
+
+    private Response getResponse(ProductDTO productDTO, int sellerId) {
+        return target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(sellerId)).post(Entity.entity(productDTO, MediaType.APPLICATION_JSON_TYPE));
     }
 }
