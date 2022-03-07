@@ -25,13 +25,13 @@ public class ProductControllerIntegrationTests extends JerseyTest {
     private final static int INVALID_ID = 42;
 
     @Mock
-    private SellerRepository sellerRepository = new SellerListRepository();
+    private SellerRepository sellerListRepositoryMock;
 
     @Mock
-    private ProductRepository productRepository = new ProductListRepository();
+    private ProductRepository productListRepositoryMock;
 
     @Mock
-    private ProductFactory productFactory = new ProductFactory();
+    private ProductFactory productFactoryMock;
 
     private ProductDTO productDTO1;
     private ProductDTO productDTO2;
@@ -50,8 +50,8 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         productDTO2.suggestedPrice = 6.49;
         productDTO2.categories = List.of("sports");
 
-        when(sellerRepository.existById(VALID_ID)).thenReturn(true);
-        when(sellerRepository.existById(INVALID_ID)).thenReturn(false);
+        when(sellerListRepositoryMock.existById(VALID_ID)).thenReturn(true);
+        when(sellerListRepositoryMock.existById(INVALID_ID)).thenReturn(false);
     }
 
     @Override
@@ -60,9 +60,9 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         ressourceConfig.register(new AbstractBinder() {
             @Override
             protected void configure() {
-                bind(sellerRepository).to(SellerRepository.class).ranked(2);
-                bind(productRepository).to(ProductRepository.class).ranked(2);
-                bind(productFactory).to(ProductFactory.class).ranked(2);
+                bind(sellerListRepositoryMock).to(SellerRepository.class).ranked(2);
+                bind(productListRepositoryMock).to(ProductRepository.class).ranked(2);
+                bind(productFactoryMock).to(ProductFactory.class).ranked(2);
             }
         });
         return ressourceConfig;
@@ -74,6 +74,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
 
         var locationHeader = (String) response.getHeaders().getFirst("Location");
 
+        assertThat(locationHeader.contains(String.valueOf(VALID_ID))).isTrue();
         assertThat(IntegrationUtils.isUrl(locationHeader)).isTrue();
     }
 

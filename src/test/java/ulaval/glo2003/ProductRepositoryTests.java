@@ -12,34 +12,37 @@ import static com.google.common.truth.Truth.assertThat;
 public class ProductRepositoryTests {
 
     @Mock
-    private Product product;
+    private Product productMock1;
 
-    private ProductRepository productRepository;
+    @Mock
+    private Product productMock2;
+
+    private ProductRepository productListRepository;
 
     @Before
     public void before() {
-        productRepository = new ProductListRepository();
+        productListRepository = new ProductListRepository();
     }
 
     @Test
     public void canAddOneProductNormal() {
-        var id = productRepository.add(product);
+        var id = productListRepository.add(productMock1);
 
         assertThat(id).isEqualTo(0);
     }
 
     @Test
     public void canAddTwoProductNormal() {
-        var id1 = productRepository.add(product);
-        var id2 = productRepository.add(product);
+        var id1 = productListRepository.add(productMock1);
+        var id2 = productListRepository.add(productMock2);
 
         assertThat(id1).isNotEqualTo(id2);
     }
 
     @Test
     public void canFindByIdNormal() {
-        var id = productRepository.add(product);
-        var product = productRepository.findById(id);
+        var id = productListRepository.add(productMock1);
+        var product = productListRepository.findById(id);
 
         assertThat(product.isPresent()).isTrue();
         assertThat(product.get().getProductId()).isEqualTo(id);
@@ -47,8 +50,21 @@ public class ProductRepositoryTests {
 
     @Test
     public void shouldNotFindInvalidId() {
-        var product = productRepository.findById(0);
+        var product = productListRepository.findById(0);
 
         assertThat(product.isPresent()).isFalse();
+    }
+
+    @Test
+    public void canFindAllNormal() {
+        productListRepository.add(productMock1);
+        productListRepository.add(productMock2);
+
+        var productList = productListRepository.findAll();
+
+        assertThat(productList.isEmpty()).isFalse();
+        assertThat(productList.size() == 2).isTrue();
+        assertThat(productList.contains(productMock1)).isTrue();
+        assertThat(productList.contains(productMock2)).isTrue();
     }
 }

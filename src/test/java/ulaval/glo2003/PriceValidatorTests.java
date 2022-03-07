@@ -15,7 +15,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class PriceValidatorTests {
 
-    private static final double MINIMUM_PRICE = 1;
+    private static final double DEFAULT_ANNOTATION_MOCK_MINIMUM_PRICE = 1;
 
     @Mock
     private MinimumPrice annotationMock;
@@ -28,7 +28,7 @@ public class PriceValidatorTests {
     @Before
     public void setUp() {
         validator = new PriceValidator();
-        when(annotationMock.price()).thenReturn(MINIMUM_PRICE);
+        when(annotationMock.price()).thenReturn(DEFAULT_ANNOTATION_MOCK_MINIMUM_PRICE);
     }
 
     private boolean testValidator(double priceToSend) {
@@ -66,7 +66,7 @@ public class PriceValidatorTests {
 
     @Test
     public void canAcceptExactPrice() {
-        var result = testValidator(MINIMUM_PRICE);
+        var result = testValidator(DEFAULT_ANNOTATION_MOCK_MINIMUM_PRICE);
 
         assertThat(result).isTrue();
     }
