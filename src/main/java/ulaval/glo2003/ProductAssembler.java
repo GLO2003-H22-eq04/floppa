@@ -9,7 +9,7 @@ public class ProductAssembler {
         productDTO.createdAt = product.getCreatedAt();
         productDTO.title = product.getTitle();
         productDTO.description = product.getDescription();
-        productDTO.suggestedPrice = product.getSuggestedPrice().getValue();
+        productDTO.suggestedPrice = product.getSuggestedPrice();
         productDTO.categories = product.getCategoriesName(product.getCategories());
         productDTO.seller = productSellerDTO;
         productDTO.offers = offerDTO;
