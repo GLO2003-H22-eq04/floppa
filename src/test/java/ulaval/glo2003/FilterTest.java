@@ -3,7 +3,7 @@ package ulaval.glo2003;
 import jakarta.ws.rs.core.Application;
 import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.test.JerseyTest;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import ulaval.glo2003.Criteria.*;
 
@@ -14,33 +14,33 @@ import java.util.List;
 import static com.google.common.truth.Truth.assertThat;
 
 
-public class FilterTest extends JerseyTest {
+public class FilterTest{
 
-    private SellerDTO aSellerDTO1;
-    private SellerDTO aSellerDTO2;
-    private SellerDTO aSellerDTO3;
-    private ProductDTO productDTO1;
-    private ProductDTO productDTO2;
-    private ProductDTO productDTO3;
-    private ProductDTO productDTO4;
-    private Product product1;
-    private Product product2;
-    private Product product3;
-    private Product product4;
+    private static SellerDTO aSellerDTO1;
+    private static SellerDTO aSellerDTO2;
+    private static SellerDTO aSellerDTO3;
+    private static ProductDTO productDTO1;
+    private static ProductDTO productDTO2;
+    private static ProductDTO productDTO3;
+    private static ProductDTO productDTO4;
+    private static Product product1;
+    private static Product product2;
+    private static Product product3;
+    private static Product product4;
     private Response sellerID1;
     private Response sellerID2;
     private Response sellerID3;
-    private ArrayList<String> categories = new ArrayList<>();
-    List<Product> productRepository = new ArrayList<>();
+    private static ArrayList<String> categories = new ArrayList<>();
+    static List<Product> productRepository = new ArrayList<>();
 
 
-    @Override
-    protected Application configure() {
-        return Main.getRessourceConfig();
-    }
+//    @Override
+//    protected Application configure() {
+//        return Main.getRessourceConfig();
+//    }
 
-    @Before
-    public void setup(){
+    @BeforeClass
+    public static void setup(){
         aSellerDTO1 = new SellerDTO();
         aSellerDTO1.name = "Joe Blo";
         aSellerDTO1.bio = "Test de bio";
@@ -184,7 +184,7 @@ public class FilterTest extends JerseyTest {
 
     @Test
     public void canFilterFromSmallerTitleButAppearMoreThanOnce(){
-        String testLetter = "e";
+        String testLetter = "a";
         Criteria criteria = new CriteriaTitle(testLetter);
 
         assertThat(criteria.meetCriteria(productRepository)).isNotEmpty();
