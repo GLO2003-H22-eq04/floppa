@@ -224,7 +224,6 @@ public class FilterTest{
     @Test
     public void canFilterFromCategoriesAppearOnce(){
         var categories = product3.getCategories();
-        System.out.println(categories);
         Criteria criteria = new CriteriaCategories(categories);
         var actualResult = criteria.meetCriteria(products);
 
