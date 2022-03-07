@@ -13,7 +13,7 @@ public class ProductInfoResponseDTO {
 
     public String description;
 
-    public double suggestedPrice;
+    public Amount suggestedPrice;
 
     public List<String> categories;
 

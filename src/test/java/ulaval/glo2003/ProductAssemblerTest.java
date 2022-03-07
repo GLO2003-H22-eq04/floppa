@@ -18,6 +18,7 @@ public class ProductAssemblerTest {
     @Before
     public void setup(){
         product = new Product();
+        product.setSellerId("123");
         product.setProductId(0);
         product.setCreatedAt(Instant.now().atOffset(ZoneOffset.UTC));
         product.setTitle("A cool haribrush");
@@ -53,7 +54,10 @@ public class ProductAssemblerTest {
 
     @Test
     public void canGetExpectedCreationDate(){
+        var productInfoResponseDTO = productAssembler.toDto(product, productSellerDTO, offerDTO);
 
+        checkForNull(product);
+        assertThat(productInfoResponseDTO.createdAt).isEqualTo(product.getCreatedAt());
     }
 
     @Test
@@ -85,6 +89,6 @@ public class ProductAssemblerTest {
         var productInfoResponseDTO = productAssembler.toDto(product, productSellerDTO, offerDTO);
 
         checkForNull(product);
-        assertThat(productInfoResponseDTO.suggestedPrice).isEqualTo(product.getSuggestedPrice());
+        assertThat(productInfoResponseDTO.categories).isEqualTo(product.getCategoriesName(product.getCategories()));
     }
 }
