@@ -161,7 +161,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
     public void shouldRejectNonExistingProduct() {
         when(productListRepositoryMock.findById(MISSING_ID)).thenReturn(Optional.empty());
 
-        var response = getSellerResponse(MISSING_ID);
+        var response = getProductResponse(MISSING_ID);
         var status = response.getStatus();
 
         assertThat(status).isEqualTo(Response.Status.NOT_FOUND.getStatusCode());
@@ -171,7 +171,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         return target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(sellerId)).post(Entity.entity(productDTO, MediaType.APPLICATION_JSON_TYPE));
     }
 
-    private Response getSellerResponse(int productId) {
+    private Response getProductResponse(int productId) {
         return target(ProductController.PRODUCTS_PATH + '/' + productId).request().get();
     }
 }

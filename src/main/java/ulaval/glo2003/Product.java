@@ -5,6 +5,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Product {
 
@@ -15,7 +16,6 @@ public class Product {
     private Amount suggestedPrice;
     private OffsetDateTime createdAt;
     private final List<ProductCategory> categories = new ArrayList<>();
-    private final List<String> categoriesName = new ArrayList<>();
 
 
     public Product() {
@@ -70,14 +70,7 @@ public class Product {
 
     public void setCreatedAt(OffsetDateTime createdAt) { this.createdAt = createdAt; }
 
-    public List<String> getCategoriesName(List<ProductCategory> categories){
-        if(categories != null){
-            categories.forEach(category -> {
-                var productCategory = category.getName();
-                categoriesName.add(productCategory);
-            });
-        }
-        return categoriesName;
-
+    public List<String> getCategoriesName(){
+        return categories.stream().map(ProductCategory::getName).collect(Collectors.toList());
     }
 }

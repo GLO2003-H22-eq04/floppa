@@ -131,17 +131,18 @@ public class ProductController {
     public ProductInfoResponseDTO getSeller(@PathParam("productId") int productId) throws ItemNotFoundError {
         var product = productRepository.findById(productId);
 
-        if (product.isPresent()) {
-            var productInfo = product.get();
+        if (!product.isPresent())
+            throw new ItemNotFoundError("L'id fourni n'existe pas.");
 
-            var seller = sellerRepository.findById(Integer.parseInt(product.get().getSellerId()));
-            var sellerInfo = seller.get();
-            ProductSellerDTO productSellerDTO = new ProductSellerDTO(productInfo.getSellerId(), sellerInfo.getName());
+        var productInfo = product.get();
 
-            OfferDTO offerDTO = new OfferDTO(0, 0);
+        var seller = sellerRepository.findById(Integer.parseInt(product.get().getSellerId()));
+        var sellerInfo = seller.get();
+        var productSellerDTO = new ProductSellerDTO(productInfo.getSellerId(), sellerInfo.getName());
 
-            return productAssembler.toDto(productInfo, productSellerDTO, offerDTO);
-        }
-        throw new ItemNotFoundError("L'id fourni n'existe pas.");
+        var offerDTO = new OfferDTO(0, 0);
+
+        return productAssembler.toDto(productInfo, productSellerDTO, offerDTO);
+
     }
 }
