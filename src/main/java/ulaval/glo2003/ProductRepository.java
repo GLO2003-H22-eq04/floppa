@@ -8,4 +8,5 @@ public interface ProductRepository {
     int add(Product product);
     List<Product> findAll();
     Optional<Product> findById(int id);
+    List<Product> productOf(String sellerId);
 }

@@ -19,6 +19,9 @@ public class SellerController {
     @Inject
     private SellerRepository sellerRepository;
 
+    @Inject
+    private ProductRepository productRepository;
+
     @POST
     public Response postCreatingSeller(@Valid @NotNull(payload = MissingParameterError.class) SellerDTO seller) {
         var sellerId = sellerRepository.add(new Seller(seller));
@@ -33,7 +36,13 @@ public class SellerController {
         var seller = sellerRepository.findById(sellerId);
         if (seller.isPresent()) {
             var sellerInfos = seller.get();
-            return new SellerInfoResponseDTO(sellerId, sellerInfos.getName(), sellerInfos.getCreatedAt(), sellerInfos.getBio(), sellerInfos.getProducts());
+            return new SellerInfoResponseDTO(
+                    sellerId,
+                    sellerInfos.getName(),
+                    sellerInfos.getCreatedAt(),
+                    sellerInfos.getBio(),
+                    productRepository.productOf(String.valueOf(sellerId))
+            );
         }
 
         throw new ItemNotFoundError("L'id fourni n'existe pas.");
