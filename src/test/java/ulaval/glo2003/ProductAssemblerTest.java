@@ -89,6 +89,6 @@ public class ProductAssemblerTest {
         var productInfoResponseDTO = productAssembler.toDto(product, productSellerDTO, offerDTO);
 
         checkForNull(product);
-        assertThat(productInfoResponseDTO.categories).isEqualTo(product.getCategoriesName(product.getCategories()));
+        assertThat(productInfoResponseDTO.categories).isEqualTo(product.getCategoriesName());
     }
 }
