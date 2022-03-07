@@ -1,9 +1,6 @@
 package ulaval.glo2003;
 
-import jakarta.inject.Inject;
-import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.Application;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Before;
@@ -15,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.mockito.Mockito.mock;
 
 
 public class FilterTest extends JerseyTest {
@@ -63,7 +59,7 @@ public class FilterTest extends JerseyTest {
         productDTO1 = new ProductDTO();
         productDTO1.title = "Beer";
         productDTO1.description = "Boisson Alcoolisé";
-        productDTO1.suggestedPrice = 10;
+        productDTO1.suggestedPrice = 7;
         categories.clear();
         categories.add("other");
         productDTO1.categories = categories;
@@ -81,8 +77,7 @@ public class FilterTest extends JerseyTest {
         productDTO3.description = "Morceau de vêtement sports";
         productDTO3.suggestedPrice = 15.50;
         categories.clear();
-        categories.add("sports");
-        categories.add("apparel");
+        categories.add("beauty");
         productDTO3.categories = categories;
 
         productDTO4 = new ProductDTO();
@@ -91,6 +86,7 @@ public class FilterTest extends JerseyTest {
         categories.clear();
         categories.add("apparel");
         productDTO4.suggestedPrice = 10;
+        productDTO4.categories = categories;
 
         var productFactory = new ProductFactory();
         product1 = productFactory.createProduct(productDTO1, "2");
@@ -112,6 +108,47 @@ public class FilterTest extends JerseyTest {
         }
         return ret;
     }
+
+    public int nbreOfPriceOver(double p, List<Product> list){
+        int ret = 0;
+        for(Product l : list){
+            if(l.getSuggestedPrice().getValue() <= p){
+                ret++;
+            }
+        }
+        return ret;
+    }
+
+    public int nbreOfPriceUnder(double p, List<Product> list){
+        int ret = 0;
+        for(Product l : list){
+            if(l.getSuggestedPrice().getValue() >= p){
+                ret++;
+            }
+        }
+        return ret;
+    }
+
+    public int nbreOfTimeCategories(ProductCategory p, List<Product> list){
+        int ret = 0;
+        for(Product l : list){
+            if(l.getCategories().contains(p)){
+                ret++;
+            }
+        }
+        return ret;
+    }
+
+    public int nbreOfSellerID(String p, List<Product> list){
+        int ret = 0;
+        for(Product l : list){
+            if(l.getSellerId().contains(p)){
+                ret++;
+            }
+        }
+        return ret;
+    }
+
 
     @Test
     public void canCreateNewCriteria(){
@@ -161,5 +198,114 @@ public class FilterTest extends JerseyTest {
 
         assertThat(criteria.meetCriteria(productRepository)).isEmpty();
         assertThat(criteria.meetCriteria(productRepository).size()).isEqualTo(nbreOfWordsWithLetter(testLetter,productRepository));
+    }
+
+    @Test
+    public void canFilterFromMaxPriceAppearOnce(){
+        double amount = 7;
+        Criteria criteria = new CriteriaMaxPrice(amount);
+
+        assertThat(criteria.meetCriteria(productRepository)).isNotEmpty();
+        assertThat(criteria.meetCriteria(productRepository).size()).isEqualTo(nbreOfPriceOver(amount,productRepository));
+    }
+
+    @Test
+    public void canFilterFromMaxPriceButNotOnce(){
+        double amount = 5;
+        Criteria criteria = new CriteriaMaxPrice(amount);
+
+        assertThat(criteria.meetCriteria(productRepository)).isEmpty();
+        assertThat(criteria.meetCriteria(productRepository).size()).isEqualTo(nbreOfPriceOver(amount,productRepository));
+    }
+
+    @Test
+    public void canFilterFromMaxPriceAppearMoreThanOnce(){
+        double amount = 100;
+        Criteria criteria = new CriteriaMaxPrice(amount);
+
+        assertThat(criteria.meetCriteria(productRepository)).isNotEmpty();
+        assertThat(criteria.meetCriteria(productRepository).size()).isEqualTo(nbreOfPriceOver(amount,productRepository));
+    }
+
+    @Test
+    public void canFilterFromMinPriceAppearOnce(){
+        double amount = 20;
+        Criteria criteria = new CriteriaMinPrice(amount);
+
+        assertThat(criteria.meetCriteria(productRepository)).isNotEmpty();
+        assertThat(criteria.meetCriteria(productRepository).size()).isEqualTo(nbreOfPriceUnder(amount,productRepository));
+    }
+
+    @Test
+    public void canFilterFromMinPriceButNotOne(){
+        double amount = 100;
+        Criteria criteria = new CriteriaMinPrice(amount);
+
+        assertThat(criteria.meetCriteria(productRepository)).isEmpty();
+        assertThat(criteria.meetCriteria(productRepository).size()).isEqualTo(nbreOfPriceUnder(amount,productRepository));
+    }
+
+    @Test
+    public void canFilterFromMinPriceAppearMoreThanOnce(){
+        double amount = 1;
+        Criteria criteria = new CriteriaMinPrice(amount);
+
+        assertThat(criteria.meetCriteria(productRepository)).isNotEmpty();
+        assertThat(criteria.meetCriteria(productRepository).size()).isEqualTo(nbreOfPriceUnder(amount,productRepository));
+    }
+
+    @Test
+    public void canFilterFromSellerIDAppearOnce(){
+        String id = product2.getSellerId();
+        Criteria criteria = new CriteriaSellerID(Integer.parseInt(id));
+
+        assertThat(criteria.meetCriteria(productRepository)).isNotEmpty();
+        assertThat(criteria.meetCriteria(productRepository).size()).isEqualTo(nbreOfSellerID(id,productRepository));
+    }
+
+    @Test
+    public void canFilterFromSellerIDAppearMoreThanOnce(){
+        String id = product1.getSellerId();
+        Criteria criteria = new CriteriaSellerID(Integer.parseInt(id));
+
+        assertThat(criteria.meetCriteria(productRepository)).isNotEmpty();
+        assertThat(criteria.meetCriteria(productRepository).size()).isEqualTo(nbreOfSellerID(id,productRepository));
+    }
+
+    @Test
+    public void canFilterFromSellerIDNeverAppear(){
+        int id = productRepository.size()+1;
+        Criteria criteria = new CriteriaSellerID(id);
+
+        assertThat(criteria.meetCriteria(productRepository)).isEmpty();
+        assertThat(criteria.meetCriteria(productRepository).size()).isEqualTo(nbreOfSellerID(Integer.toString(id),productRepository));
+    }
+
+    @Test
+    public void canFilterFromCategoriesAppearOnce(){
+        List<ProductCategory> categories = product3.getCategories();
+        Criteria criteria = new CriteriaCategories(categories);
+
+        assertThat(criteria.meetCriteria(productRepository)).isNotEmpty();
+        assertThat(criteria.meetCriteria(productRepository).size()).isEqualTo(nbreOfTimeCategories(categories.get(0),productRepository));
+    }
+
+    @Test
+    public void canFilterFromCategoriesAppearMoreThanOnce(){
+        List<ProductCategory> categories = product1.getCategories();
+        Criteria criteria = new CriteriaCategories(categories);
+
+        assertThat(criteria.meetCriteria(productRepository)).isNotEmpty();
+        assertThat(criteria.meetCriteria(productRepository).size()).isEqualTo(nbreOfTimeCategories(categories.get(0),productRepository));
+    }
+
+    @Test
+    public void canFilterFromCategoriesNeverAppear(){
+        List<ProductCategory> categories = new ArrayList<>();
+        categories.add(ProductCategory.ELECTRONICS);
+        Criteria criteria = new CriteriaCategories(categories);
+
+        assertThat(criteria.meetCriteria(productRepository)).isEmpty();
+        assertThat(criteria.meetCriteria(productRepository).size()).isEqualTo(nbreOfTimeCategories(categories.get(0),productRepository));
     }
 }
