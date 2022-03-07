@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CriteriaMaxPrice implements Criteria{
-    float maxPrice;
+    double maxPrice;
 
-    public CriteriaMaxPrice(float p_maxPrice){
+    public CriteriaMaxPrice(double p_maxPrice){
         this.maxPrice = p_maxPrice;
     }
     @Override
