@@ -88,12 +88,21 @@ public class ProductControllerIntegrationTests extends JerseyTest {
     }
 
     @Test
-    public void canRejectRequestOnInvalidSellerId() {
+    public void canRejectRequestOnUnknownSellerId() {
         var response = getResponse(productDTO1, INVALID_ID);
 
         var status = response.getStatus();
 
         assertThat(status).isEqualTo(Response.Status.NOT_FOUND.getStatusCode());
+    }
+
+    @Test
+    public void canRejectRequestOnInvalidFormatSellerId() {
+        var response = target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER,"test").post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
+
+        var status = response.getStatus();
+
+        assertThat(status).isEqualTo(Response.Status.BAD_REQUEST.getStatusCode());
     }
 
     @Test
