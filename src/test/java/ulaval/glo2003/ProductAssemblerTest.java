@@ -4,11 +4,20 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
 
 import static com.google.common.truth.Truth.assertThat;
 
 public class ProductAssemblerTest {
+
+    private static final String EXPECTED_PRODUCT_ID = "0";
+    private static final String EXPECTED_TITLE = "A cool hairbrush";
+    private static final String EXPECTED_DESCRIPTION = "Pink and all";
+    private static final double EXPECTED_SUGGESTED_PRICE = 5.01;
+    private static final List<String> EXPECTED_CATEGORIES = List.of("beauty", "apparel");
+    private static final OffsetDateTime EXPECTED_CREATED_AT = Instant.now().atOffset(ZoneOffset.UTC);
 
     private ProductAssembler productAssembler;
     private Product product;
@@ -20,8 +29,8 @@ public class ProductAssemblerTest {
         product = new Product();
         product.setSellerId("123");
         product.setProductId(0);
-        product.setCreatedAt(Instant.now().atOffset(ZoneOffset.UTC));
-        product.setTitle("A cool haribrush");
+        product.setCreatedAt(EXPECTED_CREATED_AT);
+        product.setTitle("A cool hairbrush");
         product.setDescription("Pink and all");
         product.setSuggestedPrice(new Amount(5.01));
         product.addCategory(ProductCategory.BEAUTY);
@@ -46,10 +55,9 @@ public class ProductAssemblerTest {
     @Test
     public void canGetExpectedId(){
         var productInfoResponseDTO = productAssembler.toDto(product, productSellerDTO, offerDTO);
-        var expectedId = String.valueOf(product.getProductId());
 
         checkForNull(product);
-        assertThat(productInfoResponseDTO.id).isEqualTo(expectedId);
+        assertThat(productInfoResponseDTO.id).isEqualTo(EXPECTED_PRODUCT_ID);
     }
 
     @Test
@@ -57,7 +65,7 @@ public class ProductAssemblerTest {
         var productInfoResponseDTO = productAssembler.toDto(product, productSellerDTO, offerDTO);
 
         checkForNull(product);
-        assertThat(productInfoResponseDTO.createdAt).isEqualTo(product.getCreatedAt());
+        assertThat(productInfoResponseDTO.createdAt).isEqualTo(EXPECTED_CREATED_AT);
     }
 
     @Test
@@ -65,7 +73,7 @@ public class ProductAssemblerTest {
         var productInfoResponseDTO = productAssembler.toDto(product, productSellerDTO, offerDTO);
 
         checkForNull(product);
-        assertThat(productInfoResponseDTO.title).isEqualTo(product.getTitle());
+        assertThat(productInfoResponseDTO.title).isEqualTo(EXPECTED_TITLE);
     }
 
     @Test
@@ -73,7 +81,7 @@ public class ProductAssemblerTest {
         var productInfoResponseDTO = productAssembler.toDto(product, productSellerDTO, offerDTO);
 
         checkForNull(product);
-        assertThat(productInfoResponseDTO.description).isEqualTo(product.getDescription());
+        assertThat(productInfoResponseDTO.description).isEqualTo(EXPECTED_DESCRIPTION);
     }
 
     @Test
@@ -81,7 +89,7 @@ public class ProductAssemblerTest {
         var productInfoResponseDTO = productAssembler.toDto(product, productSellerDTO, offerDTO);
 
         checkForNull(product);
-        assertThat(productInfoResponseDTO.suggestedPrice).isEqualTo(product.getSuggestedPrice());
+        assertThat(productInfoResponseDTO.suggestedPrice.getValue()).isEqualTo(EXPECTED_SUGGESTED_PRICE);
     }
 
     @Test
@@ -89,6 +97,6 @@ public class ProductAssemblerTest {
         var productInfoResponseDTO = productAssembler.toDto(product, productSellerDTO, offerDTO);
 
         checkForNull(product);
-        assertThat(productInfoResponseDTO.categories).isEqualTo(product.getCategoriesName());
+        assertThat(productInfoResponseDTO.categories).isEqualTo(EXPECTED_CATEGORIES);
     }
 }
