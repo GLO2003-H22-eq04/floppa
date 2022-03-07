@@ -4,6 +4,7 @@ import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Application;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import ulaval.glo2003.Criteria.*;
@@ -36,6 +37,9 @@ public class ProductController {
 
     @Inject
     private ProductFactory productFactory;
+
+    @Inject
+    private ProductAssembler productAssembler;
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -119,5 +123,26 @@ public class ProductController {
         }
 
         return new FilterResponseDTO(products);
+    }
+
+    @GET
+    @Path("/{productId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ProductInfoResponseDTO getSeller(@PathParam("productId") int productId) throws ItemNotFoundError {
+        var product = productRepository.findById(productId);
+
+        if (!product.isPresent())
+            throw new ItemNotFoundError("L'id fourni n'existe pas.");
+
+        var productInfo = product.get();
+
+        var seller = sellerRepository.findById(Integer.parseInt(product.get().getSellerId()));
+        var sellerInfo = seller.get();
+        var productSellerDTO = new ProductSellerDTO(productInfo.getSellerId(), sellerInfo.getName());
+
+        var offerDTO = new OfferDTO(0, 0);
+
+        return productAssembler.toDto(productInfo, productSellerDTO, offerDTO);
+
     }
 }
