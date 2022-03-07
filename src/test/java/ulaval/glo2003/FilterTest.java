@@ -103,6 +103,16 @@ public class FilterTest extends JerseyTest {
         productRepository.add(product4);
     }
 
+    public int nbreOfWordsWithLetter(String c, List<Product> list){
+        int ret = 0;
+        for(Product l : list){
+            if(l.getTitle().contains(c)){
+                ret++;
+            }
+        }
+        return ret;
+    }
+
     @Test
     public void canCreateNewCriteria(){
         Criteria criteriaTitle = new CriteriaTitle(product1.getTitle());
@@ -121,7 +131,35 @@ public class FilterTest extends JerseyTest {
     @Test
     public void canFilterFromFullTitle(){
         Criteria criteria = new CriteriaTitle(product1.getTitle());
+
         assertThat(criteria.meetCriteria(productRepository)).isNotEmpty();
-        assertThat(criteria.meetCriteria(productRepository).size()).isEqualTo(1);
+        assertThat(criteria.meetCriteria(productRepository).size()).isEqualTo(nbreOfWordsWithLetter(product1.getTitle(),productRepository));
+    }
+
+    @Test
+    public void canFilterFromSmallerTitleButAppearOnce(){
+        String testLetter = "e";
+        Criteria criteria = new CriteriaTitle(testLetter);
+
+        assertThat(criteria.meetCriteria(productRepository)).isNotEmpty();
+        assertThat(criteria.meetCriteria(productRepository).size()).isEqualTo(nbreOfWordsWithLetter(testLetter,productRepository));
+    }
+
+    @Test
+    public void canFilterFromSmallerTitleButAppearMoreThanOnce(){
+        String testLetter = "e";
+        Criteria criteria = new CriteriaTitle(testLetter);
+
+        assertThat(criteria.meetCriteria(productRepository)).isNotEmpty();
+        assertThat(criteria.meetCriteria(productRepository).size()).isEqualTo(nbreOfWordsWithLetter(testLetter,productRepository));
+    }
+
+    @Test
+    public void canFilterFromSmallerTitleButNeverAppear(){
+        String testLetter = "w";
+        Criteria criteria = new CriteriaTitle(testLetter);
+
+        assertThat(criteria.meetCriteria(productRepository)).isEmpty();
+        assertThat(criteria.meetCriteria(productRepository).size()).isEqualTo(nbreOfWordsWithLetter(testLetter,productRepository));
     }
 }
