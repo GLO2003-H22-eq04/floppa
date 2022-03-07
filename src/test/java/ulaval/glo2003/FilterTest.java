@@ -1,14 +1,19 @@
 package ulaval.glo2003;
 
+import jakarta.inject.Inject;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.Application;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Before;
 import org.junit.Test;
+import ulaval.glo2003.Criteria.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.mock;
 
@@ -26,7 +31,12 @@ public class FilterTest extends JerseyTest {
     private Product product2;
     private Product product3;
     private Product product4;
+    private Response sellerID1;
+    private Response sellerID2;
+    private Response sellerID3;
     private ArrayList<String> categories = new ArrayList<>();
+    List<Product> productRepository = new ArrayList<>();
+
 
     @Override
     protected Application configure() {
@@ -49,10 +59,6 @@ public class FilterTest extends JerseyTest {
         aSellerDTO3.name = "Joe Moes";
         aSellerDTO3.bio = "Lui-même";
         aSellerDTO3.birthDate = LocalDate.now().minusYears(40);
-
-        var sellerID1 = target("/sellers").request().post(Entity.entity(aSellerDTO1, MediaType.APPLICATION_JSON_TYPE));
-        var sellerID2 = target("/sellers").request().post(Entity.entity(aSellerDTO1, MediaType.APPLICATION_JSON_TYPE));
-        var sellerID3 = target("/sellers").request().post(Entity.entity(aSellerDTO1, MediaType.APPLICATION_JSON_TYPE));
 
         productDTO1 = new ProductDTO();
         productDTO1.title = "Beer";
@@ -87,9 +93,28 @@ public class FilterTest extends JerseyTest {
         productDTO4.suggestedPrice = 10;
 
         var productFactory = new ProductFactory();
-        product1 = productFactory.createProduct(productDTO1, (String) sellerID3.getHeaders().getFirst("Location"));
-        product2 = productFactory.createProduct(productDTO2, (String) sellerID3.getHeaders().getFirst("Location"));
-        product3 = productFactory.createProduct(productDTO3, (String) sellerID2.getHeaders().getFirst("Location"));
-        product4 = productFactory.createProduct(productDTO4, (String) sellerID1.getHeaders().getFirst("Location"));
+        product1 = productFactory.createProduct(productDTO1, "2");
+        productRepository.add(product1);
+        product2 = productFactory.createProduct(productDTO2, "2");
+        productRepository.add(product2);
+        product3 = productFactory.createProduct(productDTO3, "1");
+        productRepository.add(product3);
+        product4 = productFactory.createProduct(productDTO4, "0");
+        productRepository.add(product4);
+    }
+
+    @Test
+    public void canCreateNewCriteria(){
+        Criteria criteriaTitle = new CriteriaTitle(product1.getTitle());
+        Criteria criteriaMaxPrice = new CriteriaMaxPrice(product1.getSuggestedPrice().getValue());
+        Criteria criteriaMinPrice = new CriteriaMinPrice(product1.getSuggestedPrice().getValue());
+        Criteria criteriaSellerID = new CriteriaSellerID(Integer.parseInt(product1.getSellerId()));
+        Criteria criteriaCategories = new CriteriaCategories(product1.getCategories());
+
+        assertThat(criteriaTitle).isNotNull();
+        assertThat(criteriaMinPrice).isNotNull();
+        assertThat(criteriaMaxPrice).isNotNull();
+        assertThat(criteriaSellerID).isNotNull();
+        assertThat(criteriaCategories).isNotNull();
     }
 }
