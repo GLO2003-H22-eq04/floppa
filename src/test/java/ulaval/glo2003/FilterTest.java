@@ -117,4 +117,11 @@ public class FilterTest extends JerseyTest {
         assertThat(criteriaSellerID).isNotNull();
         assertThat(criteriaCategories).isNotNull();
     }
+
+    @Test
+    public void canFilterFromFullTitle(){
+        Criteria criteria = new CriteriaTitle(product1.getTitle());
+        assertThat(criteria.meetCriteria(productRepository)).isNotEmpty();
+        assertThat(criteria.meetCriteria(productRepository).size()).isEqualTo(1);
+    }
 }
