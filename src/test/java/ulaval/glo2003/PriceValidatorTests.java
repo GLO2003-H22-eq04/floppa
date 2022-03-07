@@ -13,7 +13,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PriceValidatorTest {
+public class PriceValidatorTests {
 
     private static final double DEFAULT_ANNOTATION_MOCK_MINIMUM_PRICE = 1;
 

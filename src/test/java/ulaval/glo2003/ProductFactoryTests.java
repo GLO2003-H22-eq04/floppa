@@ -7,7 +7,7 @@ import java.util.List;
 
 import static com.google.common.truth.Truth.assertThat;
 
-public class ProductFactoryTest {
+public class ProductFactoryTests {
 
     private static final String SELLER_ID = "SELLER-ID";
     private ProductFactory productFactory;
