@@ -40,8 +40,6 @@ public class FilterTest{
 
     @Before
     public void setup(){
-        products = new ArrayList<>();
-
         aSellerDTO1 = new SellerDTO();
         aSellerDTO1.name = "Joe Blo";
         aSellerDTO1.bio = "Test de bio";
@@ -83,13 +81,13 @@ public class FilterTest{
 
         var productFactory = new ProductFactory();
         product1 = productFactory.createProduct(productDTO1, "2");
-        products.add(product1);
         product2 = productFactory.createProduct(productDTO2, "2");
-        products.add(product2);
         product3 = productFactory.createProduct(productDTO3, "1");
-        products.add(product3);
         product4 = productFactory.createProduct(productDTO4, "0");
-        products.add(product4);
+
+        products = new ArrayList<>();
+        products.addAll(List.of(product1,product2,product3,product4));
+
     }
 
     @Test
