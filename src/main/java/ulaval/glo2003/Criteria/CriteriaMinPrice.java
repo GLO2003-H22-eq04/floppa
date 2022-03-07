@@ -6,17 +6,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CriteriaMinPrice implements Criteria{
-    double maxPrice;
+    double minPrice;
 
-    public CriteriaMinPrice(double p_maxPrice){
-        this.maxPrice = p_maxPrice;
+    public CriteriaMinPrice(double minPrice){
+        this.minPrice = minPrice;
     }
     @Override
-    public List<Product> meetCriteria(List<Product> p_products) {
+    public List<Product> meetCriteria(List<Product> products) {
         List<Product> productPrice = new ArrayList<Product>();
 
-        for(Product product : p_products){
-            if(product.getSuggestedPrice().getValue() >= maxPrice){
+        for(Product product : products){
+            if(product.getSuggestedPrice().getValue() >= minPrice){
                 productPrice.add(product);
             }
         }

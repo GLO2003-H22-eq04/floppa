@@ -8,14 +8,14 @@ import java.util.List;
 public class CriteriaMaxPrice implements Criteria{
     double maxPrice;
 
-    public CriteriaMaxPrice(double p_maxPrice){
-        this.maxPrice = p_maxPrice;
+    public CriteriaMaxPrice(double maxPrice){
+        this.maxPrice = maxPrice;
     }
     @Override
-    public List<Product> meetCriteria(List<Product> p_products) {
+    public List<Product> meetCriteria(List<Product> products) {
         List<Product> productPrice = new ArrayList<Product>();
 
-        for(Product product : p_products){
+        for(Product product : products){
             if(product.getSuggestedPrice().getValue() <= maxPrice){
                 productPrice.add(product);
             }
