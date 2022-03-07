@@ -21,8 +21,8 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class ProductControllerIntegrationTests extends JerseyTest {
 
-    private final static int VALID_ID = 0;
-    private final static int INVALID_ID = 42;
+    private final static String VALID_ID = "0";
+    private final static String INVALID_ID = "42";
 
     @Mock
     private SellerRepository sellerListRepositoryMock;
@@ -50,8 +50,8 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         productDTO2.suggestedPrice = 6.49;
         productDTO2.categories = List.of("sports");
 
-        when(sellerListRepositoryMock.existById(VALID_ID)).thenReturn(true);
-        when(sellerListRepositoryMock.existById(INVALID_ID)).thenReturn(false);
+        when(sellerListRepositoryMock.existById(Integer.parseInt(VALID_ID))).thenReturn(true);
+        when(sellerListRepositoryMock.existById(Integer.parseInt(INVALID_ID))).thenReturn(false);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
 
     @Test
     public void canRejectRequestOnInvalidFormatSellerId() {
-        var response = target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER,"test").post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
+        var response = getResponse(productDTO1, "test");
 
         var status = response.getStatus();
 
@@ -155,7 +155,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         assertThat(status).isEqualTo(Response.Status.BAD_REQUEST.getStatusCode());
     }
 
-    private Response getResponse(ProductDTO productDTO, int sellerId) {
+    private Response getResponse(ProductDTO productDTO, String sellerId) {
         return target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(sellerId)).post(Entity.entity(productDTO, MediaType.APPLICATION_JSON_TYPE));
     }
 }
