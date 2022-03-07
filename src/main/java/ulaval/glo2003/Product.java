@@ -13,9 +13,14 @@ public class Product {
     private String description;
     private String sellerId;
     private Amount suggestedPrice;
+    private OffsetDateTime createdAt;
     private final List<ProductCategory> categories = new ArrayList<>();
     private final List<String> categoriesName = new ArrayList<>();
-    private OffsetDateTime createdAt;
+
+
+    public Product() {
+        createdAt = Instant.now().atOffset(ZoneOffset.UTC);
+    }
 
     public int getProductId() {
         return productId;
@@ -61,7 +66,8 @@ public class Product {
 
     public void setSuggestedPrice(Amount suggestedPrice) {this.suggestedPrice = suggestedPrice;}
 
-    public OffsetDateTime getCreatedAt() { return Instant.now().atOffset(ZoneOffset.UTC); }
+
+    public OffsetDateTime getCreatedAt() { return createdAt; }
 
     public void setCreatedAt(OffsetDateTime createdAt) { this.createdAt = createdAt; }
 
@@ -73,5 +79,6 @@ public class Product {
             });
         }
         return categoriesName;
+
     }
 }
