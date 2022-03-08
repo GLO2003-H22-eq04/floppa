@@ -1,15 +1,13 @@
 package ulaval.glo2003;
 
 import java.time.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Seller {
 
-    private String name;
-    private String bio;
-    private LocalDate birthDate;
-    private OffsetDateTime createdAt;
+    private final String name;
+    private final String bio;
+    private final LocalDate birthDate;
+    private final OffsetDateTime createdAt;
 
 
     public Seller(SellerDTO seller){
