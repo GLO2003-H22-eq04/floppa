@@ -127,7 +127,7 @@ public class ProductController {
     public ProductInfoResponseDTO getSeller(@PathParam("productId") int productId) throws ItemNotFoundError {
         var product = productRepository.findById(productId);
 
-        if (!product.isPresent())
+        if (product.isEmpty())
             throw new ItemNotFoundError("L'id fourni n'existe pas.");
 
         var productInfo = product.get();

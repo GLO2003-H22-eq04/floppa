@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +38,9 @@ public class ProductControllerIntegrationTests extends JerseyTest {
 
     private ProductDTO productDTO1;
     private ProductDTO productDTO2;
+    private Product product;
+    private SellerDTO sellerDTO;
+    private Seller seller;
 
     @Before
     public void before() {
@@ -52,8 +56,23 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         productDTO2.suggestedPrice = 6.49;
         productDTO2.categories = List.of("sports");
 
+        product = new Product();
+        product.setProductId(0);
+        product.setDescription("Un produit");
+        product.setTitle("Produit");
+        product.setSellerId("0");
+        product.setSuggestedPrice(new Amount(5.01));
+
+        sellerDTO = new SellerDTO();
+        sellerDTO.name = "John Doe";
+        sellerDTO.bio = "Un seller";
+        sellerDTO.birthDate = LocalDate.now().minusYears(20);
+
+        seller = new Seller(sellerDTO);
+
         when(sellerListRepositoryMock.existById(Integer.parseInt(VALID_ID))).thenReturn(true);
         when(sellerListRepositoryMock.existById(Integer.parseInt(INVALID_ID))).thenReturn(false);
+        when(sellerListRepositoryMock.findById(Integer.parseInt(VALID_ID))).thenReturn(Optional.of(seller));
     }
 
     @Override
@@ -155,6 +174,16 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         var status = response.getStatus();
 
         assertThat(status).isEqualTo(Response.Status.BAD_REQUEST.getStatusCode());
+    }
+
+    @Test
+    public void canGetExistingProduct(){
+        when(productListRepositoryMock.findById(Integer.parseInt(VALID_ID))).thenReturn(Optional.of(product));
+
+        var response = getProductResponse(Integer.parseInt(VALID_ID));
+        var status = response.getStatus();
+
+        assertThat(status).isEqualTo(Response.Status.OK.getStatusCode());
     }
 
     @Test
