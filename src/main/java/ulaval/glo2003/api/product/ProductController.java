@@ -7,7 +7,6 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import ulaval.glo2003.api.product.dto.*;
-import ulaval.glo2003.criteria.*;
 import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -29,7 +28,7 @@ public class ProductController {
 
     public static final String SELLER_ID_HEADER = "X-Seller-Id";
 
-    protected static final String PRODUCTS_PATH = "/products";
+    public static final String PRODUCTS_PATH = "/products";
 
     @Inject
     private SellerRepository sellerRepository;

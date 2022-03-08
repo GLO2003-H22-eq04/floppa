@@ -1,9 +1,6 @@
 package ulaval.glo2003.api.product.dto;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import ulaval.glo2003.domain.product.ProductCategory;
 
 import java.time.OffsetDateTime;

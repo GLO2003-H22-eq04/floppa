@@ -19,9 +19,9 @@ import java.net.URI;
 @Path(SellerController.SELLERS_PATH)
 public class SellerController {
 
-    protected static final String SELLERS_PATH = "/sellers";
-    protected static final String GET_SELLER_PATH = "/{sellerId}";
-    private static final String PARAM_SELLER_ID = "sellerId";
+    public static final String SELLERS_PATH = "/sellers";
+    public static final String GET_SELLER_PATH = "/{sellerId}";
+    public static final String PARAM_SELLER_ID = "sellerId";
 
     @Inject
     private SellerRepository sellerRepository;
