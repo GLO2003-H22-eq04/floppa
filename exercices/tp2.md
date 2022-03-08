@@ -48,3 +48,8 @@ Plus que l'issue/pull-request est complexe, plus de temps va être nécessaire �
 Plus diviser les grosses issues pour uniformiser le temps de travail. 
 Démarrer les codes-review plus rapidement.
 Augmenter le nombre de reviewers par pull-request.
+
+
+Screenshot Projet
+
+<img width="1440" alt="image" src="https://user-images.githubusercontent.com/22758226/157153676-c51ffe16-337b-4893-bb39-cbd83dd7e2cc.png">
