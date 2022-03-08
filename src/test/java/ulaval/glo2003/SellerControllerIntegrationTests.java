@@ -3,21 +3,34 @@ package ulaval.glo2003;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.Application;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.time.LocalDate;
-import java.util.regex.Pattern;
+import java.util.Optional;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.Mockito.when;
 
-
+@RunWith(MockitoJUnitRunner.class)
 public class SellerControllerIntegrationTests extends JerseyTest {
+
+    private final static String VALID_ID = "0";
+    private final static String INVALID_ID = "42";
+
+    @Mock
+    private SellerRepository sellerListRepositoryMock;
 
     private SellerDTO aSellerDTO1;
     private SellerDTO aSellerDTO2;
-    private SellerDTO aSellerDTO3;
+
+    private Seller seller;
 
     @Before
     public void before() {
@@ -31,47 +44,70 @@ public class SellerControllerIntegrationTests extends JerseyTest {
         aSellerDTO2.bio = "amazing";
         aSellerDTO2.birthDate = LocalDate.now().minusYears(30);
 
-        aSellerDTO3 = new SellerDTO();
-        aSellerDTO3.name = "Magnifiquenom";
-        aSellerDTO3.bio = "yeehaw";
-        aSellerDTO3.birthDate = LocalDate.now().minusYears(40);
+        seller = new Seller(aSellerDTO1);
+
+        when(sellerListRepositoryMock.findById(Integer.parseInt(VALID_ID))).thenReturn(Optional.of(seller));
     }
 
     @Override
     protected Application configure() {
-        return Main.getRessourceConfig();
-    }
-
-    private boolean isUrl(String sequence) {
-        try {
-            var pattern = Pattern.compile("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
-            var matcher = pattern.matcher(sequence);
-            return matcher.matches();
-        } catch (Exception e) {
-            return false;
-        }
+        var resourceConfig = Main.getRessourceConfig();
+        resourceConfig.register(new AbstractBinder() {
+            @Override
+            protected void configure() {
+                bind(sellerListRepositoryMock).to(SellerRepository.class).ranked(2);
+            }
+        });
+        return resourceConfig;
     }
 
     @Test
     public void canReceiveUrlOfCreatedSeller() {
-        var response = target("/sellers").request().post(Entity.entity(aSellerDTO1, MediaType.APPLICATION_JSON_TYPE));
+        var response = postCreatingSellerResponse(aSellerDTO1);
+
         var locationHeader = (String) response.getHeaders().getFirst("Location");
-        assertThat(isUrl(locationHeader)).isTrue();
+
+        assertThat(locationHeader.contains(VALID_ID)).isTrue();
+        assertThat(IntegrationUtils.isUrl(locationHeader)).isTrue();
     }
 
     @Test
     public void canCreateMultipleSellers() {
-        var response1 = target("/sellers").request().post(Entity.entity(aSellerDTO1, MediaType.APPLICATION_JSON_TYPE));
-        var response2 = target("/sellers").request().post(Entity.entity(aSellerDTO1, MediaType.APPLICATION_JSON_TYPE));
-        var response3 = target("/sellers").request().post(Entity.entity(aSellerDTO1, MediaType.APPLICATION_JSON_TYPE));
+        var response1 = postCreatingSellerResponse(aSellerDTO1);
+        var response2 = postCreatingSellerResponse(aSellerDTO2);
 
         var locationHeader1 = (String) response1.getHeaders().getFirst("Location");
         var locationHeader2 = (String) response2.getHeaders().getFirst("Location");
-        var locationHeader3 = (String) response3.getHeaders().getFirst("Location");
 
-        assertThat(isUrl(locationHeader1)).isTrue();
-        assertThat(isUrl(locationHeader2)).isTrue();
-        assertThat(isUrl(locationHeader3)).isTrue();
+        assertThat(IntegrationUtils.isUrl(locationHeader1)).isTrue();
+        assertThat(IntegrationUtils.isUrl(locationHeader2)).isTrue();
     }
 
+    @Test
+    public void canReceiveRequestGetSellerNormal() {
+        var response = getSellerResponse(Integer.parseInt(VALID_ID));
+        var status = response.getStatus();
+        var entity = response.readEntity(SellerInfoResponseDTO.class);
+
+        assertThat(status).isEqualTo(Response.Status.OK.getStatusCode());
+        assertThat(entity.name).isEqualTo(seller.getName());
+        assertThat(entity.bio).isEqualTo(seller.getBio());
+        assertThat(entity.createdAt).isEqualTo(seller.getCreatedAt());
+    }
+
+    @Test
+    public void canRejectRequestGetSellerInvalidId() {
+        var response = getSellerResponse(Integer.parseInt(INVALID_ID));
+        var status = response.getStatus();
+
+        assertThat(status).isEqualTo(Response.Status.NOT_FOUND.getStatusCode());
+    }
+
+    private Response postCreatingSellerResponse(SellerDTO sellerDTO) {
+        return target(SellerController.SELLERS_PATH).request().post(Entity.entity(sellerDTO, MediaType.APPLICATION_JSON_TYPE));
+    }
+
+    private Response getSellerResponse(int sellerId) {
+        return target(SellerController.SELLERS_PATH + '/' + sellerId).request().get();
+    }
 }
