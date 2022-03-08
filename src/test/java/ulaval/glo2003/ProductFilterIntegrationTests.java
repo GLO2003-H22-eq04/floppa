@@ -201,6 +201,16 @@ public class ProductFilterIntegrationTests extends JerseyTest {
         assertThat(responseGET).contains(productDTO2.title);
     }
 
+    @Test
+    public void badRequest(){
+        target("/sellers").request().post(Entity.entity(sellerDTO1, MediaType.APPLICATION_JSON_TYPE));
+
+        var response = target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, VALID_ID).post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
+        var responseGET = getProductResponse("minPrice","patate");
+
+        assertThat(responseGET.getStatus()).isEqualTo(Response.Status.NOT_FOUND.getStatusCode());
+    }
+
     private Response getProductResponse(String typeOf, Object queryParam) {
         return target(ProductController.PRODUCTS_PATH).queryParam(typeOf, queryParam).request(MediaType.APPLICATION_JSON_TYPE).get();
     }
