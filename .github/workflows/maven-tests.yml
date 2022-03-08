@@ -13,5 +13,7 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
+      - name: Checkstyle with Maven
+      	run: mvn checkstyle:checkstyle
       - name: Test with Maven
         run: mvn test
