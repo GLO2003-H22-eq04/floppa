@@ -4,8 +4,8 @@ import jakarta.validation.ConstraintValidatorContext;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import ulaval.glo2003.Validation.AgeValidator;
-import ulaval.glo2003.Validation.MinimumAge;
+import ulaval.glo2003.api.validation.AgeValidator;
+import ulaval.glo2003.api.validation.MinimumAge;
 
 import java.time.LocalDate;
 

@@ -11,6 +11,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import ulaval.glo2003.api.seller.SellerController;
+import ulaval.glo2003.api.seller.dto.SellerDTO;
+import ulaval.glo2003.api.seller.dto.SellerInfoResponseDTO;
+import ulaval.glo2003.domain.seller.Seller;
+import ulaval.glo2003.domain.seller.repository.SellerRepository;
 
 import java.time.LocalDate;
 import java.util.Optional;

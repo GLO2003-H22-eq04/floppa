@@ -5,6 +5,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import ulaval.glo2003.domain.product.Product;
+import ulaval.glo2003.domain.product.repository.ProductListRepository;
+import ulaval.glo2003.domain.product.repository.ProductRepository;
 
 import static com.google.common.truth.Truth.assertThat;
 

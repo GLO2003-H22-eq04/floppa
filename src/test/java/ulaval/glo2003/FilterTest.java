@@ -1,9 +1,14 @@
 package ulaval.glo2003;
 
-import jakarta.ws.rs.core.Response;
 import org.junit.Before;
 import org.junit.Test;
-import ulaval.glo2003.Criteria.*;
+import ulaval.glo2003.criteria.*;
+import ulaval.glo2003.api.product.dto.ProductDTO;
+import ulaval.glo2003.api.seller.dto.SellerDTO;
+import ulaval.glo2003.domain.product.Product;
+import ulaval.glo2003.domain.product.ProductCategory;
+import ulaval.glo2003.domain.product.ProductFactory;
+import ulaval.glo2003.domain.product.criteria.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
