@@ -22,6 +22,7 @@ public class SellerDTO {
     @NotEmpty(message = "Le champ \"bio\" doit contenir une valeur.", payload = InvalidParameterError.class)
     public String bio;
 
+
     @NotNull(message = "Le champ \"birthDate\" est obligatoire.", payload = MissingParameterError.class, groups = HighPriority.class)
     @MinimumAge(age = 18, payload = InvalidParameterError.class, message = "Date de naissance invalide.")
     public LocalDate birthDate;

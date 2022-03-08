@@ -4,7 +4,6 @@ import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Application;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import ulaval.glo2003.Criteria.*;
@@ -12,8 +11,6 @@ import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 import ulaval.glo2003.Validation.Errors.InvalidParameterError;
 import ulaval.glo2003.Validation.Errors.ItemNotFoundError;
 import ulaval.glo2003.Validation.Errors.MissingParameterError;
@@ -62,14 +59,14 @@ public class ProductController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public FilterResponseDTO getProductsFromFilter(@QueryParam("sellerId") String p_sellerId,
-                                                   @QueryParam("title") String p_title,
-                                                   @QueryParam("categories") List<String> p_categories,
-                                                   @QueryParam("minPrice") float p_minPrice,
-                                                   @QueryParam("maxPrice") float p_maxPrice) {
+    public ProductFilterResponsesCollectionDTO getProductsFromFilter(@QueryParam("sellerId") String p_sellerId,
+                                                                     @QueryParam("title") String p_title,
+                                                                     @QueryParam("categories") List<String> p_categories,
+                                                                     @QueryParam("minPrice") float p_minPrice,
+                                                                     @QueryParam("maxPrice") float p_maxPrice) {
 
         List<Product> productList = productRepository.findAll();
-        List<ProductFilteredResponseDTO> products = null;
+        List<ProductFilteredResponseDTO> products = new ArrayList<>();
 
         if (p_sellerId != null) {
             Criteria sellerFilter = new CriteriaSellerID(Integer.parseInt(p_sellerId));
@@ -99,7 +96,6 @@ public class ProductController {
         }
 
         if (!productList.isEmpty()) {
-            products = new ArrayList<>();
             for (Product product : productList) {
                 var seller = sellerRepository.findById(Integer.parseInt(product.getSellerId()));
                 ProductSellerDTO productSeller = null;
@@ -122,7 +118,7 @@ public class ProductController {
             }
         }
 
-        return new FilterResponseDTO(products);
+        return new ProductFilterResponsesCollectionDTO(products);
     }
 
     @GET
@@ -131,7 +127,7 @@ public class ProductController {
     public ProductInfoResponseDTO getSeller(@PathParam("productId") int productId) throws ItemNotFoundError {
         var product = productRepository.findById(productId);
 
-        if (!product.isPresent())
+        if (product.isEmpty())
             throw new ItemNotFoundError("L'id fourni n'existe pas.");
 
         var productInfo = product.get();

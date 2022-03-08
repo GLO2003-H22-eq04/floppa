@@ -3,6 +3,7 @@ package ulaval.glo2003;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ProductListRepository implements ProductRepository {
 
@@ -25,5 +26,10 @@ public class ProductListRepository implements ProductRepository {
             return Optional.of(productList.get(id));
 
         return Optional.empty();
+    }
+
+    @Override
+    public List<Product> productOf(String sellerId) {
+        return productList.stream().filter(p -> p.getSellerId().equals(String.valueOf(sellerId))).collect(Collectors.toList());
     }
 }
