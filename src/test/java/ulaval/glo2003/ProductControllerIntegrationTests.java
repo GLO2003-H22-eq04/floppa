@@ -12,6 +12,16 @@ import org.junit.runner.RunWith;
 
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import ulaval.glo2003.api.product.ProductController;
+import ulaval.glo2003.api.product.dto.ProductDTO;
+import ulaval.glo2003.api.product.dto.ProductInfoResponseDTO;
+import ulaval.glo2003.api.seller.dto.SellerDTO;
+import ulaval.glo2003.domain.product.Amount;
+import ulaval.glo2003.domain.product.Product;
+import ulaval.glo2003.domain.product.ProductFactory;
+import ulaval.glo2003.domain.product.repository.ProductRepository;
+import ulaval.glo2003.domain.seller.Seller;
+import ulaval.glo2003.domain.seller.repository.SellerRepository;
 
 import java.time.LocalDate;
 import java.util.List;

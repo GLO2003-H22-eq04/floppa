@@ -2,6 +2,12 @@ package ulaval.glo2003;
 
 import org.junit.Before;
 import org.junit.Test;
+import ulaval.glo2003.api.product.dto.OfferDTO;
+import ulaval.glo2003.api.product.ProductAssembler;
+import ulaval.glo2003.api.product.dto.ProductSellerDTO;
+import ulaval.glo2003.domain.product.Amount;
+import ulaval.glo2003.domain.product.Product;
+import ulaval.glo2003.domain.product.ProductCategory;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;

@@ -6,8 +6,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import ulaval.glo2003.Validation.MinimumPrice;
-import ulaval.glo2003.Validation.PriceValidator;
+import ulaval.glo2003.api.validation.MinimumPrice;
+import ulaval.glo2003.api.validation.PriceValidator;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.when;

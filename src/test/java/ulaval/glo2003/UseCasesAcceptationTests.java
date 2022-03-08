@@ -9,6 +9,10 @@ import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Before;
 import org.junit.Test;
+import ulaval.glo2003.api.product.ProductController;
+import ulaval.glo2003.api.product.dto.ProductDTO;
+import ulaval.glo2003.api.seller.SellerController;
+import ulaval.glo2003.api.seller.dto.SellerDTO;
 
 import java.time.LocalDate;
 

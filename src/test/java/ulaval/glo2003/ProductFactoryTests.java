@@ -2,6 +2,10 @@ package ulaval.glo2003;
 
 import org.junit.Before;
 import org.junit.Test;
+import ulaval.glo2003.api.product.dto.ProductDTO;
+import ulaval.glo2003.domain.product.Product;
+import ulaval.glo2003.domain.product.ProductCategory;
+import ulaval.glo2003.domain.product.ProductFactory;
 
 import java.util.List;
 
