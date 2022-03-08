@@ -35,8 +35,4 @@ public class Seller {
         return createdAt;
     }
 
-    public List getProducts() {
-        return new ArrayList<>();
-    }
-
 }
