@@ -53,3 +53,29 @@ Augmenter le nombre de reviewers par pull-request.
 Screenshot Projet
 
 <img width="1440" alt="image" src="https://user-images.githubusercontent.com/22758226/157153676-c51ffe16-337b-4893-bb39-cbd83dd7e2cc.png">
+
+Screenshot Milestone
+
+<img width="1440" alt="image" src="https://user-images.githubusercontent.com/22758226/157153923-d83df15e-0529-4d9f-9f48-9ce71a06762a.png">
+
+Screenshot Issues
+
+<img width="1440" alt="image" src="https://user-images.githubusercontent.com/22758226/157154169-d1704021-b5da-4306-8895-9c914f47e18e.png">
+
+<img width="1440" alt="image" src="https://user-images.githubusercontent.com/22758226/157154318-0eefad85-603f-4f23-8759-f49c6832b46e.png">
+
+<img width="1440" alt="image" src="https://user-images.githubusercontent.com/22758226/157154359-462cae20-01bc-4aaf-b264-de9f4c701ecc.png">
+
+Screenshot PR
+
+<img width="1440" alt="image" src="https://user-images.githubusercontent.com/22758226/157154490-dffc36ed-4893-45ef-bdcf-93232745db9d.png">
+
+<img width="1440" alt="image" src="https://user-images.githubusercontent.com/22758226/157154584-ef195fd1-db8d-48f9-b8b7-c6782c232a16.png">
+
+<img width="1440" alt="image" src="https://user-images.githubusercontent.com/22758226/157154654-67ea5957-b7ec-4d3e-8d49-e74dc4de873b.png">
+
+Screenshot Arbre de commits
+
+<img width="959" alt="image" src="https://user-images.githubusercontent.com/22758226/157155466-a3298775-7400-4a19-b6af-d32e2878ab05.png">
+
+
