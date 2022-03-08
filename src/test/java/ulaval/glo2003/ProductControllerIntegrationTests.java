@@ -39,8 +39,6 @@ public class ProductControllerIntegrationTests extends JerseyTest {
     private ProductDTO productDTO1;
     private ProductDTO productDTO2;
     private Product product;
-    private SellerDTO sellerDTO;
-    private Seller seller;
 
     @Before
     public void before() {
@@ -63,16 +61,19 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         product.setSellerId("0");
         product.setSuggestedPrice(new Amount(5.01));
 
-        sellerDTO = new SellerDTO();
+        var sellerDTO = new SellerDTO();
         sellerDTO.name = "John Doe";
         sellerDTO.bio = "Un seller";
         sellerDTO.birthDate = LocalDate.now().minusYears(20);
 
-        seller = new Seller(sellerDTO);
+        var seller = new Seller(sellerDTO);
 
         when(sellerListRepositoryMock.existById(Integer.parseInt(VALID_ID))).thenReturn(true);
         when(sellerListRepositoryMock.existById(Integer.parseInt(INVALID_ID))).thenReturn(false);
+
         when(sellerListRepositoryMock.findById(Integer.parseInt(VALID_ID))).thenReturn(Optional.of(seller));
+        when(productListRepositoryMock.findById(Integer.parseInt(VALID_ID))).thenReturn(Optional.of(product));
+        when(productListRepositoryMock.findById(MISSING_ID)).thenReturn(Optional.empty());
     }
 
     @Override
@@ -91,7 +92,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
 
     @Test
     public void canReceiveUrlOfCreatedProduct() {
-        var response = postCreatingSellerResponse(productDTO1, VALID_ID);
+        var response = postCreatingProductResponse(productDTO1, VALID_ID);
 
         var locationHeader = (String) response.getHeaders().getFirst("Location");
 
@@ -101,7 +102,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
 
     @Test
     public void canRejectRequestOnNullProduct() {
-        var response = postCreatingSellerResponse(null, VALID_ID);
+        var response = postCreatingProductResponse(null, VALID_ID);
 
         var status = response.getStatus();
 
@@ -110,7 +111,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
 
     @Test
     public void canRejectRequestOnUnknownSellerId() {
-        var response = postCreatingSellerResponse(productDTO1, INVALID_ID);
+        var response = postCreatingProductResponse(productDTO1, INVALID_ID);
 
         var status = response.getStatus();
 
@@ -119,7 +120,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
 
     @Test
     public void canRejectRequestOnInvalidFormatSellerId() {
-        var response = postCreatingSellerResponse(productDTO1, "test");
+        var response = postCreatingProductResponse(productDTO1, "test");
 
         var status = response.getStatus();
 
@@ -130,7 +131,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
     public void canRejectRequestOnInvalidPrice() {
         productDTO2.suggestedPrice = -1;
 
-        var response = postCreatingSellerResponse(productDTO2, VALID_ID);
+        var response = postCreatingProductResponse(productDTO2, VALID_ID);
         var status = response.getStatus();
 
         assertThat(status).isEqualTo(Response.Status.BAD_REQUEST.getStatusCode());
@@ -140,7 +141,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
     public void canRejectRequestOnInvalidTitle() {
         productDTO2.title = "";
 
-        var response = postCreatingSellerResponse(productDTO2, VALID_ID);
+        var response = postCreatingProductResponse(productDTO2, VALID_ID);
         var status = response.getStatus();
 
         assertThat(status).isEqualTo(Response.Status.BAD_REQUEST.getStatusCode());
@@ -150,7 +151,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
     public void canRejectRequestOnNullTitle() {
         productDTO2.title = null;
 
-        var response = postCreatingSellerResponse(productDTO2, VALID_ID);
+        var response = postCreatingProductResponse(productDTO2, VALID_ID);
         var status = response.getStatus();
 
         assertThat(status).isEqualTo(Response.Status.BAD_REQUEST.getStatusCode());
@@ -160,7 +161,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
     public void canRejectRequestOnInvalidDescription() {
         productDTO2.description = "";
 
-        var response = postCreatingSellerResponse(productDTO2, VALID_ID);
+        var response = postCreatingProductResponse(productDTO2, VALID_ID);
         var status = response.getStatus();
 
         assertThat(status).isEqualTo(Response.Status.BAD_REQUEST.getStatusCode());
@@ -170,7 +171,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
     public void canRejectRequestOnNullDescription() {
         productDTO2.description = null;
 
-        var response = postCreatingSellerResponse(productDTO2, VALID_ID);
+        var response = postCreatingProductResponse(productDTO2, VALID_ID);
         var status = response.getStatus();
 
         assertThat(status).isEqualTo(Response.Status.BAD_REQUEST.getStatusCode());
@@ -178,25 +179,30 @@ public class ProductControllerIntegrationTests extends JerseyTest {
 
     @Test
     public void canGetExistingProduct(){
-        when(productListRepositoryMock.findById(Integer.parseInt(VALID_ID))).thenReturn(Optional.of(product));
-
         var response = getProductResponse(Integer.parseInt(VALID_ID));
+
+        var entity = response.readEntity(ProductInfoResponseDTO.class);
         var status = response.getStatus();
 
         assertThat(status).isEqualTo(Response.Status.OK.getStatusCode());
+        assertThat(entity.id).isEqualTo(String.valueOf(product.getProductId()));
+        assertThat(entity.title).isEqualTo(product.getTitle());
+        assertThat(entity.categories).isEqualTo(product.getCategories());
+        assertThat(entity.createdAt).isEqualTo(product.getCreatedAt());
+        assertThat(entity.suggestedPrice.getValue()).isEqualTo(product.getSuggestedPrice().getValue());
+        assertThat(entity.description).isEqualTo(product.getDescription());
+        assertThat(entity.seller.id).isEqualTo(String.valueOf(product.getSellerId()));
     }
 
     @Test
     public void shouldRejectNonExistingProduct() {
-        when(productListRepositoryMock.findById(MISSING_ID)).thenReturn(Optional.empty());
-
         var response = getProductResponse(MISSING_ID);
         var status = response.getStatus();
 
         assertThat(status).isEqualTo(Response.Status.NOT_FOUND.getStatusCode());
     }
 
-    private Response postCreatingSellerResponse(ProductDTO productDTO, String sellerId) {
+    private Response postCreatingProductResponse(ProductDTO productDTO, String sellerId) {
         return target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(sellerId)).post(Entity.entity(productDTO, MediaType.APPLICATION_JSON_TYPE));
     }
 

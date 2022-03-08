@@ -137,12 +137,15 @@ public class ProductController {
         var productInfo = product.get();
 
         var seller = sellerRepository.findById(Integer.parseInt(product.get().getSellerId()));
+
+        if (seller.isEmpty())
+            throw new ItemNotFoundError("L'id fourni n'existe pas.");
+
         var sellerInfo = seller.get();
         var productSellerDTO = new ProductSellerDTO(productInfo.getSellerId(), sellerInfo.getName());
 
         var offerDTO = new OfferDTO(0, 0);
 
         return productAssembler.toDto(productInfo, productSellerDTO, offerDTO);
-
     }
 }

@@ -109,6 +109,6 @@ public class SellerControllerIntegrationTests extends JerseyTest {
     }
 
     private Response getSellerResponse(int sellerId) {
-        return target(ProductController.PRODUCTS_PATH + '/' + sellerId).request().get();
+        return target(SellerController.SELLERS_PATH + '/' + sellerId).request().get();
     }
 }
