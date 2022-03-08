@@ -1,5 +1,8 @@
 package ulaval.glo2003;
 
+import jakarta.json.bind.annotation.JsonbCreator;
+import jakarta.json.bind.annotation.JsonbProperty;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -7,7 +10,8 @@ public class Amount {
 
     private final double value;
 
-    public Amount(double value){
+    @JsonbCreator
+    public Amount(@JsonbProperty("value") double value){
         var decimal = new BigDecimal(value).setScale(2, RoundingMode.HALF_UP);
         this.value = decimal.doubleValue();
     }
