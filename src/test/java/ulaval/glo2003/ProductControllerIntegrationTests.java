@@ -77,8 +77,8 @@ public class ProductControllerIntegrationTests extends JerseyTest {
 
     @Override
     protected Application configure() {
-        var ressourceConfig = Main.getRessourceConfig();
-        ressourceConfig.register(new AbstractBinder() {
+        var resourceConfig = Main.getRessourceConfig();
+        resourceConfig.register(new AbstractBinder() {
             @Override
             protected void configure() {
                 bind(sellerListRepositoryMock).to(SellerRepository.class).ranked(2);
@@ -86,7 +86,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
                 bind(productFactoryMock).to(ProductFactory.class).ranked(2);
             }
         });
-        return ressourceConfig;
+        return resourceConfig;
     }
 
     @Test
@@ -95,7 +95,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
 
         var locationHeader = (String) response.getHeaders().getFirst("Location");
 
-        assertThat(locationHeader.contains(String.valueOf(VALID_ID))).isTrue();
+        assertThat(locationHeader.contains(VALID_ID)).isTrue();
         assertThat(IntegrationUtils.isUrl(locationHeader)).isTrue();
     }
 

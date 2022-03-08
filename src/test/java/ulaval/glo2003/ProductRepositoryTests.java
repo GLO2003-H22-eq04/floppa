@@ -11,6 +11,9 @@ import static com.google.common.truth.Truth.assertThat;
 @RunWith(MockitoJUnitRunner.class)
 public class ProductRepositoryTests {
 
+    private static final int EXPECTED_PRODUCT_ID = 0;
+    private static final int EXPECTED_PRODUCT_LIST_SIZE = 2;
+
     @Mock
     private Product productMock1;
 
@@ -28,7 +31,7 @@ public class ProductRepositoryTests {
     public void canAddOneProductNormal() {
         var id = productListRepository.add(productMock1);
 
-        assertThat(id).isEqualTo(0);
+        assertThat(id).isEqualTo(EXPECTED_PRODUCT_ID);
     }
 
     @Test
@@ -42,6 +45,7 @@ public class ProductRepositoryTests {
     @Test
     public void canFindByIdNormal() {
         var id = productListRepository.add(productMock1);
+
         var product = productListRepository.findById(id);
 
         assertThat(product.isPresent()).isTrue();
@@ -62,8 +66,7 @@ public class ProductRepositoryTests {
 
         var productList = productListRepository.findAll();
 
-        assertThat(productList.isEmpty()).isFalse();
-        assertThat(productList.size() == 2).isTrue();
+        assertThat(productList.size()).isEqualTo(EXPECTED_PRODUCT_LIST_SIZE);
         assertThat(productList.contains(productMock1)).isTrue();
         assertThat(productList.contains(productMock2)).isTrue();
     }

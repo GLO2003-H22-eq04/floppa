@@ -15,6 +15,8 @@ import java.net.URI;
 public class SellerController {
 
     protected static final String SELLERS_PATH = "/sellers";
+    protected static final String GET_SELLER_PATH = "/{sellerId}";
+    private static final String PARAM_SELLER_ID = "sellerId";
 
     @Inject
     private SellerRepository sellerRepository;
@@ -27,9 +29,9 @@ public class SellerController {
     }
 
     @GET
-    @Path("/{sellerId}")
+    @Path(GET_SELLER_PATH)
     @Produces(MediaType.APPLICATION_JSON)
-    public SellerInfoResponseDTO getSeller(@PathParam("sellerId") int sellerId) throws ItemNotFoundError {
+    public SellerInfoResponseDTO getSeller(@PathParam(PARAM_SELLER_ID) int sellerId) throws ItemNotFoundError {
         var seller = sellerRepository.findById(sellerId);
         if (seller.isPresent()) {
             var sellerInfos = seller.get();
