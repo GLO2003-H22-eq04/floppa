@@ -202,7 +202,7 @@ public class ProductFilterIntegrationTests extends JerseyTest {
     }
 
     @Test
-    public void badRequest(){
+    public void shouldReturn404OnInvalidParameter(){
         target("/sellers").request().post(Entity.entity(sellerDTO1, MediaType.APPLICATION_JSON_TYPE));
 
         var response = target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, VALID_ID).post(Entity.entity(productDTO1, MediaType.APPLICATION_JSON_TYPE));
