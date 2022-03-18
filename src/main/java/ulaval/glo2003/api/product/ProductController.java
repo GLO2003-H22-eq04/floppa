@@ -22,6 +22,7 @@ import ulaval.glo2003.domain.seller.repository.SellerRepository;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Path(ProductController.PRODUCTS_PATH)
 public class ProductController {
@@ -44,10 +45,10 @@ public class ProductController {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response postCreatingProduct(@HeaderParam(SELLER_ID_HEADER) String sellerId,
+    public Response postCreatingProduct(@HeaderParam(SELLER_ID_HEADER) UUID sellerId,
                                         @Valid @NotNull(payload = MissingParameterError.class) ProductDTO productDTO) throws ItemNotFoundError, InvalidParameterError {
         try {
-            if (!sellerRepository.existById(Integer.parseInt(sellerId))) {
+            if (!sellerRepository.existById(sellerId)) {
                 throw new ItemNotFoundError("L'id fourni n'existe pas.");
             }
         }
@@ -63,7 +64,7 @@ public class ProductController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public ProductFilterResponsesCollectionDTO getProductsFromFilter(@QueryParam("sellerId") String p_sellerId,
+    public ProductFilterResponsesCollectionDTO getProductsFromFilter(@QueryParam("sellerId") UUID p_sellerId,
                                                                      @QueryParam("title") String p_title,
                                                                      @QueryParam("categories") List<String> p_categories,
                                                                      @QueryParam("minPrice") float p_minPrice,
@@ -73,7 +74,7 @@ public class ProductController {
         List<ProductFilteredResponseDTO> products = new ArrayList<>();
 
         if (p_sellerId != null) {
-            Criteria sellerFilter = new CriteriaSellerID(Integer.parseInt(p_sellerId));
+            Criteria sellerFilter = new CriteriaSellerID(p_sellerId);
             productList = sellerFilter.meetCriteria(productList);
         }
         if (p_title != null) {
@@ -101,7 +102,7 @@ public class ProductController {
 
         if (!productList.isEmpty()) {
             for (Product product : productList) {
-                var seller = sellerRepository.findById(Integer.parseInt(product.getSellerId()));
+                var seller = sellerRepository.findById(product.getSellerId());
                 ProductSellerDTO productSeller = null;
                 if (seller.isPresent()) {
                     productSeller = new ProductSellerDTO(
@@ -136,7 +137,7 @@ public class ProductController {
 
         var productInfo = product.get();
 
-        var seller = sellerRepository.findById(Integer.parseInt(product.get().getSellerId()));
+        var seller = sellerRepository.findById(product.get().getSellerId());
 
         if (seller.isEmpty())
             throw new ItemNotFoundError("L'id fourni n'existe pas.");

@@ -15,6 +15,7 @@ import ulaval.glo2003.api.validation.errors.ItemNotFoundError;
 import ulaval.glo2003.api.validation.errors.MissingParameterError;
 
 import java.net.URI;
+import java.util.UUID;
 
 @Path(SellerController.SELLERS_PATH)
 public class SellerController {
@@ -39,7 +40,7 @@ public class SellerController {
     @GET
     @Path(GET_SELLER_PATH)
     @Produces(MediaType.APPLICATION_JSON)
-    public SellerInfoResponseDTO getSeller(@PathParam(PARAM_SELLER_ID) int sellerId) throws ItemNotFoundError {
+    public SellerInfoResponseDTO getSeller(@PathParam(PARAM_SELLER_ID) UUID sellerId) throws ItemNotFoundError {
         var seller = sellerRepository.findById(sellerId);
         if (seller.isPresent()) {
             var sellerInfos = seller.get();

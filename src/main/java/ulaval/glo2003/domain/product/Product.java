@@ -5,6 +5,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class Product {
@@ -12,7 +13,7 @@ public class Product {
     private int productId;
     private String title;
     private String description;
-    private String sellerId;
+    private UUID sellerId;
     private Amount suggestedPrice;
     private OffsetDateTime createdAt;
     private final List<ProductCategory> categories = new ArrayList<>();
@@ -54,11 +55,11 @@ public class Product {
         categories.add(category);
     }
 
-    public String getSellerId() {
+    public UUID getSellerId() {
         return sellerId;
     }
 
-    public void setSellerId(String sellerId) {
+    public void setSellerId(UUID sellerId) {
         this.sellerId = sellerId;
     }
 

@@ -2,30 +2,28 @@ package ulaval.glo2003.domain.seller.repository;
 
 import ulaval.glo2003.domain.seller.Seller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class SellerListRepository implements SellerRepository {
 
-    private List<Seller> sellerList = new ArrayList<>();
+    private final Map<UUID, Seller> sellers = new HashMap<>();
 
     @Override
-    public int add(Seller seller) {
-        sellerList.add(seller);
-        return sellerList.size() - 1;
+    public UUID add(Seller seller) {
+        var id = UUID.randomUUID();
+        sellers.put(id, seller);
+        return id;
     }
 
     @Override
-    public Optional<Seller> findById(int id) {
-        if (sellerList.size() > id)
-            return Optional.of(sellerList.get(id));
-
-        return Optional.empty();
+    public Optional<Seller> findById(UUID id) {
+        return Optional.ofNullable(sellers.get(id));
     }
 
     @Override
-    public boolean existById(int id) {
+    public boolean existById(UUID id) {
         return findById(id).isPresent();
     }
 }
+
+
