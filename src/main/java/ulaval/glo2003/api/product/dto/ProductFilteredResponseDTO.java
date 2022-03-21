@@ -5,10 +5,11 @@ import ulaval.glo2003.domain.product.ProductCategory;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public class ProductFilteredResponseDTO {
 
-    public String id;
+    public UUID id;
 
     public OffsetDateTime createdAt;
 
@@ -27,7 +28,7 @@ public class ProductFilteredResponseDTO {
     public ProductFilteredResponseDTO() {
     }
 
-    public ProductFilteredResponseDTO(String id,
+    public ProductFilteredResponseDTO(UUID id,
                                       OffsetDateTime createdAt,
                                       String title,
                                       String description,

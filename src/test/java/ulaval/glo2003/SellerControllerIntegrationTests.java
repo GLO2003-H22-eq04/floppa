@@ -19,15 +19,17 @@ import ulaval.glo2003.domain.seller.repository.SellerRepository;
 
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.UUID;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SellerControllerIntegrationTests extends JerseyTest {
 
-    private final static String VALID_ID = "0";
-    private final static String INVALID_ID = "42";
+    private final static UUID VALID_ID = UUID.fromString("34272b55-6b32-477c-8ab8-1f4d09a66949");
+    private final static UUID INVALID_ID = UUID.fromString("5a409ca2-7ec8-4d89-a224-0f6894056a42");
 
     @Mock
     private SellerRepository sellerListRepositoryMock;
@@ -51,7 +53,8 @@ public class SellerControllerIntegrationTests extends JerseyTest {
 
         seller = new Seller(aSellerDTO1);
 
-        when(sellerListRepositoryMock.findById(Integer.parseInt(VALID_ID))).thenReturn(Optional.of(seller));
+        when(sellerListRepositoryMock.findById(VALID_ID)).thenReturn(Optional.of(seller));
+        when(sellerListRepositoryMock.add(any())).thenReturn(VALID_ID);
     }
 
     @Override
@@ -72,7 +75,7 @@ public class SellerControllerIntegrationTests extends JerseyTest {
 
         var locationHeader = (String) response.getHeaders().getFirst("Location");
 
-        assertThat(locationHeader.contains(VALID_ID)).isTrue();
+        assertThat(locationHeader.contains(VALID_ID.toString())).isTrue();
         assertThat(IntegrationUtils.isUrl(locationHeader)).isTrue();
     }
 
@@ -90,7 +93,7 @@ public class SellerControllerIntegrationTests extends JerseyTest {
 
     @Test
     public void canReceiveRequestGetSellerNormal() {
-        var response = getSellerResponse(Integer.parseInt(VALID_ID));
+        var response = getSellerResponse(VALID_ID);
         var status = response.getStatus();
         var entity = response.readEntity(SellerInfoResponseDTO.class);
 
@@ -102,7 +105,7 @@ public class SellerControllerIntegrationTests extends JerseyTest {
 
     @Test
     public void canRejectRequestGetSellerInvalidId() {
-        var response = getSellerResponse(Integer.parseInt(INVALID_ID));
+        var response = getSellerResponse(INVALID_ID);
         var status = response.getStatus();
 
         assertThat(status).isEqualTo(Response.Status.NOT_FOUND.getStatusCode());
@@ -112,7 +115,7 @@ public class SellerControllerIntegrationTests extends JerseyTest {
         return target(SellerController.SELLERS_PATH).request().post(Entity.entity(sellerDTO, MediaType.APPLICATION_JSON_TYPE));
     }
 
-    private Response getSellerResponse(int sellerId) {
+    private Response getSellerResponse(UUID sellerId) {
         return target(SellerController.SELLERS_PATH + '/' + sellerId).request().get();
     }
 }

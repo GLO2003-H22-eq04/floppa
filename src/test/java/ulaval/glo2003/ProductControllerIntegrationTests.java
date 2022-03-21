@@ -9,7 +9,6 @@ import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import ulaval.glo2003.api.product.ProductController;
@@ -26,16 +25,22 @@ import ulaval.glo2003.domain.seller.repository.SellerRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ProductControllerIntegrationTests extends JerseyTest {
 
-    private final static String VALID_ID = "0";
-    private final static String INVALID_ID = "42";
-    private final static int MISSING_ID = 33;
+
+    private final static UUID VALID_PRODUCT_ID = UUID.fromString("e372e035-1072-485a-9fbc-473fd9017658");
+
+    private final static UUID VALID_SELLER_ID = UUID.fromString("2f3ca1d6-1625-4de4-b08c-5f3804b254c9");
+    private final static UUID INVALID_SELLER_ID = UUID.fromString("8461f7d8-4cbb-4b35-806e-9073cd98afc2");
+    private final static UUID MISSING_ID = UUID.fromString("93dad72a-838e-4623-8afa-47a089cac44c");
 
     @Mock
     private SellerRepository sellerListRepositoryMock;
@@ -65,10 +70,10 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         productDTO2.categories = List.of("sports");
 
         product = new Product();
-        product.setProductId(0);
+        product.setProductId(VALID_PRODUCT_ID);
         product.setDescription("Un produit");
         product.setTitle("Produit");
-        product.setSellerId("0");
+        product.setSellerId(VALID_SELLER_ID);
         product.setSuggestedPrice(new Amount(5.01));
 
         var sellerDTO = new SellerDTO();
@@ -78,12 +83,15 @@ public class ProductControllerIntegrationTests extends JerseyTest {
 
         var seller = new Seller(sellerDTO);
 
-        when(sellerListRepositoryMock.existById(Integer.parseInt(VALID_ID))).thenReturn(true);
-        when(sellerListRepositoryMock.existById(Integer.parseInt(INVALID_ID))).thenReturn(false);
+        when(sellerListRepositoryMock.existById(VALID_SELLER_ID)).thenReturn(true);
+        when(sellerListRepositoryMock.existById(INVALID_SELLER_ID)).thenReturn(false);
+        when(sellerListRepositoryMock.findById(VALID_SELLER_ID)).thenReturn(Optional.of(seller));
 
-        when(sellerListRepositoryMock.findById(Integer.parseInt(VALID_ID))).thenReturn(Optional.of(seller));
-        when(productListRepositoryMock.findById(Integer.parseInt(VALID_ID))).thenReturn(Optional.of(product));
+        when(productListRepositoryMock.add(any())).thenReturn(VALID_SELLER_ID);
+        when(productListRepositoryMock.findById(VALID_SELLER_ID)).thenReturn(Optional.of(product));
         when(productListRepositoryMock.findById(MISSING_ID)).thenReturn(Optional.empty());
+
+        when(productFactoryMock.createProduct(any(ProductDTO.class), eq(VALID_SELLER_ID))).thenReturn(product);
     }
 
     @Override
@@ -102,17 +110,17 @@ public class ProductControllerIntegrationTests extends JerseyTest {
 
     @Test
     public void canReceiveUrlOfCreatedProduct() {
-        var response = postCreatingProductResponse(productDTO1, VALID_ID);
+        var response = postCreatingProductResponse(productDTO1, VALID_SELLER_ID);
 
         var locationHeader = (String) response.getHeaders().getFirst("Location");
 
-        assertThat(locationHeader.contains(VALID_ID)).isTrue();
+        assertThat(locationHeader.contains(VALID_SELLER_ID.toString())).isTrue();
         assertThat(IntegrationUtils.isUrl(locationHeader)).isTrue();
     }
 
     @Test
     public void canRejectRequestOnNullProduct() {
-        var response = postCreatingProductResponse(null, VALID_ID);
+        var response = postCreatingProductResponse(null, VALID_SELLER_ID);
 
         var status = response.getStatus();
 
@@ -121,7 +129,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
 
     @Test
     public void canRejectRequestOnUnknownSellerId() {
-        var response = postCreatingProductResponse(productDTO1, INVALID_ID);
+        var response = postCreatingProductResponse(productDTO1, INVALID_SELLER_ID);
 
         var status = response.getStatus();
 
@@ -141,7 +149,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
     public void canRejectRequestOnInvalidPrice() {
         productDTO2.suggestedPrice = -1;
 
-        var response = postCreatingProductResponse(productDTO2, VALID_ID);
+        var response = postCreatingProductResponse(productDTO2, VALID_SELLER_ID);
         var status = response.getStatus();
 
         assertThat(status).isEqualTo(Response.Status.BAD_REQUEST.getStatusCode());
@@ -151,7 +159,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
     public void canRejectRequestOnInvalidTitle() {
         productDTO2.title = "";
 
-        var response = postCreatingProductResponse(productDTO2, VALID_ID);
+        var response = postCreatingProductResponse(productDTO2, VALID_SELLER_ID);
         var status = response.getStatus();
 
         assertThat(status).isEqualTo(Response.Status.BAD_REQUEST.getStatusCode());
@@ -161,7 +169,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
     public void canRejectRequestOnNullTitle() {
         productDTO2.title = null;
 
-        var response = postCreatingProductResponse(productDTO2, VALID_ID);
+        var response = postCreatingProductResponse(productDTO2, VALID_SELLER_ID);
         var status = response.getStatus();
 
         assertThat(status).isEqualTo(Response.Status.BAD_REQUEST.getStatusCode());
@@ -171,7 +179,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
     public void canRejectRequestOnInvalidDescription() {
         productDTO2.description = "";
 
-        var response = postCreatingProductResponse(productDTO2, VALID_ID);
+        var response = postCreatingProductResponse(productDTO2, VALID_SELLER_ID);
         var status = response.getStatus();
 
         assertThat(status).isEqualTo(Response.Status.BAD_REQUEST.getStatusCode());
@@ -181,27 +189,27 @@ public class ProductControllerIntegrationTests extends JerseyTest {
     public void canRejectRequestOnNullDescription() {
         productDTO2.description = null;
 
-        var response = postCreatingProductResponse(productDTO2, VALID_ID);
+        var response = postCreatingProductResponse(productDTO2, VALID_SELLER_ID);
         var status = response.getStatus();
 
         assertThat(status).isEqualTo(Response.Status.BAD_REQUEST.getStatusCode());
     }
 
     @Test
-    public void canGetExistingProduct(){
-        var response = getProductResponse(Integer.parseInt(VALID_ID));
+    public void canGetExistingProduct() {
+        var response = getProductResponse(VALID_SELLER_ID);
 
         var entity = response.readEntity(ProductInfoResponseDTO.class);
         var status = response.getStatus();
 
         assertThat(status).isEqualTo(Response.Status.OK.getStatusCode());
-        assertThat(entity.id).isEqualTo(String.valueOf(product.getProductId()));
+        assertThat(entity.id).isEqualTo(product.getProductId());
         assertThat(entity.title).isEqualTo(product.getTitle());
         assertThat(entity.categories).isEqualTo(product.getCategories());
         assertThat(entity.createdAt).isEqualTo(product.getCreatedAt());
         assertThat(entity.suggestedPrice.getValue()).isEqualTo(product.getSuggestedPrice().getValue());
         assertThat(entity.description).isEqualTo(product.getDescription());
-        assertThat(entity.seller.id).isEqualTo(String.valueOf(product.getSellerId()));
+        assertThat(entity.seller.id).isEqualTo(product.getSellerId());
     }
 
     @Test
@@ -212,11 +220,15 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         assertThat(status).isEqualTo(Response.Status.NOT_FOUND.getStatusCode());
     }
 
-    private Response postCreatingProductResponse(ProductDTO productDTO, String sellerId) {
-        return target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, String.valueOf(sellerId)).post(Entity.entity(productDTO, MediaType.APPLICATION_JSON_TYPE));
+    private Response postCreatingProductResponse(ProductDTO productDTO, UUID sellerId) {
+        return postCreatingProductResponse(productDTO, sellerId.toString());
     }
 
-    private Response getProductResponse(int productId) {
+    private Response postCreatingProductResponse(ProductDTO productDTO, String sellerId) {
+        return target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, sellerId).post(Entity.entity(productDTO, MediaType.APPLICATION_JSON_TYPE));
+    }
+
+    private Response getProductResponse(UUID productId) {
         return target(ProductController.PRODUCTS_PATH + '/' + productId).request().get();
     }
 }

@@ -4,11 +4,12 @@ import ulaval.glo2003.domain.product.Product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class CriteriaSellerID implements Criteria{
-    int sellerID;
+    UUID sellerID;
 
-    public CriteriaSellerID(int p_sellerID){
+    public CriteriaSellerID(UUID p_sellerID){
         this.sellerID = p_sellerID;
     }
 
@@ -17,7 +18,7 @@ public class CriteriaSellerID implements Criteria{
         List<Product> sellerIDList = new ArrayList<Product>();
 
         for(Product product : p_products){
-            if(Integer.parseInt(product.getSellerId()) == sellerID){
+            if(product.getSellerId().equals(sellerID)){
                 sellerIDList.add(product);
             }
         }

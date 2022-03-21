@@ -18,7 +18,7 @@ public class ConstraintViolationExceptionHandler implements ExceptionMapper<Cons
 
     private static final ValidationError DEFAULT_VALIDATION_ERROR = new InvalidParameterError("Valeur invalide.");
 
-    private ValidationExceptionResponseBuilder responseBuilder = new ValidationExceptionResponseBuilder();
+    private final ValidationExceptionResponseBuilder responseBuilder = new ValidationExceptionResponseBuilder();
 
     @Override
     @Produces(MediaType.APPLICATION_JSON)

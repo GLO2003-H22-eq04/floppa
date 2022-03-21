@@ -7,14 +7,13 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import ulaval.glo2003.api.product.dto.*;
-import jakarta.ws.rs.HeaderParam;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
 import ulaval.glo2003.api.validation.errors.InvalidParameterError;
 import ulaval.glo2003.api.validation.errors.ItemNotFoundError;
 import ulaval.glo2003.api.validation.errors.MissingParameterError;
-import ulaval.glo2003.domain.product.*;
+import ulaval.glo2003.domain.product.Amount;
+import ulaval.glo2003.domain.product.Product;
+import ulaval.glo2003.domain.product.ProductCategory;
+import ulaval.glo2003.domain.product.ProductFactory;
 import ulaval.glo2003.domain.product.criteria.*;
 import ulaval.glo2003.domain.product.repository.ProductRepository;
 import ulaval.glo2003.domain.seller.repository.SellerRepository;
@@ -22,6 +21,7 @@ import ulaval.glo2003.domain.seller.repository.SellerRepository;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Path(ProductController.PRODUCTS_PATH)
 public class ProductController {
@@ -44,26 +44,20 @@ public class ProductController {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response postCreatingProduct(@HeaderParam(SELLER_ID_HEADER) String sellerId,
-                                        @Valid @NotNull(payload = MissingParameterError.class) ProductDTO productDTO) throws ItemNotFoundError, InvalidParameterError {
-        try {
-            if (!sellerRepository.existById(Integer.parseInt(sellerId))) {
-                throw new ItemNotFoundError("L'id fourni n'existe pas.");
-            }
-        }
-        catch (NumberFormatException e){
-            throw new InvalidParameterError("L'id n'est pas bien formaté.");
-        }
+    public Response postCreatingProduct(@HeaderParam(SELLER_ID_HEADER) UUID sellerId,
+                                        @Valid @NotNull(payload = MissingParameterError.class) ProductDTO productDTO) throws ItemNotFoundError {
+        if (!sellerRepository.existById(sellerId))
+            throw new ItemNotFoundError("L'id fourni n'existe pas.");
 
         var product = productFactory.createProduct(productDTO, sellerId);
-        var productId = productRepository.add(product);
-        var url = String.format(PRODUCTS_PATH + "/%d", productId);
+        UUID productId = productRepository.add(product);
+        var url = PRODUCTS_PATH + "/" + productId;
         return Response.created(URI.create(url)).build();
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public ProductFilterResponsesCollectionDTO getProductsFromFilter(@QueryParam("sellerId") String p_sellerId,
+    public ProductFilterResponsesCollectionDTO getProductsFromFilter(@QueryParam("sellerId") UUID p_sellerId,
                                                                      @QueryParam("title") String p_title,
                                                                      @QueryParam("categories") List<String> p_categories,
                                                                      @QueryParam("minPrice") float p_minPrice,
@@ -73,7 +67,7 @@ public class ProductController {
         List<ProductFilteredResponseDTO> products = new ArrayList<>();
 
         if (p_sellerId != null) {
-            Criteria sellerFilter = new CriteriaSellerID(Integer.parseInt(p_sellerId));
+            Criteria sellerFilter = new CriteriaSellerID(p_sellerId);
             productList = sellerFilter.meetCriteria(productList);
         }
         if (p_title != null) {
@@ -101,7 +95,7 @@ public class ProductController {
 
         if (!productList.isEmpty()) {
             for (Product product : productList) {
-                var seller = sellerRepository.findById(Integer.parseInt(product.getSellerId()));
+                var seller = sellerRepository.findById(product.getSellerId());
                 ProductSellerDTO productSeller = null;
                 if (seller.isPresent()) {
                     productSeller = new ProductSellerDTO(
@@ -111,14 +105,14 @@ public class ProductController {
                 }
 
                 products.add(new ProductFilteredResponseDTO(
-                        Integer.toString(product.getProductId()),
+                        product.getProductId(),
                         product.getCreatedAt(),
                         product.getTitle(),
                         product.getDescription(),
                         product.getSuggestedPrice().getValue(),
                         product.getCategories(),
                         productSeller,
-                        new OffersDTO(new Amount(0.00),0)));
+                        new OffersDTO(new Amount(0.00), 0)));
             }
         }
 
@@ -128,7 +122,7 @@ public class ProductController {
     @GET
     @Path("/{productId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public ProductInfoResponseDTO getSeller(@PathParam("productId") int productId) throws ItemNotFoundError {
+    public ProductInfoResponseDTO getSeller(@PathParam("productId") UUID productId) throws ItemNotFoundError {
         var product = productRepository.findById(productId);
 
         if (product.isEmpty())
@@ -136,7 +130,7 @@ public class ProductController {
 
         var productInfo = product.get();
 
-        var seller = sellerRepository.findById(Integer.parseInt(product.get().getSellerId()));
+        var seller = sellerRepository.findById(product.get().getSellerId());
 
         if (seller.isEmpty())
             throw new ItemNotFoundError("L'id fourni n'existe pas.");
