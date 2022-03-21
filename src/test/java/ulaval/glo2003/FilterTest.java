@@ -12,6 +12,7 @@ import ulaval.glo2003.domain.product.criteria.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -42,8 +43,19 @@ public class FilterTest{
     private Product product4;
     private List<Product> products;
 
+    private UUID id1;
+    private UUID id2;
+    private UUID id3;
+    private UUID unusedId;
+
     @Before
     public void setup(){
+        id1 = UUID.fromString("63cc6672-431e-472e-845c-6d965903c7b9");
+        id2 = UUID.fromString("0fabd7c8-fd84-40e2-8338-7da189f4fae6");
+        id3 = UUID.fromString("d8903391-1713-40c0-9fd9-d0ce0f454cd2");
+        unusedId = UUID.fromString("cd1dfaf0-a9b3-46fd-9fe9-77371a83ca55");
+
+
         aSellerDTO1 = new SellerDTO();
         aSellerDTO1.name = "Joe Blo";
         aSellerDTO1.bio = "Test de bio";
@@ -84,10 +96,10 @@ public class FilterTest{
         productDTO4.categories = List.of("apparel","sports");
 
         var productFactory = new ProductFactory();
-        product1 = productFactory.createProduct(productDTO1, "2");
-        product2 = productFactory.createProduct(productDTO2, "2");
-        product3 = productFactory.createProduct(productDTO3, "1");
-        product4 = productFactory.createProduct(productDTO4, "0");
+        product1 = productFactory.createProduct(productDTO1, id3);
+        product2 = productFactory.createProduct(productDTO2, id3);
+        product3 = productFactory.createProduct(productDTO3, id2);
+        product4 = productFactory.createProduct(productDTO4, id1);
 
         products = new ArrayList<>();
         products.addAll(List.of(product1,product2,product3,product4));
@@ -99,7 +111,7 @@ public class FilterTest{
         Criteria criteriaTitle = new CriteriaTitle(product1.getTitle());
         Criteria criteriaMaxPrice = new CriteriaMaxPrice(product1.getSuggestedPrice().getValue());
         Criteria criteriaMinPrice = new CriteriaMinPrice(product1.getSuggestedPrice().getValue());
-        Criteria criteriaSellerID = new CriteriaSellerID(Integer.parseInt(product1.getSellerId()));
+        Criteria criteriaSellerID = new CriteriaSellerID(product1.getSellerId());
         Criteria criteriaCategories = new CriteriaCategories(product1.getCategories());
 
         assertThat(criteriaTitle).isNotNull();
@@ -201,7 +213,7 @@ public class FilterTest{
     @Test
     public void canFilterFromSellerIDAppearOnce(){
         var id = product4.getSellerId();
-        Criteria criteria = new CriteriaSellerID(Integer.parseInt(id));
+        Criteria criteria = new CriteriaSellerID(id);
         var actualResult = criteria.meetCriteria(products);
 
         assertThat(actualResult.size()).isEqualTo(SELLER_ID_1_COUNT);
@@ -210,7 +222,7 @@ public class FilterTest{
     @Test
     public void canFilterFromSellerIDAppearMoreThanOnce(){
         var id = product1.getSellerId();
-        Criteria criteria = new CriteriaSellerID(Integer.parseInt(id));
+        Criteria criteria = new CriteriaSellerID(id);
         var actualResult = criteria.meetCriteria(products);
 
         assertThat(actualResult.size()).isEqualTo(SELLER_ID_2_COUNT);
@@ -218,8 +230,7 @@ public class FilterTest{
 
     @Test
     public void canFilterFromSellerIDNeverAppear(){
-        var id = products.size()+1;
-        Criteria criteria = new CriteriaSellerID(id);
+        Criteria criteria = new CriteriaSellerID(unusedId);
         var actualResult = criteria.meetCriteria(products);
 
         assertThat(actualResult).isEmpty();

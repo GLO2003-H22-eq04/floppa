@@ -5,6 +5,7 @@ import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import ulaval.glo2003.api.validation.handler.ConstraintViolationExceptionHandler;
+import ulaval.glo2003.api.validation.handler.ParamExceptionHandler;
 import ulaval.glo2003.api.validation.handler.ProcessingExceptionHandler;
 import ulaval.glo2003.api.validation.handler.ValidationExceptionHandler;
 import ulaval.glo2003.api.health.HealthController;
@@ -44,6 +45,7 @@ public class Main {
                 .register(ProductController.class)
                 .register(ConstraintViolationExceptionHandler.class)
                 .register(ValidationExceptionHandler.class)
-                .register(ProcessingExceptionHandler.class);
+                .register(ProcessingExceptionHandler.class)
+                .register(ParamExceptionHandler.class);
     }
 }

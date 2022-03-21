@@ -7,14 +7,13 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import ulaval.glo2003.api.product.dto.*;
-import jakarta.ws.rs.HeaderParam;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
 import ulaval.glo2003.api.validation.errors.InvalidParameterError;
 import ulaval.glo2003.api.validation.errors.ItemNotFoundError;
 import ulaval.glo2003.api.validation.errors.MissingParameterError;
-import ulaval.glo2003.domain.product.*;
+import ulaval.glo2003.domain.product.Amount;
+import ulaval.glo2003.domain.product.Product;
+import ulaval.glo2003.domain.product.ProductCategory;
+import ulaval.glo2003.domain.product.ProductFactory;
 import ulaval.glo2003.domain.product.criteria.*;
 import ulaval.glo2003.domain.product.repository.ProductRepository;
 import ulaval.glo2003.domain.seller.repository.SellerRepository;
@@ -46,19 +45,13 @@ public class ProductController {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response postCreatingProduct(@HeaderParam(SELLER_ID_HEADER) UUID sellerId,
-                                        @Valid @NotNull(payload = MissingParameterError.class) ProductDTO productDTO) throws ItemNotFoundError, InvalidParameterError {
-        try {
-            if (!sellerRepository.existById(sellerId)) {
-                throw new ItemNotFoundError("L'id fourni n'existe pas.");
-            }
-        }
-        catch (NumberFormatException e){
-            throw new InvalidParameterError("L'id n'est pas bien formaté.");
-        }
+                                        @Valid @NotNull(payload = MissingParameterError.class) ProductDTO productDTO) throws ItemNotFoundError {
+        if (!sellerRepository.existById(sellerId))
+            throw new ItemNotFoundError("L'id fourni n'existe pas.");
 
         var product = productFactory.createProduct(productDTO, sellerId);
-        var productId = productRepository.add(product);
-        var url = String.format(PRODUCTS_PATH + "/%d", productId);
+        UUID productId = productRepository.add(product);
+        var url = PRODUCTS_PATH + "/" + productId;
         return Response.created(URI.create(url)).build();
     }
 
@@ -112,14 +105,14 @@ public class ProductController {
                 }
 
                 products.add(new ProductFilteredResponseDTO(
-                        Integer.toString(product.getProductId()),
+                        product.getProductId(),
                         product.getCreatedAt(),
                         product.getTitle(),
                         product.getDescription(),
                         product.getSuggestedPrice().getValue(),
                         product.getCategories(),
                         productSeller,
-                        new OffersDTO(new Amount(0.00),0)));
+                        new OffersDTO(new Amount(0.00), 0)));
             }
         }
 
@@ -129,7 +122,7 @@ public class ProductController {
     @GET
     @Path("/{productId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public ProductInfoResponseDTO getSeller(@PathParam("productId") int productId) throws ItemNotFoundError {
+    public ProductInfoResponseDTO getSeller(@PathParam("productId") UUID productId) throws ItemNotFoundError {
         var product = productRepository.findById(productId);
 
         if (product.isEmpty())

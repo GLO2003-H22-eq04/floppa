@@ -8,12 +8,13 @@ import ulaval.glo2003.domain.product.ProductCategory;
 import ulaval.glo2003.domain.product.ProductFactory;
 
 import java.util.List;
+import java.util.UUID;
 
 import static com.google.common.truth.Truth.assertThat;
 
 public class ProductFactoryTests {
 
-    private static final String SELLER_ID = "SELLER-ID";
+    private static final UUID SELLER_ID = UUID.fromString("b68a867d-9d27-42a9-afd4-9ff1eb5334ca");
     private ProductFactory productFactory;
     private ProductDTO productDTO;
 
@@ -30,7 +31,7 @@ public class ProductFactoryTests {
 
     private void checkForNull(Product product) {
         assertThat(product).isNotNull();
-        assertThat(product.getProductId()).isNotNull();
+        assertThat(product.getProductId()).isNull();
         assertThat(product.getTitle()).isNotNull();
         assertThat(product.getDescription()).isNotNull();
         assertThat(product.getSuggestedPrice()).isNotNull();

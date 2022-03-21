@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class Product {
 
-    private int productId;
+    private UUID productId;
     private String title;
     private String description;
     private UUID sellerId;
@@ -23,11 +23,11 @@ public class Product {
         createdAt = Instant.now().atOffset(ZoneOffset.UTC);
     }
 
-    public int getProductId() {
+    public UUID getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(UUID productId) {
         this.productId = productId;
     }
 

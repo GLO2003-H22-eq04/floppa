@@ -18,7 +18,7 @@ public class CriteriaSellerID implements Criteria{
         List<Product> sellerIDList = new ArrayList<Product>();
 
         for(Product product : p_products){
-            if(product.getSellerId() == sellerID){
+            if(product.getSellerId().equals(sellerID)){
                 sellerIDList.add(product);
             }
         }

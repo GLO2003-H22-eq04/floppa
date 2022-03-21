@@ -10,7 +10,7 @@ public class ProductAssembler {
     public ProductInfoResponseDTO toDto(Product product, ProductSellerDTO productSellerDTO, OfferDTO offerDTO){
         var productDTO = new ProductInfoResponseDTO();
 
-        productDTO.id = String.valueOf(product.getProductId());
+        productDTO.id = product.getProductId();
         productDTO.createdAt = product.getCreatedAt();
         productDTO.title = product.getTitle();
         productDTO.description = product.getDescription();
