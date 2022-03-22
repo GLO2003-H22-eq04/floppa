@@ -1,13 +1,13 @@
 package ulaval.glo2003.api.product;
 
-import ulaval.glo2003.api.offer.dto.OfferDTO;
+import ulaval.glo2003.api.offer.dto.OffersDTO;
 import ulaval.glo2003.api.product.dto.ProductInfoResponseDTO;
 import ulaval.glo2003.api.product.dto.ProductSellerDTO;
 import ulaval.glo2003.domain.product.Product;
 
 public class ProductAssembler {
 
-    public ProductInfoResponseDTO toDto(Product product, ProductSellerDTO productSellerDTO, OfferDTO offerDTO){
+    public ProductInfoResponseDTO toDto(Product product, ProductSellerDTO productSellerDTO, OffersDTO offersDTO){
         var productDTO = new ProductInfoResponseDTO();
 
         productDTO.id = product.getProductId();
@@ -17,7 +17,7 @@ public class ProductAssembler {
         productDTO.suggestedPrice = product.getSuggestedPrice();
         productDTO.categories = product.getCategoriesName();
         productDTO.seller = productSellerDTO;
-        productDTO.offers = offerDTO;
+        productDTO.offers = offersDTO;
 
         return productDTO;
     }

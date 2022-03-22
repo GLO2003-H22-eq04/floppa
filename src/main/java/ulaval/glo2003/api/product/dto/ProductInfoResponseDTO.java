@@ -1,6 +1,6 @@
 package ulaval.glo2003.api.product.dto;
 
-import ulaval.glo2003.api.offer.dto.OfferDTO;
+import ulaval.glo2003.api.offer.dto.OffersDTO;
 import ulaval.glo2003.domain.product.Amount;
 
 import java.time.OffsetDateTime;
@@ -23,5 +23,5 @@ public class ProductInfoResponseDTO {
 
     public ProductSellerDTO seller;
 
-    public OfferDTO offers;
+    public OffersDTO offers;
 }
