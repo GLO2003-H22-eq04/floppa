@@ -7,7 +7,6 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import ulaval.glo2003.api.offer.dto.OfferDTO;
-import ulaval.glo2003.api.offer.dto.OffersDTO;
 import ulaval.glo2003.api.product.dto.*;
 import ulaval.glo2003.api.validation.errors.ItemNotFoundError;
 import ulaval.glo2003.api.validation.errors.MissingParameterError;
@@ -113,7 +112,7 @@ public class ProductController {
                         product.getSuggestedPrice().getValue(),
                         product.getCategories(),
                         productSeller,
-                        new OffersDTO(new Amount(0.00), 0)));
+                        new OfferDTO(new Amount(0.00).getValue(), 0)));
             }
         }
 
