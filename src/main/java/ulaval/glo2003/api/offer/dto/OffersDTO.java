@@ -1,4 +1,4 @@
-package ulaval.glo2003.api.offer;
+package ulaval.glo2003.api.offer.dto;
 
 import ulaval.glo2003.domain.product.Amount;
 

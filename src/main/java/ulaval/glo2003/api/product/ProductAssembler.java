@@ -1,6 +1,6 @@
 package ulaval.glo2003.api.product;
 
-import ulaval.glo2003.api.offer.OfferDTO;
+import ulaval.glo2003.api.offer.dto.OfferDTO;
 import ulaval.glo2003.api.product.dto.ProductInfoResponseDTO;
 import ulaval.glo2003.api.product.dto.ProductSellerDTO;
 import ulaval.glo2003.domain.product.Product;
