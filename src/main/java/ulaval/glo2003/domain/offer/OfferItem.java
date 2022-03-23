@@ -5,7 +5,7 @@ import ulaval.glo2003.domain.product.Amount;
 public class OfferItem {
     private String name;
     private String email;
-    private int phoneNumber;
+    private String phoneNumber;
     private Amount amount;
     private String message;
 
@@ -25,11 +25,11 @@ public class OfferItem {
         return email;
     }
 
-    public void setPhoneNumber(int phoneNumber){
+    public void setPhoneNumber(String phoneNumber){
         this.phoneNumber = phoneNumber;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
