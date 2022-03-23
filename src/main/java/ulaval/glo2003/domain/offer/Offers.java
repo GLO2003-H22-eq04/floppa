@@ -19,8 +19,7 @@ public class Offers {
     public Offers(OffersResponseDTO offersDTO) {
         this.min = new Amount(offersDTO.min);
         this.max = new Amount(offersDTO.max);
-        if(offersDTO.mean.isPresent())
-            this.mean = new Amount(mean.getValue());
+        this.mean = new Amount(offersDTO.mean.get().doubleValue());
         this.count = offersDTO.count;
     }
 
