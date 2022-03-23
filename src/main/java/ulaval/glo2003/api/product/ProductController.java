@@ -44,9 +44,6 @@ public class ProductController {
     @Inject
     private ProductAssembler productAssembler;
 
-    @Inject
-    private OfferFactory offerFactory;
-
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response postCreatingProduct(@HeaderParam(SELLER_ID_HEADER) UUID sellerId,
@@ -152,14 +149,15 @@ public class ProductController {
     @Path("/{productId}/offers")
     public Response postOffers(@PathParam("productId") UUID productId,
                                @Valid @NotNull(payload = MissingParameterError.class) OfferItemDTO offerItemDTO) throws ItemNotFoundError {
+        OfferFactory offerFactory = new OfferFactory();
         var product = productRepository.findById(productId);
 
         if (product.isEmpty())
             throw new ItemNotFoundError("L'id fourni n'existe pas.");
+
         var productOffers = product.get().getListOfOffers();
         var newOffer = offerFactory.createNewOffer(offerItemDTO);
         productOffers.add(newOffer);
-        System.out.println(productOffers);
 
         return Response
                 .status(Response.Status.OK)
