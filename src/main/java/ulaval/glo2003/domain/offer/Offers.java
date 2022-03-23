@@ -26,9 +26,9 @@ public class Offers {
         refresh();
     }
 
-    public void refresh() {
+    private void refresh() {
         count++;
-        int average = 0;
+        var newMean = 0;
         for (var item : items) {
             var value = item.getAmount().getValue();
 
@@ -38,9 +38,10 @@ public class Offers {
             if (value >= max) {
                 max = value;
             }
-            average += value;
+            newMean += value;
         }
-        this.mean = Optional.of(BigDecimal.valueOf(average / count));
+        this.mean = Optional.of(BigDecimal.valueOf(newMean / count));
+
     }
 
     public Optional<BigDecimal> getMean() {
