@@ -1,11 +1,13 @@
 package ulaval.glo2003.api.offer.dto;
 
+import jakarta.validation.GroupSequence;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import ulaval.glo2003.api.validation.*;
 import ulaval.glo2003.api.validation.errors.InvalidParameterError;
 import ulaval.glo2003.api.validation.errors.MissingParameterError;
+import ulaval.glo2003.api.validation.*;
 
+@GroupSequence({HighPriority.class, OfferItemDTO.class})
 public class OfferItemDTO {
 
 
