@@ -4,34 +4,46 @@ import ulaval.glo2003.api.offer.dto.OfferItemDTO;
 import ulaval.glo2003.domain.product.Amount;
 
 public class OfferItem {
-    private final String name;
-    private final String email;
-    private final int phoneNumber;
-    private final Amount amount;
-    private final String message;
+    private String name;
+    private String email;
+    private int phoneNumber;
+    private Amount amount;
+    private String message;
 
-    public OfferItem(OfferItemDTO offer){
-        name = offer.name;
-        email = offer.email;
-        phoneNumber = offer.phoneNumber;
-        amount = offer.amount;
-        message = offer.message;
+    public void setName(String name){
+        this.name = name;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setEmail(String email){
+        this.email = email;
+    }
+
     public String getEmail() {
         return email;
+    }
+
+    public void setPhoneNumber(int phoneNumber){
+        this.phoneNumber = phoneNumber;
     }
 
     public int getPhoneNumber() {
         return phoneNumber;
     }
 
+    public void setAmount(Amount amount){
+        this.amount = amount;
+    }
+
     public Amount getAmount() {
         return amount;
+    }
+
+    public void setMessage(String message){
+        this.message = message;
     }
 
     public String getMessage() {
