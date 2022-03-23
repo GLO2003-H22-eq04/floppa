@@ -1,14 +1,14 @@
 package ulaval.glo2003.domain.offer;
 
 import ulaval.glo2003.api.offer.dto.OffersResponseDTO;
-import ulaval.glo2003.domain.product.Amount;
-
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Offers {
 
-    private double mean;
+    private Optional<BigDecimal> mean;
     private double min;
     private double max;
     private int count;
@@ -18,8 +18,7 @@ public class Offers {
         this.min = offersDTO.min;
         this.max = offersDTO.max;
         this.mean = offersDTO.mean;
-        this.mean = offersDTO.count;
-
+        this.count = offersDTO.count;
     }
 
     public void addNewOffer(OfferItem newOffer) {
@@ -41,10 +40,10 @@ public class Offers {
             }
             average += value;
         }
-        this.mean = new Amount(average / count).getValue();
+        this.mean = Optional.of(BigDecimal.valueOf(average / count));
     }
 
-    public double getMean() {
+    public Optional<BigDecimal> getMean() {
         return mean;
     }
     public double getMin() {

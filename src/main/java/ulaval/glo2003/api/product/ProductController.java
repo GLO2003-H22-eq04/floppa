@@ -156,7 +156,7 @@ public class ProductController {
     @Path("/{productId}/offers")
     public Response postOffers(@PathParam("productId") UUID productId,
                                @Valid @NotNull(payload = MissingParameterError.class) OfferItemDTO offerItemDTO) throws ItemNotFoundError, InvalidParameterError {
-        OfferFactory offerFactory = new OfferFactory();
+        var offerFactory = new OfferFactory();
         var product = productRepository.findById(productId);
 
         if (product.isEmpty())

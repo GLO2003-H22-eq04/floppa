@@ -9,11 +9,13 @@ import ulaval.glo2003.domain.product.Amount;
 import ulaval.glo2003.domain.product.Product;
 import ulaval.glo2003.domain.product.ProductCategory;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -47,7 +49,7 @@ public class ProductAssemblerTest {
         product.addCategory(ProductCategory.APPAREL);
 
         productSellerDTO = new ProductSellerDTO(VALID_PRODUCT_ID1, "John Doe");
-        offersDTO = new OffersResponseDTO(0,0,0, 0, new ArrayList<>());
+        offersDTO = new OffersResponseDTO(0,0, Optional.of(BigDecimal.ZERO), 0, new ArrayList<>());
 
         productAssembler = new ProductAssembler();
     }
