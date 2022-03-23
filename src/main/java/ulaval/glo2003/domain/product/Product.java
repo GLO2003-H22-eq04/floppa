@@ -1,10 +1,15 @@
 package ulaval.glo2003.domain.product;
 
+import ulaval.glo2003.api.offer.dto.OffersResponseDTO;
+import ulaval.glo2003.domain.offer.Offers;
+
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -16,11 +21,13 @@ public class Product {
     private UUID sellerId;
     private Amount suggestedPrice;
     private OffsetDateTime createdAt;
+    private Offers offers;
     private final List<ProductCategory> categories = new ArrayList<>();
 
 
     public Product() {
         createdAt = Instant.now().atOffset(ZoneOffset.UTC);
+        this.offers = new Offers(OffersResponseDTO.empty());
     }
 
     public UUID getProductId() {
@@ -73,5 +80,11 @@ public class Product {
 
     public List<String> getCategoriesName(){
         return categories.stream().map(ProductCategory::getName).collect(Collectors.toList());
+    }
+
+    public void setOffers(Offers offers){this.offers = offers;}
+
+    public Offers getOffers() {
+        return offers;
     }
 }

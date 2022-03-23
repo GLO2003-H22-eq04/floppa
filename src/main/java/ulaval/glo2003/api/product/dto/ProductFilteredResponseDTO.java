@@ -1,6 +1,7 @@
 package ulaval.glo2003.api.product.dto;
 
 
+import ulaval.glo2003.api.offer.dto.OffersResponseDTO;
 import ulaval.glo2003.domain.product.ProductCategory;
 
 import java.time.OffsetDateTime;
@@ -23,7 +24,7 @@ public class ProductFilteredResponseDTO {
 
     public ProductSellerDTO seller;
 
-    public OffersDTO offers;
+    public OffersResponseDTO offers;
 
     public ProductFilteredResponseDTO() {
     }
@@ -35,7 +36,7 @@ public class ProductFilteredResponseDTO {
                                       double suggestedPrice,
                                       List<ProductCategory> categories,
                                       ProductSellerDTO seller,
-                                      OffersDTO offers){
+                                      OffersResponseDTO offers){
         this.id = id;
         this.createdAt = createdAt;
         this.title = title;

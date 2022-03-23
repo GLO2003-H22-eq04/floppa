@@ -6,11 +6,15 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import ulaval.glo2003.api.offer.dto.OfferItemDTO;
+import ulaval.glo2003.api.offer.dto.OfferItemResponseDTO;
+import ulaval.glo2003.api.offer.dto.OffersResponseDTO;
 import ulaval.glo2003.api.product.dto.*;
 import ulaval.glo2003.api.validation.errors.InvalidParameterError;
 import ulaval.glo2003.api.validation.errors.ItemNotFoundError;
 import ulaval.glo2003.api.validation.errors.MissingParameterError;
-import ulaval.glo2003.domain.product.Amount;
+import ulaval.glo2003.domain.offer.OfferFactory;
+import ulaval.glo2003.domain.offer.Offers;
 import ulaval.glo2003.domain.product.Product;
 import ulaval.glo2003.domain.product.ProductCategory;
 import ulaval.glo2003.domain.product.ProductFactory;
@@ -104,6 +108,8 @@ public class ProductController {
                     );
                 }
 
+                var offers = product.getOffers();
+                var offerList = getOfferList(offers);
                 products.add(new ProductFilteredResponseDTO(
                         product.getProductId(),
                         product.getCreatedAt(),
@@ -112,7 +118,8 @@ public class ProductController {
                         product.getSuggestedPrice().getValue(),
                         product.getCategories(),
                         productSeller,
-                        new OffersDTO(new Amount(0.00), 0)));
+                        new OffersResponseDTO(offers.getMin(),
+                                offers.getMax(),offers.getMean(),offers.getCount(),offerList)));
             }
         }
 
@@ -138,8 +145,46 @@ public class ProductController {
         var sellerInfo = seller.get();
         var productSellerDTO = new ProductSellerDTO(productInfo.getSellerId(), sellerInfo.getName());
 
-        var offerDTO = new OfferDTO(0, 0);
+        var offers = productInfo.getOffers();
+        var offerList = getOfferList(offers);
 
-        return productAssembler.toDto(productInfo, productSellerDTO, offerDTO);
+        return productAssembler.toDto(productInfo, productSellerDTO, new OffersResponseDTO(offers.getMin(),
+                offers.getMax(),offers.getMean(),offers.getCount(),offerList));
+    }
+
+    @POST
+    @Path("/{productId}/offers")
+    public Response postOffers(@PathParam("productId") UUID productId,
+                               @Valid @NotNull(payload = MissingParameterError.class) OfferItemDTO offerItemDTO) throws ItemNotFoundError, InvalidParameterError {
+        var offerFactory = new OfferFactory();
+        var product = productRepository.findById(productId);
+
+        if (product.isEmpty())
+            throw new ItemNotFoundError("L'id fourni n'existe pas.");
+
+        if (product.get().getSuggestedPrice().getValue() >= offerItemDTO.amount)
+            throw new InvalidParameterError("Le montant de l'offre doit être égal ou suppérieur à celui demandé");
+
+        var productOffers = product.get().getOffers();
+        var newOffer = offerFactory.createNewOffer(offerItemDTO);
+
+        productOffers.addNewOffer(newOffer);
+        return Response
+                .status(Response.Status.OK)
+                .entity("OK")
+                .build();
+    }
+
+    private List<OfferItemResponseDTO> getOfferList(Offers offers){
+        List<OfferItemResponseDTO> offerList = new ArrayList<>();
+        for (var offer : offers.getListOffer()){
+            offerList.add(new OfferItemResponseDTO(
+                    offer.getName(),
+                    offer.getMessage(),
+                    offer.getEmail(),
+                    offer.getPhoneNumber(),
+                    offer.getAmount().getValue()));
+        }
+        return offerList;
     }
 }
