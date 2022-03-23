@@ -1,4 +1,4 @@
-package ulaval.glo2003.api.offer.dto;
+package ulaval.glo2003.applicatif.offer;
 
 import jakarta.json.bind.annotation.JsonbCreator;
 import jakarta.json.bind.annotation.JsonbProperty;

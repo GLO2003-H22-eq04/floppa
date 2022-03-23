@@ -1,6 +1,6 @@
 package ulaval.glo2003.domain.offer;
 
-import ulaval.glo2003.api.offer.dto.OffersResponseDTO;
+import ulaval.glo2003.applicatif.offer.OffersResponseDTO;
 import ulaval.glo2003.domain.product.Amount;
 
 import java.math.BigDecimal;

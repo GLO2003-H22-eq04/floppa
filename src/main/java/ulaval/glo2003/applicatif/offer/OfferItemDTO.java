@@ -1,4 +1,4 @@
-package ulaval.glo2003.api.offer.dto;
+package ulaval.glo2003.applicatif.offer;
 
 import jakarta.validation.GroupSequence;
 import jakarta.validation.constraints.Email;

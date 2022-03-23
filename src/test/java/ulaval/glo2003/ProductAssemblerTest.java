@@ -3,19 +3,16 @@ package ulaval.glo2003;
 import org.junit.Before;
 import org.junit.Test;
 import ulaval.glo2003.api.product.ProductAssembler;
-import ulaval.glo2003.api.offer.dto.OffersResponseDTO;
-import ulaval.glo2003.api.product.dto.ProductSellerDTO;
+import ulaval.glo2003.applicatif.offer.OffersResponseDTO;
+import ulaval.glo2003.applicatif.product.ProductSellerDTO;
 import ulaval.glo2003.domain.product.Amount;
 import ulaval.glo2003.domain.product.Product;
 import ulaval.glo2003.domain.product.ProductCategory;
 
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static com.google.common.truth.Truth.assertThat;

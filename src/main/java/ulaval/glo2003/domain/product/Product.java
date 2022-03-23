@@ -1,15 +1,13 @@
 package ulaval.glo2003.domain.product;
 
-import ulaval.glo2003.api.offer.dto.OffersResponseDTO;
+import ulaval.glo2003.applicatif.offer.OffersResponseDTO;
 import ulaval.glo2003.domain.offer.Offers;
 
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 

@@ -2,8 +2,8 @@ package ulaval.glo2003;
 
 import org.junit.Before;
 import org.junit.Test;
-import ulaval.glo2003.api.product.dto.ProductDTO;
-import ulaval.glo2003.api.seller.dto.SellerDTO;
+import ulaval.glo2003.applicatif.product.ProductDTO;
+import ulaval.glo2003.applicatif.seller.SellerDTO;
 import ulaval.glo2003.domain.product.Product;
 import ulaval.glo2003.domain.product.ProductCategory;
 import ulaval.glo2003.domain.product.ProductFactory;

@@ -1,4 +1,4 @@
-package ulaval.glo2003.api.product.dto;
+package ulaval.glo2003.applicatif.product;
 
 import jakarta.validation.GroupSequence;
 import jakarta.validation.constraints.NotBlank;

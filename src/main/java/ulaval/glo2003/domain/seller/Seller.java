@@ -1,6 +1,6 @@
 package ulaval.glo2003.domain.seller;
 
-import ulaval.glo2003.api.seller.dto.SellerDTO;
+import ulaval.glo2003.applicatif.seller.SellerDTO;
 
 import java.time.*;
 
