@@ -1,6 +1,8 @@
 package ulaval.glo2003.domain.offer;
 
 import ulaval.glo2003.api.offer.dto.OffersResponseDTO;
+import ulaval.glo2003.domain.product.Amount;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,16 +10,17 @@ import java.util.Optional;
 
 public class Offers {
 
-    private Optional<BigDecimal> mean;
-    private double min;
-    private double max;
+    private Amount mean;
+    private Amount min;
+    private Amount max;
     private int count;
     private List<OfferItem> items = new ArrayList<>();
 
     public Offers(OffersResponseDTO offersDTO) {
-        this.min = offersDTO.min;
-        this.max = offersDTO.max;
-        this.mean = offersDTO.mean;
+        this.min = new Amount(offersDTO.min);
+        this.max = new Amount(offersDTO.max);
+        if(offersDTO.mean.isPresent())
+            this.mean = new Amount(mean.getValue());
         this.count = offersDTO.count;
     }
 
@@ -32,30 +35,34 @@ public class Offers {
         for (var item : items) {
             var value = item.getAmount().getValue();
 
-            if (value <= min || min == 0) {
-                min = value;
+            if (value <= min.getValue() || min.getValue() == 0) {
+                min = new Amount(value);
             }
-            if (value >= max) {
-                max = value;
+            if (value >= max.getValue()) {
+                max = new Amount(value);
             }
             newMean += value;
         }
-        this.mean = Optional.of(BigDecimal.valueOf(newMean / count));
+        this.mean = new Amount(newMean / count);
 
     }
 
     public Optional<BigDecimal> getMean() {
-        return mean;
+        return Optional.of(BigDecimal.valueOf(mean.getValue()));
     }
+
     public double getMin() {
-        return min;
+        return min.getValue();
     }
+
     public double getMax() {
-        return max;
+        return max.getValue();
     }
+
     public int getCount() {
         return count;
     }
+
     public List<OfferItem> getListOffer(){
         return items;
     }

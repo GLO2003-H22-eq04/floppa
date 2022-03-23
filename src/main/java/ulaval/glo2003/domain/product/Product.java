@@ -27,7 +27,7 @@ public class Product {
 
     public Product() {
         createdAt = Instant.now().atOffset(ZoneOffset.UTC);
-        this.offers = new Offers(new OffersResponseDTO(0,0, Optional.of(BigDecimal.ZERO),0, new ArrayList<>()));
+        this.offers = new Offers(OffersResponseDTO.empty());
     }
 
     public UUID getProductId() {

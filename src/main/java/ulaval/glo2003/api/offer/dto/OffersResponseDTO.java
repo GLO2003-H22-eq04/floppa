@@ -4,6 +4,7 @@ import jakarta.json.bind.annotation.JsonbCreator;
 import jakarta.json.bind.annotation.JsonbProperty;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,5 +27,9 @@ public class OffersResponseDTO {
         this.mean = mean;
         this.count = count;
         this.items = items;
+    }
+
+    public static OffersResponseDTO empty(){
+        return new OffersResponseDTO(0,0,Optional.of(BigDecimal.ZERO),0, new ArrayList<>());
     }
 }
