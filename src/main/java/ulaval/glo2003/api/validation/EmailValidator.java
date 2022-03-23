@@ -15,8 +15,8 @@ public class EmailValidator implements ConstraintValidator<RequirementEmail, Str
 
     @Override
     public boolean isValid(String email, ConstraintValidatorContext constraintValidatorContext) {
-        Pattern emailPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
-        Matcher emailMatcher = emailPattern.matcher(email);
+        var emailPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+        var emailMatcher = emailPattern.matcher(email);
         return (emailMatcher.matches());
     }
 }

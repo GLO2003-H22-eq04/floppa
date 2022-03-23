@@ -14,8 +14,8 @@ public class PhoneNumberValidator implements ConstraintValidator<RequirementPhon
 
     @Override
     public boolean isValid(String phoneNumber, ConstraintValidatorContext constraintValidatorContext) {
-        Pattern phonePattern = Pattern.compile("^\\d{10,11}$");
-        Matcher phoneMatcher = phonePattern.matcher(phoneNumber);
+        var phonePattern = Pattern.compile("^\\d{10,11}$");
+        var phoneMatcher = phonePattern.matcher(phoneNumber);
         return (phoneMatcher.matches());
     }
 }
