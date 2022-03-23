@@ -4,6 +4,7 @@ import jakarta.validation.GroupSequence;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
 import ulaval.glo2003.api.validation.errors.InvalidParameterError;
 import ulaval.glo2003.api.validation.errors.MissingParameterError;
 import ulaval.glo2003.api.validation.*;
@@ -17,7 +18,7 @@ public class OfferItemDTO {
     public String name;
 
     @NotNull(message = "Le champ \"message\" est obligatoire.", payload = MissingParameterError.class, groups = HighPriority.class)
-    @MinimumCharacter(nbrCharater = 100,payload = InvalidParameterError.class, message = "Message Invalide.")
+    @Length(min = 100, payload = InvalidParameterError.class, message = "Message Invalide.")
     public String message;
 
     @NotNull(message = "Le champ \"message\" est obligatoire.", payload = MissingParameterError.class, groups = HighPriority.class)
