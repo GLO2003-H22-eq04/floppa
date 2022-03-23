@@ -1,6 +1,6 @@
 package ulaval.glo2003.domain.offer;
 
-import ulaval.glo2003.api.offer.dto.OfferItemDTO;
+import ulaval.glo2003.applicatif.offer.OfferItemDTO;
 import ulaval.glo2003.domain.product.Amount;
 
 public class OfferFactory {

@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import ulaval.glo2003.api.product.ProductController;
-import ulaval.glo2003.api.seller.dto.SellerDTO;
+import ulaval.glo2003.applicatif.seller.SellerDTO;
 import ulaval.glo2003.domain.product.Amount;
 import ulaval.glo2003.domain.product.Product;
 import ulaval.glo2003.domain.product.ProductCategory;
@@ -22,7 +22,6 @@ import ulaval.glo2003.domain.seller.repository.SellerRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 

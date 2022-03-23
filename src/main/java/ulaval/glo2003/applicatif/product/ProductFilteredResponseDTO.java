@@ -1,7 +1,7 @@
-package ulaval.glo2003.api.product.dto;
+package ulaval.glo2003.applicatif.product;
 
 
-import ulaval.glo2003.api.offer.dto.OffersResponseDTO;
+import ulaval.glo2003.applicatif.offer.OffersResponseDTO;
 import ulaval.glo2003.domain.product.ProductCategory;
 
 import java.time.OffsetDateTime;
