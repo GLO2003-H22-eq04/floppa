@@ -1,7 +1,7 @@
 package ulaval.glo2003.domain.product;
 
-import ulaval.glo2003.domain.offer.OfferItem;
-
+import ulaval.glo2003.api.offer.dto.OffersDTO;
+import ulaval.glo2003.domain.offer.Offers;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -18,12 +18,13 @@ public class Product {
     private UUID sellerId;
     private Amount suggestedPrice;
     private OffsetDateTime createdAt;
+    private Offers offers;
     private final List<ProductCategory> categories = new ArrayList<>();
-    private final List<OfferItem> listOfOffers = new ArrayList<>();
 
 
     public Product() {
         createdAt = Instant.now().atOffset(ZoneOffset.UTC);
+        this.offers = new Offers(new OffersDTO(0,0,0,0, new ArrayList<>()));
     }
 
     public UUID getProductId() {
@@ -78,7 +79,9 @@ public class Product {
         return categories.stream().map(ProductCategory::getName).collect(Collectors.toList());
     }
 
-    public List<OfferItem> getListOfOffers() {
-        return listOfOffers;
+    public void setOffers(Offers offers){this.offers = offers;}
+
+    public Offers getOffers() {
+        return offers;
     }
 }
