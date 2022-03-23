@@ -1,5 +1,7 @@
 package ulaval.glo2003.domain.product;
 
+import ulaval.glo2003.domain.offer.OfferItem;
+
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -17,6 +19,7 @@ public class Product {
     private Amount suggestedPrice;
     private OffsetDateTime createdAt;
     private final List<ProductCategory> categories = new ArrayList<>();
+    private final List<OfferItem> listOfOffers = new ArrayList<>();
 
 
     public Product() {
@@ -73,5 +76,9 @@ public class Product {
 
     public List<String> getCategoriesName(){
         return categories.stream().map(ProductCategory::getName).collect(Collectors.toList());
+    }
+
+    public List<OfferItem> getListOfOffers() {
+        return listOfOffers;
     }
 }
