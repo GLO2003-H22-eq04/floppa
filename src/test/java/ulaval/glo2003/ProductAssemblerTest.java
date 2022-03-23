@@ -12,6 +12,7 @@ import ulaval.glo2003.domain.product.ProductCategory;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -46,7 +47,7 @@ public class ProductAssemblerTest {
         product.addCategory(ProductCategory.APPAREL);
 
         productSellerDTO = new ProductSellerDTO(VALID_PRODUCT_ID1, "John Doe");
-        offersDTO = new OffersDTO(0, 0);
+        offersDTO = new OffersDTO(0,0,0, 0, new ArrayList<>());
 
         productAssembler = new ProductAssembler();
     }
