@@ -22,8 +22,7 @@ public class OfferItemDTO {
     public String message;
 
     @NotNull(message = "Le champ \"message\" est obligatoire.", payload = MissingParameterError.class, groups = HighPriority.class)
-    //@RequirementEmail(message = "Message invalide.", payload = InvalidParameterError.class)
-    @Email(message = "Email Invalide.", payload = InvalidParameterError.class)
+    @Email(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "Email Invalide.", payload = InvalidParameterError.class)
     public String email;
 
     @NotNull(message = "Le champ \"message\" est obligatoire.", payload = MissingParameterError.class, groups = HighPriority.class)
