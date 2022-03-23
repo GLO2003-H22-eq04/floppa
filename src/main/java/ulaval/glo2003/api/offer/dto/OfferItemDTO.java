@@ -1,6 +1,7 @@
 package ulaval.glo2003.api.offer.dto;
 
 import jakarta.validation.GroupSequence;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import ulaval.glo2003.api.validation.errors.InvalidParameterError;
@@ -20,7 +21,8 @@ public class OfferItemDTO {
     public String message;
 
     @NotNull(message = "Le champ \"message\" est obligatoire.", payload = MissingParameterError.class, groups = HighPriority.class)
-    @RequirementEmail(message = "Message invalide.", payload = InvalidParameterError.class)
+    //@RequirementEmail(message = "Message invalide.", payload = InvalidParameterError.class)
+    @Email(message = "Email Invalide.", payload = InvalidParameterError.class)
     public String email;
 
     @NotNull(message = "Le champ \"message\" est obligatoire.", payload = MissingParameterError.class, groups = HighPriority.class)
