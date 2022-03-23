@@ -1,5 +1,6 @@
 package ulaval.glo2003.domain.offer;
 
+import org.joda.time.DateTime;
 import ulaval.glo2003.domain.product.Amount;
 
 public class OfferItem {
@@ -8,6 +9,11 @@ public class OfferItem {
     private String phoneNumber;
     private Amount amount;
     private String message;
+    private DateTime createdAt;
+
+    public OfferItem(){
+        this.createdAt = DateTime.now();
+    }
 
     public void setName(String name){
         this.name = name;
@@ -48,4 +54,8 @@ public class OfferItem {
     public String getMessage() {
         return message;
     }
+
+    public void setCreatedAt(DateTime createdAt){this.createdAt = createdAt;}
+
+    public DateTime getCreatedAt(){return this.createdAt;}
 }
