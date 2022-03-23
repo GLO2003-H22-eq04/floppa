@@ -49,7 +49,7 @@ public class ProductAssemblerTest {
         product.addCategory(ProductCategory.APPAREL);
 
         productSellerDTO = new ProductSellerDTO(VALID_PRODUCT_ID1, "John Doe");
-        offersDTO = new OffersResponseDTO(0,0, Optional.of(BigDecimal.ZERO), 0, new ArrayList<>());
+        offersDTO = OffersResponseDTO.empty();
 
         productAssembler = new ProductAssembler();
     }
