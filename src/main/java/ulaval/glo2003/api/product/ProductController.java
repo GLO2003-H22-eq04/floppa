@@ -148,17 +148,21 @@ public class ProductController {
     @POST
     @Path("/{productId}/offers")
     public Response postOffers(@PathParam("productId") UUID productId,
-                               @Valid @NotNull(payload = MissingParameterError.class) OfferItemDTO offerItemDTO) throws ItemNotFoundError {
+                               @Valid @NotNull(payload = MissingParameterError.class) OfferItemDTO offerItemDTO) throws ItemNotFoundError, InvalidParameterError {
         OfferFactory offerFactory = new OfferFactory();
         var product = productRepository.findById(productId);
 
         if (product.isEmpty())
             throw new ItemNotFoundError("L'id fourni n'existe pas.");
 
-        var productOffers = product.get().getListOfOffers();
+        if (product.get().getSuggestedPrice().getValue() >= offerItemDTO.amount)
+            throw new InvalidParameterError("Le montant de l'offre doit être égal ou suppérieur à celui demandé");
+
+        var productOffers = product.get().getOffers();
         var newOffer = offerFactory.createNewOffer(offerItemDTO);
         productOffers.add(newOffer);
 
+        productOffers.addNewOffer(newOffer);
         return Response
                 .status(Response.Status.OK)
                 .entity("OK")
