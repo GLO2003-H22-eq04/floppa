@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import ulaval.glo2003.api.validation.HighPriority;
+import ulaval.glo2003.api.validation.MinimumPrice;
 import ulaval.glo2003.api.validation.errors.InvalidParameterError;
 import ulaval.glo2003.api.validation.errors.MissingParameterError;
 import ulaval.glo2003.domain.product.Amount;
@@ -27,8 +28,8 @@ public class OfferItemDTO {
     @NotEmpty(message = "Le champ \"message\" doit contenir une valeur.", payload = InvalidParameterError.class)
     public int phoneNumber;
 
-    @NotNull(message = "Le champ \"message\" est obligatoire.", payload = MissingParameterError.class, groups = HighPriority.class)
-    @NotEmpty(message = "Le champ \"message\" doit contenir une valeur.", payload = InvalidParameterError.class)
-    public Amount amount;
+    @NotNull(message = "Le champ \"amount\" est obligatoire.", payload = MissingParameterError.class, groups = HighPriority.class)
+    @MinimumPrice(price = 1, payload = InvalidParameterError.class, message = "Prix invalide.")
+    public double amount;
 
 }
