@@ -10,11 +10,8 @@ public class OfferFactory {
         offer.setName(offerItemDTO.name);
         offer.setEmail(offerItemDTO.email);
         offer.setPhoneNumber(offerItemDTO.phoneNumber);
-
         offer.setAmount(new Amount(offerItemDTO.amount));
-
         offer.setMessage(offerItemDTO.message);
-
         return offer;
     }
 }
