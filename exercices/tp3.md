@@ -23,3 +23,6 @@
 <img width="707" alt="pr1 1" src="https://user-images.githubusercontent.com/89783105/159740622-8909c0b9-c2a8-4052-a9cb-4be918a6a263.PNG">
 
 <img width="555" alt="pr1 3" src="https://user-images.githubusercontent.com/89783105/159733992-5449a1f5-f45b-49c4-aefb-f875332f6835.PNG">
+
+##### Arbre de commits et de branches
+<img width="534" alt="arbre" src="https://user-images.githubusercontent.com/89783105/159765852-c4bc95f0-e9f4-4329-b713-772d4f6f6790.PNG">
