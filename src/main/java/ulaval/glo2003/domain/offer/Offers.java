@@ -1,6 +1,6 @@
 package ulaval.glo2003.domain.offer;
 
-import ulaval.glo2003.api.offer.dto.OffersDTO;
+import ulaval.glo2003.api.offer.dto.OffersResponseDTO;
 import ulaval.glo2003.domain.product.Amount;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ public class Offers {
     private int count;
     private List<OfferItem> items = new ArrayList<>();
 
-    public Offers(OffersDTO offersDTO) {
+    public Offers(OffersResponseDTO offersDTO) {
         this.min = offersDTO.min;
         this.max = offersDTO.max;
         this.mean = offersDTO.mean;

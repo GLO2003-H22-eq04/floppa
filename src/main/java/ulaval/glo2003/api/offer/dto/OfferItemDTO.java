@@ -16,11 +16,11 @@ public class OfferItemDTO {
     public String name;
 
     @NotNull(message = "Le champ \"message\" est obligatoire.", payload = MissingParameterError.class, groups = HighPriority.class)
-    @MinimumCharacter(nbrCharater = 100,payload = InvalidParameterError.class, message = "Message Invalide, doit avoir au moins 100 caractères.")
+    @MinimumCharacter(nbrCharater = 100,payload = InvalidParameterError.class, message = "Message Invalide.")
     public String message;
 
     @NotNull(message = "Le champ \"message\" est obligatoire.", payload = MissingParameterError.class, groups = HighPriority.class)
-    @RequirementEmail(message = "Le champ \"email\" est invalide.", payload = InvalidParameterError.class)
+    @RequirementEmail(message = "Message invalide.", payload = InvalidParameterError.class)
     public String email;
 
     @NotNull(message = "Le champ \"message\" est obligatoire.", payload = MissingParameterError.class, groups = HighPriority.class)

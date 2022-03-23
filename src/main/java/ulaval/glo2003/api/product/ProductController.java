@@ -8,7 +8,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import ulaval.glo2003.api.offer.dto.OfferItemDTO;
 import ulaval.glo2003.api.offer.dto.OfferItemResponseDTO;
-import ulaval.glo2003.api.offer.dto.OffersDTO;
+import ulaval.glo2003.api.offer.dto.OffersResponseDTO;
 import ulaval.glo2003.api.product.dto.*;
 import ulaval.glo2003.api.validation.errors.InvalidParameterError;
 import ulaval.glo2003.api.validation.errors.ItemNotFoundError;
@@ -118,7 +118,7 @@ public class ProductController {
                         product.getSuggestedPrice().getValue(),
                         product.getCategories(),
                         productSeller,
-                        new OffersDTO(offers.getMin(),
+                        new OffersResponseDTO(offers.getMin(),
                                 offers.getMax(),offers.getMean(),offers.getCount(),offerList)));
             }
         }
@@ -148,7 +148,7 @@ public class ProductController {
         var offers = productInfo.getOffers();
         var offerList = getOfferList(offers);
 
-        return productAssembler.toDto(productInfo, productSellerDTO, new OffersDTO(offers.getMin(),
+        return productAssembler.toDto(productInfo, productSellerDTO, new OffersResponseDTO(offers.getMin(),
                 offers.getMax(),offers.getMean(),offers.getCount(),offerList));
     }
 

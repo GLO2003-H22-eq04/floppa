@@ -1,6 +1,6 @@
 package ulaval.glo2003.domain.product;
 
-import ulaval.glo2003.api.offer.dto.OffersDTO;
+import ulaval.glo2003.api.offer.dto.OffersResponseDTO;
 import ulaval.glo2003.domain.offer.Offers;
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -24,7 +24,7 @@ public class Product {
 
     public Product() {
         createdAt = Instant.now().atOffset(ZoneOffset.UTC);
-        this.offers = new Offers(new OffersDTO(0,0,0,0, new ArrayList<>()));
+        this.offers = new Offers(new OffersResponseDTO(0,0,0,0, new ArrayList<>()));
     }
 
     public UUID getProductId() {
