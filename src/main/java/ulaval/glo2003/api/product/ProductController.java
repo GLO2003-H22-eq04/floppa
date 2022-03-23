@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import ulaval.glo2003.api.product.dto.*;
 import ulaval.glo2003.api.validation.errors.InvalidParameterError;
 import ulaval.glo2003.api.validation.errors.ItemNotFoundError;
 import ulaval.glo2003.api.validation.errors.MissingParameterError;
