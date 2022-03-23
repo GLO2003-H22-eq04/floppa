@@ -6,10 +6,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import ulaval.glo2003.api.offer.dto.OfferItemDTO;
 import ulaval.glo2003.api.offer.dto.OffersDTO;
 import ulaval.glo2003.api.product.dto.*;
 import ulaval.glo2003.api.validation.errors.ItemNotFoundError;
 import ulaval.glo2003.api.validation.errors.MissingParameterError;
+import ulaval.glo2003.domain.offer.OfferFactory;
 import ulaval.glo2003.domain.product.Amount;
 import ulaval.glo2003.domain.product.Product;
 import ulaval.glo2003.domain.product.ProductCategory;
@@ -41,6 +43,9 @@ public class ProductController {
 
     @Inject
     private ProductAssembler productAssembler;
+
+    @Inject
+    private OfferFactory offerFactory;
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -141,5 +146,24 @@ public class ProductController {
         var offerDTO = new OffersDTO(0, 0);
 
         return productAssembler.toDto(productInfo, productSellerDTO, offerDTO);
+    }
+
+    @POST
+    @Path("/{productId}/offers")
+    public Response postOffers(@PathParam("productId") UUID productId,
+                               @Valid @NotNull(payload = MissingParameterError.class) OfferItemDTO offerItemDTO) throws ItemNotFoundError {
+        var product = productRepository.findById(productId);
+
+        if (product.isEmpty())
+            throw new ItemNotFoundError("L'id fourni n'existe pas.");
+        var productOffers = product.get().getListOfOffers();
+        var newOffer = offerFactory.createNewOffer(offerItemDTO);
+        productOffers.add(newOffer);
+        System.out.println(productOffers);
+
+        return Response
+                .status(Response.Status.OK)
+                .entity("OK")
+                .build();
     }
 }
