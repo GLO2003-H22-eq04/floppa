@@ -1,11 +1,14 @@
 package ulaval.glo2003.api.product;
 
+import com.mongodb.client.result.UpdateResult;
+import dev.morphia.query.experimental.filters.Filters;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import ulaval.glo2003.Main;
 import ulaval.glo2003.api.validation.errors.InvalidParameterError;
 import ulaval.glo2003.api.validation.errors.ItemNotFoundError;
 import ulaval.glo2003.api.validation.errors.MissingParameterError;
@@ -26,6 +29,8 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import static dev.morphia.query.experimental.updates.UpdateOperators.set;
 
 @Path(ProductController.PRODUCTS_PATH)
 public class ProductController {
@@ -55,6 +60,9 @@ public class ProductController {
 
         var product = productFactory.createProduct(productDTO, sellerId);
         UUID productId = productRepository.add(product);
+        product.setProductId(productId);
+        Main.mongo.getDatastore().save(product);
+
         var url = PRODUCTS_PATH + "/" + productId;
         return Response.created(URI.create(url)).build();
     }
@@ -169,6 +177,11 @@ public class ProductController {
         var newOffer = offerFactory.createNewOffer(offerItemDTO);
 
         productOffers.addNewOffer(newOffer);
+
+        var productQuery = Main.mongo.getDatastore().find(Product.class).filter(Filters.lte("_id", product.get().getProductId()));
+        UpdateResult test = productQuery.update(set("offers",productOffers)).execute();
+        Main.mongo.getDatastore().save(productOffers);
+        Main.mongo.getDatastore().save(newOffer);
         return Response
                 .status(Response.Status.OK)
                 .entity("OK")

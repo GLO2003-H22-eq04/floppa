@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import ulaval.glo2003.Main;
 import ulaval.glo2003.applicatif.seller.SellerDTO;
 import ulaval.glo2003.applicatif.seller.SellerInfoResponseDTO;
 import ulaval.glo2003.api.validation.errors.ItemNotFoundError;
@@ -34,6 +35,11 @@ public class SellerController {
     public Response postCreatingSeller(@Valid @NotNull(payload = MissingParameterError.class) SellerDTO seller) {
         var sellerId = sellerRepository.add(new Seller(seller));
         var url = SELLERS_PATH + "/" + sellerId;
+
+        var newSeller = sellerRepository.findById(sellerId).get();
+        newSeller.setId(sellerId);
+        Main.mongo.getDatastore().save(newSeller);
+
         return Response.created(URI.create(url)).build();
     }
 
