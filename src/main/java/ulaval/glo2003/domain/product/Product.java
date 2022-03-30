@@ -1,5 +1,10 @@
 package ulaval.glo2003.domain.product;
 
+import dev.morphia.annotations.Entity;
+import dev.morphia.annotations.Id;
+import dev.morphia.annotations.Reference;
+import dev.morphia.annotations.Transient;
+import dev.morphia.mapping.experimental.MorphiaReference;
 import ulaval.glo2003.applicatif.offer.OffersResponseDTO;
 import ulaval.glo2003.domain.offer.Offers;
 
@@ -11,21 +16,23 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Entity("Product")
 public class Product {
-
+    @Id
     private UUID productId;
     private String title;
     private String description;
     private UUID sellerId;
     private Amount suggestedPrice;
+    @Transient
     private OffsetDateTime createdAt;
-    private Offers offers;
+    private MorphiaReference<Offers> offers;
     private final List<ProductCategory> categories = new ArrayList<>();
 
 
     public Product() {
         createdAt = Instant.now().atOffset(ZoneOffset.UTC);
-        this.offers = new Offers(OffersResponseDTO.empty());
+        this.offers = MorphiaReference.wrap(new Offers(OffersResponseDTO.empty()));
     }
 
     public UUID getProductId() {
@@ -80,9 +87,9 @@ public class Product {
         return categories.stream().map(ProductCategory::getName).collect(Collectors.toList());
     }
 
-    public void setOffers(Offers offers){this.offers = offers;}
+    public void setOffers(Offers offers){this.offers = MorphiaReference.wrap(offers);}
 
     public Offers getOffers() {
-        return offers;
+        return offers.get();
     }
 }
