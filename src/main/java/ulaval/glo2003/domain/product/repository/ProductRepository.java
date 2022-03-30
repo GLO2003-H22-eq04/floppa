@@ -9,7 +9,10 @@ import java.util.UUID;
 public interface ProductRepository {
 
     UUID add(Product product);
+
     List<Product> findAll();
+
     Optional<Product> findById(UUID id);
+
     List<Product> productOf(UUID sellerId);
 }

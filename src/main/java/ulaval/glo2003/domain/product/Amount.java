@@ -11,7 +11,7 @@ public class Amount {
     private final double value;
 
     @JsonbCreator
-    public Amount(@JsonbProperty("value") double value){
+    public Amount(@JsonbProperty("value") double value) {
         var decimal = new BigDecimal(value).setScale(2, RoundingMode.HALF_UP);
         this.value = decimal.doubleValue();
     }

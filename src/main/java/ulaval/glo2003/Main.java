@@ -4,14 +4,14 @@ import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
-import ulaval.glo2003.api.validation.handler.ConstraintViolationExceptionHandler;
-import ulaval.glo2003.api.validation.handler.ParamExceptionHandler;
-import ulaval.glo2003.api.validation.handler.ProcessingExceptionHandler;
-import ulaval.glo2003.api.validation.handler.ValidationExceptionHandler;
 import ulaval.glo2003.api.health.HealthController;
 import ulaval.glo2003.api.product.ProductAssembler;
 import ulaval.glo2003.api.product.ProductController;
 import ulaval.glo2003.api.seller.SellerController;
+import ulaval.glo2003.api.validation.handler.ConstraintViolationExceptionHandler;
+import ulaval.glo2003.api.validation.handler.ParamExceptionHandler;
+import ulaval.glo2003.api.validation.handler.ProcessingExceptionHandler;
+import ulaval.glo2003.api.validation.handler.ValidationExceptionHandler;
 import ulaval.glo2003.domain.product.ProductFactory;
 import ulaval.glo2003.domain.product.repository.ProductListRepository;
 import ulaval.glo2003.domain.product.repository.ProductRepository;
@@ -29,7 +29,7 @@ public class Main {
         server.start();
     }
 
-    public static ResourceConfig getRessourceConfig(){
+    public static ResourceConfig getRessourceConfig() {
         return new ResourceConfig()
                 .register(new AbstractBinder() {
                     @Override
