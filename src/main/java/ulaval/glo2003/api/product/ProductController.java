@@ -54,6 +54,8 @@ public class ProductController {
             throw new ItemNotFoundError("L'id fourni n'existe pas.");
 
         var product = productFactory.createProduct(productDto, sellerId);
+        var seller = sellerRepository.findById(sellerId).get();
+        seller.getProductList().add(product);
         UUID productId = productRepository.add(product);
         var url = PRODUCTS_PATH + "/" + productId;
         return Response.created(URI.create(url)).build();
