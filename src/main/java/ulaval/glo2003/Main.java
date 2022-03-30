@@ -7,6 +7,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import ulaval.glo2003.api.health.HealthController;
 import ulaval.glo2003.api.product.ProductAssembler;
 import ulaval.glo2003.api.product.ProductController;
+import ulaval.glo2003.api.seller.SellerAssembler;
 import ulaval.glo2003.api.seller.SellerController;
 import ulaval.glo2003.api.validation.handler.ConstraintViolationExceptionHandler;
 import ulaval.glo2003.api.validation.handler.ParamExceptionHandler;
@@ -38,6 +39,7 @@ public class Main {
                         bind(new ProductListRepository()).to(ProductRepository.class);
                         bind(new ProductFactory()).to(ProductFactory.class);
                         bind(new ProductAssembler()).to(ProductAssembler.class);
+                        bind(new SellerAssembler()).to(SellerAssembler.class);
                     }
                 })
                 .register(SellerController.class)
