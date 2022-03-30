@@ -2,7 +2,6 @@ package ulaval.glo2003.api.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-
 import java.time.LocalDate;
 
 public class AgeValidator implements ConstraintValidator<MinimumAge, LocalDate> {
@@ -16,8 +15,9 @@ public class AgeValidator implements ConstraintValidator<MinimumAge, LocalDate> 
     }
 
     @Override
-    public boolean isValid(LocalDate birthDate, ConstraintValidatorContext constraintValidatorContext) {
+    public boolean isValid(LocalDate birthDate,
+                           ConstraintValidatorContext constraintValidatorContext) {
         // Retire un jour pour accepter les dates exactes
-         return birthDate.isBefore(LocalDate.now().minusYears(minimumAge).plusDays(1));
+        return birthDate.isBefore(LocalDate.now().minusYears(minimumAge).plusDays(1));
     }
 }

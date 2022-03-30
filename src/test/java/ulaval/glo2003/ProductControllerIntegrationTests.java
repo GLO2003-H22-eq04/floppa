@@ -12,9 +12,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import ulaval.glo2003.api.product.ProductController;
-import ulaval.glo2003.applicatif.product.ProductDTO;
-import ulaval.glo2003.applicatif.product.ProductInfoResponseDTO;
-import ulaval.glo2003.applicatif.seller.SellerDTO;
+import ulaval.glo2003.applicatif.product.ProductDto;
+import ulaval.glo2003.applicatif.product.ProductInfoResponseDto;
+import ulaval.glo2003.applicatif.seller.SellerDto;
 import ulaval.glo2003.domain.product.Amount;
 import ulaval.glo2003.domain.product.Product;
 import ulaval.glo2003.domain.product.ProductFactory;
@@ -51,19 +51,19 @@ public class ProductControllerIntegrationTests extends JerseyTest {
     @Mock
     private ProductFactory productFactoryMock;
 
-    private ProductDTO productDTO1;
-    private ProductDTO productDTO2;
+    private ProductDto productDTO1;
+    private ProductDto productDTO2;
     private Product product;
 
     @Before
     public void before() {
-        productDTO1 = new ProductDTO();
+        productDTO1 = new ProductDto();
         productDTO1.title = "titleDT01";
         productDTO1.description = "descriptionDT01";
         productDTO1.suggestedPrice = 4.29;
         productDTO1.categories = List.of("beauty");
 
-        productDTO2 = new ProductDTO();
+        productDTO2 = new ProductDto();
         productDTO2.title = "titleDT02";
         productDTO2.description = "descriptionDT02";
         productDTO2.suggestedPrice = 6.49;
@@ -76,7 +76,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         product.setSellerId(VALID_SELLER_ID);
         product.setSuggestedPrice(new Amount(5.01));
 
-        var sellerDTO = new SellerDTO();
+        var sellerDTO = new SellerDto();
         sellerDTO.name = "John Doe";
         sellerDTO.bio = "Un seller";
         sellerDTO.birthDate = LocalDate.now().minusYears(20);
@@ -91,7 +91,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         when(productListRepositoryMock.findById(VALID_SELLER_ID)).thenReturn(Optional.of(product));
         when(productListRepositoryMock.findById(MISSING_ID)).thenReturn(Optional.empty());
 
-        when(productFactoryMock.createProduct(any(ProductDTO.class), eq(VALID_SELLER_ID))).thenReturn(product);
+        when(productFactoryMock.createProduct(any(ProductDto.class), eq(VALID_SELLER_ID))).thenReturn(product);
     }
 
     @Override
@@ -199,7 +199,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
     public void canGetExistingProduct() {
         var response = getProductResponse(VALID_SELLER_ID);
 
-        var entity = response.readEntity(ProductInfoResponseDTO.class);
+        var entity = response.readEntity(ProductInfoResponseDto.class);
         var status = response.getStatus();
 
         assertThat(status).isEqualTo(Response.Status.OK.getStatusCode());
@@ -220,11 +220,11 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         assertThat(status).isEqualTo(Response.Status.NOT_FOUND.getStatusCode());
     }
 
-    private Response postCreatingProductResponse(ProductDTO productDTO, UUID sellerId) {
+    private Response postCreatingProductResponse(ProductDto productDTO, UUID sellerId) {
         return postCreatingProductResponse(productDTO, sellerId.toString());
     }
 
-    private Response postCreatingProductResponse(ProductDTO productDTO, String sellerId) {
+    private Response postCreatingProductResponse(ProductDto productDTO, String sellerId) {
         return target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, sellerId).post(Entity.entity(productDTO, MediaType.APPLICATION_JSON_TYPE));
     }
 

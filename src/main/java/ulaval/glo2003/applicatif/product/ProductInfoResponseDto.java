@@ -1,13 +1,13 @@
 package ulaval.glo2003.applicatif.product;
 
-import ulaval.glo2003.applicatif.offer.OffersResponseDTO;
+import ulaval.glo2003.applicatif.offer.OffersResponseDto;
 import ulaval.glo2003.domain.product.Amount;
 
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public class ProductInfoResponseDTO {
+public class ProductInfoResponseDto {
 
     public UUID id;
 
@@ -21,7 +21,7 @@ public class ProductInfoResponseDTO {
 
     public List<String> categories;
 
-    public ProductSellerDTO seller;
+    public ProductSellerDto seller;
 
-    public OffersResponseDTO offers;
+    public OffersResponseDto offers;
 }

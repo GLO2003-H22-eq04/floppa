@@ -6,25 +6,26 @@ import ulaval.glo2003.domain.product.ProductCategory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CriteriaCategories implements Criteria{
+public class CriteriaCategories implements Criteria {
     List<ProductCategory> productCategories;
 
-    public CriteriaCategories(List<ProductCategory> p_productCategories){
-        this.productCategories = p_productCategories;
+    public CriteriaCategories(List<ProductCategory> productCategories) {
+        this.productCategories = productCategories;
     }
+
     @Override
-    public List<Product> meetCriteria(List<Product> p_products) {
+    public List<Product> meetCriteria(List<Product> products) {
         List<Product> sellerCategory = new ArrayList<Product>();
 
-        for(Product product : p_products){
-            for(ProductCategory productCategory : productCategories){
-                if(product.getCategories().contains(productCategory)){
+        for (Product product : products) {
+            for (ProductCategory productCategory : productCategories) {
+                if (product.getCategories().contains(productCategory)) {
                     sellerCategory.add(product);
                     break;
                 }
             }
         }
 
-        return  sellerCategory;
+        return sellerCategory;
     }
 }

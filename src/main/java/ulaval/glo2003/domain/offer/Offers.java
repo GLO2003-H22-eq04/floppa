@@ -1,6 +1,6 @@
 package ulaval.glo2003.domain.offer;
 
-import ulaval.glo2003.applicatif.offer.OffersResponseDTO;
+import ulaval.glo2003.applicatif.offer.OffersResponseDto;
 import ulaval.glo2003.domain.product.Amount;
 
 import java.math.BigDecimal;
@@ -16,11 +16,11 @@ public class Offers {
     private int count;
     private List<OfferItem> items = new ArrayList<>();
 
-    public Offers(OffersResponseDTO offersDTO) {
-        this.min = new Amount(offersDTO.min);
-        this.max = new Amount(offersDTO.max);
-        this.mean = new Amount(offersDTO.mean.get().doubleValue());
-        this.count = offersDTO.count;
+    public Offers(OffersResponseDto offersDto) {
+        this.min = new Amount(offersDto.min);
+        this.max = new Amount(offersDto.max);
+        this.mean = new Amount(offersDto.mean.get().doubleValue());
+        this.count = offersDto.count;
     }
 
     public void addNewOffer(OfferItem newOffer) {
@@ -62,7 +62,7 @@ public class Offers {
         return count;
     }
 
-    public List<OfferItem> getListOffer(){
+    public List<OfferItem> getListOffer() {
         return items;
     }
 }

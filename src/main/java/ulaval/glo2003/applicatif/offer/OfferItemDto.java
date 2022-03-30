@@ -6,12 +6,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
+import ulaval.glo2003.api.validation.HighPriority;
+import ulaval.glo2003.api.validation.MinimumPrice;
 import ulaval.glo2003.api.validation.errors.InvalidParameterError;
 import ulaval.glo2003.api.validation.errors.MissingParameterError;
-import ulaval.glo2003.api.validation.*;
 
-@GroupSequence({HighPriority.class, OfferItemDTO.class})
-public class OfferItemDTO {
+@GroupSequence({HighPriority.class, OfferItemDto.class})
+public class OfferItemDto {
 
 
     @NotNull(message = "Le champ \"name\" est obligatoire.", payload = MissingParameterError.class, groups = HighPriority.class)
@@ -27,7 +28,11 @@ public class OfferItemDTO {
     public String email;
 
     @NotNull(message = "Le champ \"message\" est obligatoire.", payload = MissingParameterError.class, groups = HighPriority.class)
-    @Pattern(regexp = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$", message = "Le champ \"phoneNumber\" est invalide.", payload = InvalidParameterError.class)
+    @Pattern(
+            regexp = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$",
+            message = "Le champ \"phoneNumber\" est invalide.",
+            payload = InvalidParameterError.class
+    )
     public String phoneNumber;
 
     @NotNull(message = "Le champ \"amount\" est obligatoire.", payload = MissingParameterError.class, groups = HighPriority.class)

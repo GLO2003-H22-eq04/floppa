@@ -3,8 +3,8 @@ package ulaval.glo2003;
 import org.junit.Before;
 import org.junit.Test;
 import ulaval.glo2003.api.product.ProductAssembler;
-import ulaval.glo2003.applicatif.offer.OffersResponseDTO;
-import ulaval.glo2003.applicatif.product.ProductSellerDTO;
+import ulaval.glo2003.applicatif.offer.OffersResponseDto;
+import ulaval.glo2003.applicatif.product.ProductSellerDto;
 import ulaval.glo2003.domain.product.Amount;
 import ulaval.glo2003.domain.product.Product;
 import ulaval.glo2003.domain.product.ProductCategory;
@@ -29,8 +29,8 @@ public class ProductAssemblerTest {
 
     private ProductAssembler productAssembler;
     private Product product;
-    private ProductSellerDTO productSellerDTO;
-    private OffersResponseDTO offersDTO;
+    private ProductSellerDto productSellerDTO;
+    private OffersResponseDto offersDTO;
 
 
     @Before
@@ -45,8 +45,8 @@ public class ProductAssemblerTest {
         product.addCategory(ProductCategory.BEAUTY);
         product.addCategory(ProductCategory.APPAREL);
 
-        productSellerDTO = new ProductSellerDTO(VALID_PRODUCT_ID1, "John Doe");
-        offersDTO = OffersResponseDTO.empty();
+        productSellerDTO = new ProductSellerDto(VALID_PRODUCT_ID1, "John Doe");
+        offersDTO = OffersResponseDto.empty();
 
         productAssembler = new ProductAssembler();
     }

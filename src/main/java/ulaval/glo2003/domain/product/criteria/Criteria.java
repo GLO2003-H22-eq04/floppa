@@ -1,4 +1,5 @@
 package ulaval.glo2003.domain.product.criteria;
+
 import ulaval.glo2003.domain.product.Product;
 
 import java.util.List;
