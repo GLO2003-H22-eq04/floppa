@@ -1,18 +1,28 @@
 package ulaval.glo2003.domain.offer;
 
+import dev.morphia.annotations.Entity;
+import dev.morphia.annotations.Id;
+import dev.morphia.annotations.Transient;
 import org.joda.time.DateTime;
 import ulaval.glo2003.domain.product.Amount;
 
+import java.util.UUID;
+
+@Entity("OfferItem")
 public class OfferItem {
+    @Id
+    private UUID id;
     private String name;
     private String email;
     private String phoneNumber;
     private Amount amount;
     private String message;
+    @Transient
     private DateTime createdAt;
 
     public OfferItem(){
         this.createdAt = DateTime.now();
+        id = UUID.randomUUID();
     }
 
     public void setName(String name){
