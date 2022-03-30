@@ -12,6 +12,7 @@ import ulaval.glo2003.api.health.HealthController;
 import ulaval.glo2003.api.product.ProductAssembler;
 import ulaval.glo2003.api.product.ProductController;
 import ulaval.glo2003.api.seller.SellerController;
+import ulaval.glo2003.config.MongoDB;
 import ulaval.glo2003.domain.product.ProductFactory;
 import ulaval.glo2003.domain.product.repository.ProductListRepository;
 import ulaval.glo2003.domain.product.repository.ProductRepository;
@@ -22,8 +23,11 @@ import java.io.IOException;
 import java.net.URI;
 
 public class Main {
+    public static MongoDB mongo;
+
     public static void main(String[] args) throws IOException {
         URI uri = URI.create("http://localhost:8080/");
+        mongo = new MongoDB();
 
         HttpServer server = GrizzlyHttpServerFactory.createHttpServer(uri, getRessourceConfig());
         server.start();
