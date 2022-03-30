@@ -24,5 +24,11 @@
 
 <img width="555" alt="pr1 3" src="https://user-images.githubusercontent.com/89783105/159733992-5449a1f5-f45b-49c4-aefb-f875332f6835.PNG">
 
+##### PR #2
+
+<img width="714" alt="pr2 1" src="https://user-images.githubusercontent.com/89783105/160739275-61321b3a-5256-4ba0-8faf-e13559f14cf7.PNG">
+
+<img width="519" alt="pr2 2" src="https://user-images.githubusercontent.com/89783105/160739328-6619a0f7-39f6-416b-a116-a46c82c9ea96.PNG">
+
 ##### Arbre de commits et de branches
 <img width="534" alt="arbre" src="https://user-images.githubusercontent.com/89783105/159765852-c4bc95f0-e9f4-4329-b713-772d4f6f6790.PNG">
