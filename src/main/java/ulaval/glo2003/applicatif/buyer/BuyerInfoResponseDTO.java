@@ -1,5 +1,6 @@
 package ulaval.glo2003.applicatif.buyer;
 
+import jakarta.json.bind.annotation.JsonbCreator;
 import jakarta.json.bind.annotation.JsonbProperty;
 
 public class BuyerInfoResponseDTO {
@@ -7,7 +8,7 @@ public class BuyerInfoResponseDTO {
     public String email;
     public String phoneNumber;
 
-
+    @JsonbCreator
     public BuyerInfoResponseDTO(@JsonbProperty("name") String name,
                                 @JsonbProperty("email") String email,
                                 @JsonbProperty("phoneNumber") String phoneNumber){
