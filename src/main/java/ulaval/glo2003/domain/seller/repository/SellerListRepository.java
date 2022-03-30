@@ -1,11 +1,14 @@
 package ulaval.glo2003.domain.seller.repository;
 
+import dev.morphia.annotations.Entity;
+import dev.morphia.annotations.Reference;
 import ulaval.glo2003.domain.seller.Seller;
 
 import java.util.*;
 
+@Entity("SellerListRepository")
 public class SellerListRepository implements SellerRepository {
-
+    @Reference
     private final Map<UUID, Seller> sellers = new HashMap<>();
 
     @Override
@@ -25,5 +28,3 @@ public class SellerListRepository implements SellerRepository {
         return findById(id).isPresent();
     }
 }
-
-
