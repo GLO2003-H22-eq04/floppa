@@ -12,9 +12,6 @@
     <properties>
         <jersey.version>3.0.2</jersey.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <checkstyle-maven-plugin.version>3.1.2</checkstyle-maven-plugin.version>
-        <checkstyle.config.location>custom_style.xml</checkstyle.config.location>
-        <maven-checkstyle-dependency.version>8.40</maven-checkstyle-dependency.version>
     </properties>
 
     <dependencyManagement>
@@ -117,11 +114,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.aeonbits.owner</groupId>
-                <artifactId>owner</artifactId>
-                <version>1.0.12</version>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
@@ -151,8 +143,22 @@
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>3.1.2</version>
                 <configuration>
+                    <configLocation>custom_style.xml</configLocation>
+                    <encoding>UTF-8</encoding>
+                    <consoleOutput>false</consoleOutput>
+                    <failsOnError>true</failsOnError>
                     <failOnViolation>true</failOnViolation>
+                    <linkXRef>false</linkXRef>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <dependencies>
                     <dependency>
                         <groupId>com.puppycrawl.tools</groupId>
@@ -168,4 +174,5 @@
 
         </plugins>
     </reporting>
+
 </project>
