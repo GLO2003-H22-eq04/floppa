@@ -54,8 +54,4 @@ public class OfferItem {
     public String getMessage() {
         return message;
     }
-
-    public void setCreatedAt(DateTime createdAt){this.createdAt = createdAt;}
-
-    public DateTime getCreatedAt(){return this.createdAt;}
 }

@@ -26,9 +26,6 @@ public class ProductFilteredResponseDTO {
 
     public OffersResponseDTO offers;
 
-    public ProductFilteredResponseDTO() {
-    }
-
     public ProductFilteredResponseDTO(UUID id,
                                       OffsetDateTime createdAt,
                                       String title,

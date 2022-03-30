@@ -80,8 +80,6 @@ public class Product {
         return categories.stream().map(ProductCategory::getName).collect(Collectors.toList());
     }
 
-    public void setOffers(Offers offers){this.offers = offers;}
-
     public Offers getOffers() {
         return offers;
     }
