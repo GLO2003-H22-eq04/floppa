@@ -1,11 +1,13 @@
 package ulaval.glo2003.domain.product;
 
+import dev.morphia.annotations.Entity;
 import jakarta.json.bind.annotation.JsonbCreator;
 import jakarta.json.bind.annotation.JsonbProperty;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+@Entity("Amount")
 public class Amount {
 
     private final double value;
