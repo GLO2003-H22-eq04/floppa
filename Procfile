@@ -1,1 +1,1 @@
-web: java -cp target/classes/:target/dependency/* ulaval.glo2003.Main
+web: java -Dserver.port=$PORT -cp target/classes/:target/dependency/* ulaval.glo2003.Main
