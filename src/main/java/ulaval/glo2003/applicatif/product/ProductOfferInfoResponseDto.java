@@ -2,14 +2,14 @@ package ulaval.glo2003.applicatif.product;
 
 import jakarta.json.bind.annotation.JsonbCreator;
 import jakarta.json.bind.annotation.JsonbProperty;
-import ulaval.glo2003.applicatif.offer.OfferInfoResponseDTO;
+import ulaval.glo2003.applicatif.offer.OfferInfoResponseDto;
 import ulaval.glo2003.domain.product.ProductCategory;
 
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public class ProductOfferInfoResponseDTO {
+public class ProductOfferInfoResponseDto {
 
     public UUID id;
     public String title;
@@ -17,16 +17,16 @@ public class ProductOfferInfoResponseDTO {
     public OffsetDateTime createdAt;
     public double suggestedPrice;
     public List<ProductCategory> categories;
-    public OfferInfoResponseDTO offers;
+    public OfferInfoResponseDto offers;
 
     @JsonbCreator
-    public ProductOfferInfoResponseDTO(@JsonbProperty("id") UUID id,
+    public ProductOfferInfoResponseDto(@JsonbProperty("id") UUID id,
                                        @JsonbProperty("title") String title,
                                        @JsonbProperty("description") String description,
                                        @JsonbProperty("createdAt") OffsetDateTime createdAt,
                                        @JsonbProperty("suggestedPrice") double suggestedPrice,
                                        @JsonbProperty("categories") List<ProductCategory> categories,
-                                       @JsonbProperty("offers") OfferInfoResponseDTO offers){
+                                       @JsonbProperty("offers") OfferInfoResponseDto offers){
 
         this.id = id;
         this.title = title;

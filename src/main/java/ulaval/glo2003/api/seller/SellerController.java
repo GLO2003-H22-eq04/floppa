@@ -6,11 +6,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import ulaval.glo2003.applicatif.buyer.BuyerInfoResponseDTO;
-import ulaval.glo2003.applicatif.buyer.BuyerItemResponseDTO;
-import ulaval.glo2003.applicatif.offer.OfferInfoResponseDTO;
-import ulaval.glo2003.applicatif.product.ProductOfferInfoResponseDTO;
-import ulaval.glo2003.applicatif.seller.CurrentSellerDTO;
+import ulaval.glo2003.applicatif.buyer.BuyerInfoResponseDto;
+import ulaval.glo2003.applicatif.buyer.BuyerItemResponseDto;
+import ulaval.glo2003.applicatif.offer.OfferInfoResponseDto;
+import ulaval.glo2003.applicatif.product.ProductOfferInfoResponseDto;
+import ulaval.glo2003.applicatif.seller.CurrentSellerDto;
 import ulaval.glo2003.applicatif.seller.SellerDto;
 import ulaval.glo2003.applicatif.seller.SellerInfoResponseDto;
 import ulaval.glo2003.api.validation.errors.ItemNotFoundError;
@@ -72,7 +72,7 @@ public class SellerController {
     @GET
     @Path(GET_CURRENT_SELLER_PATH)
     @Produces(MediaType.APPLICATION_JSON)
-    public CurrentSellerDTO getCurrentSeller(@HeaderParam(SELLER_ID_HEADER) UUID sellerId){
+    public CurrentSellerDto getCurrentSeller(@HeaderParam(SELLER_ID_HEADER) UUID sellerId){
 
         var seller = sellerRepository.findById(sellerId).get();
         var offerList = getProductOfferList(seller);
@@ -80,31 +80,31 @@ public class SellerController {
         return sellerAssembler.currentSellerToDTO(seller, sellerId, offerList);
     }
 
-    private List<BuyerItemResponseDTO> getOfferList(Offers offers){
-        List<BuyerItemResponseDTO> buyerList = new ArrayList<>();
+    private List<BuyerItemResponseDto> getOfferList(Offers offers){
+        List<BuyerItemResponseDto> buyerList = new ArrayList<>();
         for (var offer : offers.getListOffer()){
-            buyerList.add(new BuyerItemResponseDTO(
+            buyerList.add(new BuyerItemResponseDto(
                     offer.getCreatedAt(),
                     offer.getAmount().getValue(),
                     offer.getMessage(),
-                    new BuyerInfoResponseDTO(offer.getName(),offer.getEmail(),offer.getPhoneNumber())));
+                    new BuyerInfoResponseDto(offer.getName(),offer.getEmail(),offer.getPhoneNumber())));
         }
         return buyerList;
     }
 
-    private List<ProductOfferInfoResponseDTO> getProductOfferList(Seller seller){
-        List<ProductOfferInfoResponseDTO> productList = new ArrayList<>();
-        List<BuyerItemResponseDTO> buyerList = new ArrayList<>();
+    private List<ProductOfferInfoResponseDto> getProductOfferList(Seller seller){
+        List<ProductOfferInfoResponseDto> productList = new ArrayList<>();
+        List<BuyerItemResponseDto> buyerList = new ArrayList<>();
         for (var product : seller.getProductList()){
 
-            productList.add(new ProductOfferInfoResponseDTO(
+            productList.add(new ProductOfferInfoResponseDto(
                     product.getProductId(),
                     product.getTitle(),
                     product.getDescription(),
                     product.getCreatedAt(),
                     product.getSuggestedPrice().getValue(),
                     product.getCategories(),
-                    new OfferInfoResponseDTO(product.getOffers().getMin(),
+                    new OfferInfoResponseDto(product.getOffers().getMin(),
                             product.getOffers().getMax(),
                             product.getOffers().getMean(),
                             product.getOffers().getCount(),

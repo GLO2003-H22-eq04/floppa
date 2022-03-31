@@ -3,13 +3,13 @@ package ulaval.glo2003.applicatif.buyer;
 import jakarta.json.bind.annotation.JsonbCreator;
 import jakarta.json.bind.annotation.JsonbProperty;
 
-public class BuyerInfoResponseDTO {
+public class BuyerInfoResponseDto {
     public String name;
     public String email;
     public String phoneNumber;
 
     @JsonbCreator
-    public BuyerInfoResponseDTO(@JsonbProperty("name") String name,
+    public BuyerInfoResponseDto(@JsonbProperty("name") String name,
                                 @JsonbProperty("email") String email,
                                 @JsonbProperty("phoneNumber") String phoneNumber){
         this.name = name;

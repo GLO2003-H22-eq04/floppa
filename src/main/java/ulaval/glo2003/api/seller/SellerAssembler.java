@@ -1,7 +1,7 @@
 package ulaval.glo2003.api.seller;
 
-import ulaval.glo2003.applicatif.product.ProductOfferInfoResponseDTO;
-import ulaval.glo2003.applicatif.seller.CurrentSellerDTO;
+import ulaval.glo2003.applicatif.product.ProductOfferInfoResponseDto;
+import ulaval.glo2003.applicatif.seller.CurrentSellerDto;
 import ulaval.glo2003.domain.seller.Seller;
 
 import java.time.Instant;
@@ -11,8 +11,8 @@ import java.util.UUID;
 
 public class SellerAssembler {
 
-    public CurrentSellerDTO currentSellerToDTO(Seller seller, UUID sellerId, List<ProductOfferInfoResponseDTO> productOffer){
-        var currentSeller = new CurrentSellerDTO();
+    public CurrentSellerDto currentSellerToDTO(Seller seller, UUID sellerId, List<ProductOfferInfoResponseDto> productOffer){
+        var currentSeller = new CurrentSellerDto();
 
         currentSeller.id = sellerId;
         currentSeller.name = seller.getName();
