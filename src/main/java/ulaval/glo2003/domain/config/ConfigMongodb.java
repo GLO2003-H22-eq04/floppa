@@ -1,4 +1,4 @@
-package ulaval.glo2003.config;
+package ulaval.glo2003.domain.config;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
@@ -14,7 +14,9 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 
-public class MongoDB {
+import static java.util.concurrent.TimeUnit.SECONDS;
+
+public class ConfigMongodb {
     private static final String DB_HOST = "127.0.0.1";
     private static final int DB_PORT = 27017;
     private static final String DB_NAME = "morphia";
@@ -24,10 +26,9 @@ public class MongoDB {
     private Datastore datastore;
 
 
-    public MongoDB(){
+    public ConfigMongodb(){
         try (MongoClient mongoClient = MongoClients.create(getClientSetting())) {
             database = mongoClient.getDatabase("Admin");
-            setupDataStore();
             try {
                 Bson command = new BsonDocument("ping", new BsonInt64(1));
                 Document commandResult = database.runCommand(command);
@@ -38,31 +39,13 @@ public class MongoDB {
         }
     }
 
-    private void setupDataStore(){
-        datastore = Morphia.createDatastore(MongoClients.create(getClientSetting()), "Floppa");
-
-        datastore.getMapper().mapPackage("ulaval.glo2003.seller");
-        datastore.getMapper().mapPackage("ulaval.glo2003.product");
-        datastore.getMapper().mapPackage("ulaval.glo2003.offer");
-
-        datastore.getDatabase().drop();
-        datastore.ensureIndexes();
-    }
-
-    public Datastore getDatastore(){
-        return datastore;
-    }
-
-    public MongoDatabase getDatabase(){
-        return database;
-    }
-
-    private MongoClientSettings getClientSetting(){
+    public MongoClientSettings getClientSetting(){
         var uri = "mongodb://" + DB_HOST + ":" + DB_PORT;
-        MongoClientSettings clientSettings = MongoClientSettings.builder()
+        return MongoClientSettings.builder()
                 .applyConnectionString(new ConnectionString(uri))
                 .uuidRepresentation(UuidRepresentation.STANDARD)
+                .applyToSocketSettings(builder ->
+                        builder.connectTimeout(1, SECONDS))
                 .build();
-        return clientSettings;
     }
 }

@@ -38,7 +38,6 @@ public class SellerController {
 
         var newSeller = sellerRepository.findById(sellerId).get();
         newSeller.setId(sellerId);
-        Main.mongo.getDatastore().save(newSeller);
 
         return Response.created(URI.create(url)).build();
     }

@@ -61,7 +61,6 @@ public class ProductController {
         var product = productFactory.createProduct(productDTO, sellerId);
         UUID productId = productRepository.add(product);
         product.setProductId(productId);
-        Main.mongo.getDatastore().save(product);
 
         var url = PRODUCTS_PATH + "/" + productId;
         return Response.created(URI.create(url)).build();
@@ -178,10 +177,6 @@ public class ProductController {
 
         productOffers.addNewOffer(newOffer);
 
-        var productQuery = Main.mongo.getDatastore().find(Product.class).filter(Filters.lte("_id", product.get().getProductId()));
-        UpdateResult test = productQuery.update(set("offers",productOffers)).execute();
-        Main.mongo.getDatastore().save(productOffers);
-        Main.mongo.getDatastore().save(newOffer);
         return Response
                 .status(Response.Status.OK)
                 .entity("OK")

@@ -24,6 +24,6 @@ public class Amount {
     }
 
     public double getValue() {
-        return value;
+        return value.doubleValue();
     }
 }

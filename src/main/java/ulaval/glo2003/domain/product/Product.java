@@ -26,13 +26,13 @@ public class Product {
     private Amount suggestedPrice;
     @Transient
     private OffsetDateTime createdAt;
-    private MorphiaReference<Offers> offers;
+    private Offers offers;
     private final List<ProductCategory> categories = new ArrayList<>();
 
 
     public Product() {
         createdAt = Instant.now().atOffset(ZoneOffset.UTC);
-        this.offers = MorphiaReference.wrap(new Offers(OffersResponseDTO.empty()));
+        this.offers = new Offers(OffersResponseDTO.empty());
     }
 
     public UUID getProductId() {
@@ -87,9 +87,13 @@ public class Product {
         return categories.stream().map(ProductCategory::getName).collect(Collectors.toList());
     }
 
-    public void setOffers(Offers offers){this.offers = MorphiaReference.wrap(offers);}
+    public void setOffers(Offers offers){this.offers = offers;}
 
     public Offers getOffers() {
-        return offers.get();
+        return offers;
+    }
+
+    public UUID getID() {
+        return this.productId;
     }
 }

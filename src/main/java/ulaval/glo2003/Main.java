@@ -12,22 +12,23 @@ import ulaval.glo2003.api.health.HealthController;
 import ulaval.glo2003.api.product.ProductAssembler;
 import ulaval.glo2003.api.product.ProductController;
 import ulaval.glo2003.api.seller.SellerController;
-import ulaval.glo2003.config.MongoDB;
+import ulaval.glo2003.domain.config.ConfigMongodb;
+import ulaval.glo2003.domain.config.DatastoreFactory;
 import ulaval.glo2003.domain.product.ProductFactory;
 import ulaval.glo2003.domain.product.repository.ProductListRepository;
+import ulaval.glo2003.domain.product.repository.ProductMongodbRepository;
 import ulaval.glo2003.domain.product.repository.ProductRepository;
 import ulaval.glo2003.domain.seller.repository.SellerListRepository;
+import ulaval.glo2003.domain.seller.repository.SellerMongodbRepository;
 import ulaval.glo2003.domain.seller.repository.SellerRepository;
 
 import java.io.IOException;
 import java.net.URI;
 
 public class Main {
-    public static MongoDB mongo;
 
     public static void main(String[] args) throws IOException {
         URI uri = URI.create("http://localhost:8080/");
-        mongo = new MongoDB();
 
         HttpServer server = GrizzlyHttpServerFactory.createHttpServer(uri, getRessourceConfig());
         server.start();
@@ -38,10 +39,12 @@ public class Main {
                 .register(new AbstractBinder() {
                     @Override
                     protected void configure() {
-                        bind(new SellerListRepository()).to(SellerRepository.class);
-                        bind(new ProductListRepository()).to(ProductRepository.class);
+                        bind(new SellerMongodbRepository()).to(SellerRepository.class);
+                        bind(new ProductMongodbRepository()).to(ProductRepository.class);
                         bind(new ProductFactory()).to(ProductFactory.class);
                         bind(new ProductAssembler()).to(ProductAssembler.class);
+                        bind(new ConfigMongodb()).to(ConfigMongodb.class);
+                        bind(DatastoreFactory.class);
                     }
                 })
                 .register(SellerController.class)
