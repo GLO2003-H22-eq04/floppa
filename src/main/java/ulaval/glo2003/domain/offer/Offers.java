@@ -23,10 +23,6 @@ public class Offers {
     private MorphiaReference<List<OfferItem>> items = MorphiaReference.wrap(new ArrayList<>());
 
     public Offers(OffersResponseDTO offersDTO) {
-        this.min = new Amount(offersDTO.min);
-        this.max = new Amount(offersDTO.max);
-        this.mean = new Amount(offersDTO.mean.get().doubleValue());
-        this.count = offersDTO.count;
         this.id = UUID.randomUUID();
     }
 
@@ -55,7 +51,15 @@ public class Offers {
     }
 
     public Optional<BigDecimal> getMean() {
-        return Optional.of(BigDecimal.valueOf(mean.getValue()));
+        if(items.isEmpty())
+            return Optional.empty();
+
+        double sum = 0;
+        for(var item : items){
+            sum += item.getAmount().getValue();
+        }
+
+        return Optional.of(BigDecimal.valueOf(sum/items.size()));
     }
 
     public double getMin() {
