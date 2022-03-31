@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import ulaval.glo2003.api.product.ProductController;
-import ulaval.glo2003.applicatif.seller.SellerDTO;
+import ulaval.glo2003.applicatif.seller.SellerDto;
 import ulaval.glo2003.domain.product.Amount;
 import ulaval.glo2003.domain.product.Product;
 import ulaval.glo2003.domain.product.ProductCategory;
@@ -37,8 +37,8 @@ public class ProductFilterIntegrationTests extends JerseyTest {
 
     private Product product1;
     private Product product2;
-    private SellerDTO sellerDTO1;
-    private SellerDTO sellerDTO2;
+    private SellerDto sellerDTO1;
+    private SellerDto sellerDTO2;
 
     private Seller seller1;
     private Seller seller2;
@@ -67,12 +67,12 @@ public class ProductFilterIntegrationTests extends JerseyTest {
         product2.addCategory(ProductCategory.OTHER);
         product2.setSellerId(VALID_SELLER_ID_2);
 
-        sellerDTO1 = new SellerDTO();
+        sellerDTO1 = new SellerDto();
         sellerDTO1.name = "John Doe";
         sellerDTO1.bio = "Un seller";
         sellerDTO1.birthDate = LocalDate.now().minusYears(20);
 
-        sellerDTO2 = new SellerDTO();
+        sellerDTO2 = new SellerDto();
         sellerDTO2.name = "John Moe";
         sellerDTO2.bio = "Un seller";
         sellerDTO2.birthDate = LocalDate.now().minusYears(30);

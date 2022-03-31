@@ -11,11 +11,11 @@ public class OfferItem {
     private String message;
     private DateTime createdAt;
 
-    public OfferItem(){
+    public OfferItem() {
         this.createdAt = DateTime.now();
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -23,7 +23,7 @@ public class OfferItem {
         return name;
     }
 
-    public void setEmail(String email){
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -31,7 +31,7 @@ public class OfferItem {
         return email;
     }
 
-    public void setPhoneNumber(String phoneNumber){
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -39,7 +39,7 @@ public class OfferItem {
         return phoneNumber;
     }
 
-    public void setAmount(Amount amount){
+    public void setAmount(Amount amount) {
         this.amount = amount;
     }
 
@@ -47,11 +47,19 @@ public class OfferItem {
         return amount;
     }
 
-    public void setMessage(String message){
+    public void setMessage(String message) {
         this.message = message;
     }
 
     public String getMessage() {
         return message;
+    }
+
+    public void setCreatedAt(DateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public DateTime getCreatedAt() {
+        return this.createdAt;
     }
 }

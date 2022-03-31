@@ -1,14 +1,14 @@
 package ulaval.glo2003.applicatif.product;
 
 
-import ulaval.glo2003.applicatif.offer.OffersResponseDTO;
+import ulaval.glo2003.applicatif.offer.OffersResponseDto;
 import ulaval.glo2003.domain.product.ProductCategory;
 
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public class ProductFilteredResponseDTO {
+public class ProductFilteredResponseDto {
 
     public UUID id;
 
@@ -22,18 +22,23 @@ public class ProductFilteredResponseDTO {
 
     public List<ProductCategory> categories;
 
-    public ProductSellerDTO seller;
+    public ProductSellerDto seller;
 
-    public OffersResponseDTO offers;
+    public OffersResponseDto offers;
 
-    public ProductFilteredResponseDTO(UUID id,
-                                      OffsetDateTime createdAt,
-                                      String title,
-                                      String description,
-                                      double suggestedPrice,
-                                      List<ProductCategory> categories,
-                                      ProductSellerDTO seller,
-                                      OffersResponseDTO offers){
+    public ProductFilteredResponseDto() {
+    }
+
+    public ProductFilteredResponseDto(
+            UUID id,
+            OffsetDateTime createdAt,
+            String title,
+            String description,
+            double suggestedPrice,
+            List<ProductCategory> categories,
+            ProductSellerDto seller,
+            OffersResponseDto offers
+    ) {
         this.id = id;
         this.createdAt = createdAt;
         this.title = title;

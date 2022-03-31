@@ -11,8 +11,8 @@ import ulaval.glo2003.api.validation.MinimumPrice;
 import java.util.ArrayList;
 import java.util.List;
 
-@GroupSequence({HighPriority.class, ProductDTO.class})
-public class ProductDTO {
+@GroupSequence({HighPriority.class, ProductDto.class})
+public class ProductDto {
 
     @NotNull(message = "Le champ \"title\" est obligatoire.", payload = MissingParameterError.class, groups = HighPriority.class)
     @NotBlank(message = "Le champ \"title\" doit contenir une valeur.", payload = InvalidParameterError.class)
