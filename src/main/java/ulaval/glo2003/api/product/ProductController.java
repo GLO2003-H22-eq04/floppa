@@ -12,9 +12,9 @@ import ulaval.glo2003.Main;
 import ulaval.glo2003.api.validation.errors.InvalidParameterError;
 import ulaval.glo2003.api.validation.errors.ItemNotFoundError;
 import ulaval.glo2003.api.validation.errors.MissingParameterError;
-import ulaval.glo2003.applicatif.offer.OfferItemDTO;
-import ulaval.glo2003.applicatif.offer.OfferItemResponseDTO;
-import ulaval.glo2003.applicatif.offer.OffersResponseDTO;
+import ulaval.glo2003.applicatif.offer.OfferItemDto;
+import ulaval.glo2003.applicatif.offer.OfferItemResponseDto;
+import ulaval.glo2003.applicatif.offer.OffersResponseDto;
 import ulaval.glo2003.applicatif.product.*;
 import ulaval.glo2003.domain.offer.OfferFactory;
 import ulaval.glo2003.domain.offer.Offers;
@@ -54,11 +54,11 @@ public class ProductController {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response postCreatingProduct(@HeaderParam(SELLER_ID_HEADER) UUID sellerId,
-                                        @Valid @NotNull(payload = MissingParameterError.class) ProductDTO productDTO) throws ItemNotFoundError {
+                                        @Valid @NotNull(payload = MissingParameterError.class) ProductDto productDto) throws ItemNotFoundError {
         if (!sellerRepository.existById(sellerId))
             throw new ItemNotFoundError("L'id fourni n'existe pas.");
 
-        var product = productFactory.createProduct(productDTO, sellerId);
+        var product = productFactory.createProduct(productDto, sellerId);
         UUID productId = productRepository.add(product);
         product.setProductId(productId);
 
@@ -68,48 +68,48 @@ public class ProductController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public ProductFilterResponsesCollectionDTO getProductsFromFilter(@QueryParam("sellerId") UUID p_sellerId,
-                                                                     @QueryParam("title") String p_title,
-                                                                     @QueryParam("categories") List<String> p_categories,
-                                                                     @QueryParam("minPrice") float p_minPrice,
-                                                                     @QueryParam("maxPrice") float p_maxPrice) {
+    public ProductFilterResponsesCollectionDto getProductsFromFilter(@QueryParam("sellerId") UUID sellerId,
+                                                                     @QueryParam("title") String title,
+                                                                     @QueryParam("categories") List<String> categories,
+                                                                     @QueryParam("minPrice") float minPrice,
+                                                                     @QueryParam("maxPrice") float maxPrice) {
 
         List<Product> productList = productRepository.findAll();
-        List<ProductFilteredResponseDTO> products = new ArrayList<>();
+        List<ProductFilteredResponseDto> products = new ArrayList<>();
 
-        if (p_sellerId != null) {
-            Criteria sellerFilter = new CriteriaSellerID(p_sellerId);
+        if (sellerId != null) {
+            Criteria sellerFilter = new CriteriaSellerId(sellerId);
             productList = sellerFilter.meetCriteria(productList);
         }
-        if (p_title != null) {
-            Criteria titleFilter = new CriteriaTitle(p_title);
+        if (title != null) {
+            Criteria titleFilter = new CriteriaTitle(title);
             productList = titleFilter.meetCriteria(productList);
 
         }
-        if (!p_categories.isEmpty()) {
+        if (!categories.isEmpty()) {
             List<ProductCategory> productCategoriesList = new ArrayList<>();
-            for (String category : p_categories) {
+            for (String category : categories) {
                 productCategoriesList.add(ProductCategory.findByName(category));
             }
 
             Criteria categoryFilter = new CriteriaCategories(productCategoriesList);
             productList = categoryFilter.meetCriteria(productList);
         }
-        if (p_minPrice != 0) {
-            Criteria minPriceFilter = new CriteriaMinPrice(p_minPrice);
+        if (minPrice != 0) {
+            Criteria minPriceFilter = new CriteriaMinPrice(minPrice);
             productList = minPriceFilter.meetCriteria(productList);
         }
-        if (p_maxPrice != 0) {
-            Criteria maxPriceFilter = new CriteriaMaxPrice(p_maxPrice);
+        if (maxPrice != 0) {
+            Criteria maxPriceFilter = new CriteriaMaxPrice(maxPrice);
             productList = maxPriceFilter.meetCriteria(productList);
         }
 
         if (!productList.isEmpty()) {
             for (Product product : productList) {
                 var seller = sellerRepository.findById(product.getSellerId());
-                ProductSellerDTO productSeller = null;
+                ProductSellerDto productSeller = null;
                 if (seller.isPresent()) {
-                    productSeller = new ProductSellerDTO(
+                    productSeller = new ProductSellerDto(
                             product.getSellerId(),
                             seller.get().getName()
                     );
@@ -117,7 +117,7 @@ public class ProductController {
 
                 var offers = product.getOffers();
                 var offerList = getOfferList(offers);
-                products.add(new ProductFilteredResponseDTO(
+                products.add(new ProductFilteredResponseDto(
                         product.getProductId(),
                         product.getCreatedAt(),
                         product.getTitle(),
@@ -125,18 +125,18 @@ public class ProductController {
                         product.getSuggestedPrice().getValue(),
                         product.getCategories(),
                         productSeller,
-                        new OffersResponseDTO(offers.getMin(),
-                                offers.getMax(),offers.getMean(),offers.getCount(),offerList)));
+                        new OffersResponseDto(offers.getMin(),
+                                offers.getMax(), offers.getMean(), offers.getCount(), offerList)));
             }
         }
 
-        return new ProductFilterResponsesCollectionDTO(products);
+        return new ProductFilterResponsesCollectionDto(products);
     }
 
     @GET
     @Path("/{productId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public ProductInfoResponseDTO getSeller(@PathParam("productId") UUID productId) throws ItemNotFoundError {
+    public ProductInfoResponseDto getSeller(@PathParam("productId") UUID productId) throws ItemNotFoundError {
         var product = productRepository.findById(productId);
 
         if (product.isEmpty())
@@ -150,30 +150,31 @@ public class ProductController {
             throw new ItemNotFoundError("L'id fourni n'existe pas.");
 
         var sellerInfo = seller.get();
-        var productSellerDTO = new ProductSellerDTO(productInfo.getSellerId(), sellerInfo.getName());
+        var productSellerDto = new ProductSellerDto(productInfo.getSellerId(), sellerInfo.getName());
 
         var offers = productInfo.getOffers();
         var offerList = getOfferList(offers);
 
-        return productAssembler.toDto(productInfo, productSellerDTO, new OffersResponseDTO(offers.getMin(),
-                offers.getMax(),offers.getMean(),offers.getCount(),offerList));
+        return productAssembler.toDto(productInfo, productSellerDto, new OffersResponseDto(offers.getMin(),
+                offers.getMax(), offers.getMean(), offers.getCount(), offerList));
     }
 
     @POST
     @Path("/{productId}/offers")
     public Response postOffers(@PathParam("productId") UUID productId,
-                               @Valid @NotNull(payload = MissingParameterError.class) OfferItemDTO offerItemDTO) throws ItemNotFoundError, InvalidParameterError {
+                               @Valid @NotNull(payload = MissingParameterError.class) OfferItemDto offerItemDto
+    ) throws ItemNotFoundError, InvalidParameterError {
         var offerFactory = new OfferFactory();
         var product = productRepository.findById(productId);
 
         if (product.isEmpty())
             throw new ItemNotFoundError("L'id fourni n'existe pas.");
 
-        if (product.get().getSuggestedPrice().getValue() >= offerItemDTO.amount)
+        if (product.get().getSuggestedPrice().getValue() >= offerItemDto.amount)
             throw new InvalidParameterError("Le montant de l'offre doit être égal ou suppérieur à celui demandé");
 
         var productOffers = product.get().getOffers();
-        var newOffer = offerFactory.createNewOffer(offerItemDTO);
+        var newOffer = offerFactory.createNewOffer(offerItemDto);
 
         productOffers.addNewOffer(newOffer);
 
@@ -183,10 +184,10 @@ public class ProductController {
                 .build();
     }
 
-    private List<OfferItemResponseDTO> getOfferList(Offers offers){
-        List<OfferItemResponseDTO> offerList = new ArrayList<>();
-        for (var offer : offers.getListOffer()){
-            offerList.add(new OfferItemResponseDTO(
+    private List<OfferItemResponseDto> getOfferList(Offers offers) {
+        List<OfferItemResponseDto> offerList = new ArrayList<>();
+        for (var offer : offers.getListOffer()) {
+            offerList.add(new OfferItemResponseDto(
                     offer.getName(),
                     offer.getMessage(),
                     offer.getEmail(),

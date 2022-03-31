@@ -1,24 +1,24 @@
 package ulaval.glo2003.api.product;
 
-import ulaval.glo2003.applicatif.offer.OffersResponseDTO;
-import ulaval.glo2003.applicatif.product.ProductInfoResponseDTO;
-import ulaval.glo2003.applicatif.product.ProductSellerDTO;
+import ulaval.glo2003.applicatif.offer.OffersResponseDto;
+import ulaval.glo2003.applicatif.product.ProductInfoResponseDto;
+import ulaval.glo2003.applicatif.product.ProductSellerDto;
 import ulaval.glo2003.domain.product.Product;
 
 public class ProductAssembler {
 
-    public ProductInfoResponseDTO toDto(Product product, ProductSellerDTO productSellerDTO, OffersResponseDTO offersDTO){
-        var productDTO = new ProductInfoResponseDTO();
+    public ProductInfoResponseDto toDto(Product product, ProductSellerDto productSellerDto, OffersResponseDto offersDto) {
+        var productDto = new ProductInfoResponseDto();
 
-        productDTO.id = product.getProductId();
-        productDTO.createdAt = product.getCreatedAt();
-        productDTO.title = product.getTitle();
-        productDTO.description = product.getDescription();
-        productDTO.suggestedPrice = product.getSuggestedPrice();
-        productDTO.categories = product.getCategoriesName();
-        productDTO.seller = productSellerDTO;
-        productDTO.offers = offersDTO;
+        productDto.id = product.getProductId();
+        productDto.createdAt = product.getCreatedAt();
+        productDto.title = product.getTitle();
+        productDto.description = product.getDescription();
+        productDto.suggestedPrice = product.getSuggestedPrice();
+        productDto.categories = product.getCategoriesName();
+        productDto.seller = productSellerDto;
+        productDto.offers = offersDto;
 
-        return productDTO;
+        return productDto;
     }
 }

@@ -5,14 +5,14 @@ import jakarta.json.bind.annotation.JsonbProperty;
 
 import java.util.UUID;
 
-public class ProductSellerDTO {
+public class ProductSellerDto {
 
     public UUID id;
 
     public String name;
 
     @JsonbCreator
-    public ProductSellerDTO(@JsonbProperty("id") UUID id, @JsonbProperty("name") String name){
+    public ProductSellerDto(@JsonbProperty("id") UUID id, @JsonbProperty("name") String name) {
         this.id = id;
         this.name = name;
     }

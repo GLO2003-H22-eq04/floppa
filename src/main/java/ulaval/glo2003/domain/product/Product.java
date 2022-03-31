@@ -32,7 +32,7 @@ public class Product {
 
     public Product() {
         createdAt = Instant.now().atOffset(ZoneOffset.UTC);
-        this.offers = new Offers(OffersResponseDTO.empty());
+        this.offers = new Offers(OffersResponseDto.empty());
     }
 
     public UUID getProductId() {
@@ -63,7 +63,7 @@ public class Product {
         return categories;
     }
 
-    public void addCategory(ProductCategory category){
+    public void addCategory(ProductCategory category) {
         categories.add(category);
     }
 
@@ -75,19 +75,29 @@ public class Product {
         this.sellerId = sellerId;
     }
 
-    public Amount getSuggestedPrice() {return suggestedPrice;}
+    public Amount getSuggestedPrice() {
+        return suggestedPrice;
+    }
 
-    public void setSuggestedPrice(Amount suggestedPrice) {this.suggestedPrice = suggestedPrice;}
+    public void setSuggestedPrice(Amount suggestedPrice) {
+        this.suggestedPrice = suggestedPrice;
+    }
 
-    public OffsetDateTime getCreatedAt() { return createdAt; }
+    public OffsetDateTime getCreatedAt() {
+        return createdAt;
+    }
 
-    public void setCreatedAt(OffsetDateTime createdAt) { this.createdAt = createdAt; }
+    public void setCreatedAt(OffsetDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 
-    public List<String> getCategoriesName(){
+    public List<String> getCategoriesName() {
         return categories.stream().map(ProductCategory::getName).collect(Collectors.toList());
     }
 
-    public void setOffers(Offers offers){this.offers = offers;}
+    public void setOffers(Offers offers) {
+        this.offers = offers;
+    }
 
     public Offers getOffers() {
         return offers;

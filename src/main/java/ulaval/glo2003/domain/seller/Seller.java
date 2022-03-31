@@ -19,7 +19,7 @@ public class Seller {
     private final OffsetDateTime createdAt;
 
 
-    public Seller(SellerDTO seller){
+    public Seller(SellerDto seller) {
         name = seller.name;
         bio = seller.bio;
         birthDate = seller.birthDate;
@@ -32,10 +32,6 @@ public class Seller {
 
     public String getBio() {
         return bio;
-    }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
     }
 
     public OffsetDateTime getCreatedAt() {

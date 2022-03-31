@@ -10,9 +10,9 @@ import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Before;
 import org.junit.Test;
 import ulaval.glo2003.api.product.ProductController;
-import ulaval.glo2003.applicatif.product.ProductDTO;
+import ulaval.glo2003.applicatif.product.ProductDto;
 import ulaval.glo2003.api.seller.SellerController;
-import ulaval.glo2003.applicatif.seller.SellerDTO;
+import ulaval.glo2003.applicatif.seller.SellerDto;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -23,8 +23,8 @@ import static io.restassured.RestAssured.*;
 public class UseCasesAcceptationTests extends JerseyTest {
 
     private final static UUID NON_USED_ID = UUID.fromString("84850a41-7948-41d6-b9fd-c193dd6e4171");
-    private SellerDTO sellerDTO;
-    private ProductDTO productDTO;
+    private SellerDto sellerDTO;
+    private ProductDto productDTO;
     private Jsonb serializer;
 
     @Override
@@ -38,12 +38,12 @@ public class UseCasesAcceptationTests extends JerseyTest {
 
         serializer = JsonbBuilder.create();
 
-        sellerDTO = new SellerDTO();
+        sellerDTO = new SellerDto();
         sellerDTO.name = "Bob";
         sellerDTO.birthDate = LocalDate.of(2000, 10, 10);
         sellerDTO.bio = "Bob eSt cool";
 
-        productDTO = new ProductDTO();
+        productDTO = new ProductDto();
         productDTO.title = "ProDuit";
         productDTO.description = "Cool produit";
         productDTO.suggestedPrice = 10;

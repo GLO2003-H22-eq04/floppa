@@ -32,7 +32,7 @@ public class SellerController {
     private ProductRepository productRepository;
 
     @POST
-    public Response postCreatingSeller(@Valid @NotNull(payload = MissingParameterError.class) SellerDTO seller) {
+    public Response postCreatingSeller(@Valid @NotNull(payload = MissingParameterError.class) SellerDto seller) {
         var sellerId = sellerRepository.add(new Seller(seller));
         var url = SELLERS_PATH + "/" + sellerId;
 
@@ -45,11 +45,11 @@ public class SellerController {
     @GET
     @Path(GET_SELLER_PATH)
     @Produces(MediaType.APPLICATION_JSON)
-    public SellerInfoResponseDTO getSeller(@PathParam(PARAM_SELLER_ID) UUID sellerId) throws ItemNotFoundError {
+    public SellerInfoResponseDto getSeller(@PathParam(PARAM_SELLER_ID) UUID sellerId) throws ItemNotFoundError {
         var seller = sellerRepository.findById(sellerId);
         if (seller.isPresent()) {
             var sellerInfos = seller.get();
-            return new SellerInfoResponseDTO(
+            return new SellerInfoResponseDto(
                     sellerId,
                     sellerInfos.getName(),
                     sellerInfos.getCreatedAt(),

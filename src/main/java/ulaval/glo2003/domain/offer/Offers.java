@@ -1,7 +1,8 @@
 package ulaval.glo2003.domain.offer;
 
 import dev.morphia.annotations.Id;
-import ulaval.glo2003.applicatif.offer.OffersResponseDTO;
+import ulaval.glo2003.applicatif.offer.OffersResponseDto;
+import ulaval.glo2003.domain.product.Amount;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -11,7 +12,11 @@ public class Offers {
     private UUID id;
     private List<OfferItem> items = new ArrayList<>();
 
-    public Offers(OffersResponseDTO offersDTO) {
+    public Offers(OffersResponseDto offersDto) {
+        this.min = new Amount(offersDto.min);
+        this.max = new Amount(offersDto.max);
+        this.mean = new Amount(offersDto.mean.get().doubleValue());
+        this.count = offersDto.count;
         this.id = UUID.randomUUID();
     }
 
