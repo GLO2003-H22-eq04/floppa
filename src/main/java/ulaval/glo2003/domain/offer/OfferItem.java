@@ -3,16 +3,20 @@ package ulaval.glo2003.domain.offer;
 import org.joda.time.DateTime;
 import ulaval.glo2003.domain.product.Amount;
 
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+
 public class OfferItem {
     private String name;
     private String email;
     private String phoneNumber;
     private Amount amount;
     private String message;
-    private DateTime createdAt;
+    private OffsetDateTime createdAt;
 
     public OfferItem() {
-        this.createdAt = DateTime.now();
+        this.createdAt = Instant.now().atOffset(ZoneOffset.UTC);
     }
 
     public void setName(String name) {
@@ -55,11 +59,11 @@ public class OfferItem {
         return message;
     }
 
-    public void setCreatedAt(DateTime createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public DateTime getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return this.createdAt;
     }
 }
