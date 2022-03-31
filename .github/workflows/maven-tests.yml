@@ -30,3 +30,4 @@ jobs:
           healthcheck: "https://staging-floppa-eq04.herokuapp.com/health"
           checkstring: "ok"
           rollbackonhealthcheckfailed: true
+          dontuseforce: true
