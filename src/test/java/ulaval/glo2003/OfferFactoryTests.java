@@ -6,9 +6,6 @@ import ulaval.glo2003.applicatif.offer.OfferItemDto;
 import ulaval.glo2003.domain.offer.OfferFactory;
 import ulaval.glo2003.domain.offer.OfferItem;
 
-import java.util.List;
-import java.util.UUID;
-
 import static com.google.common.truth.Truth.assertThat;
 
 public class OfferFactoryTests {
