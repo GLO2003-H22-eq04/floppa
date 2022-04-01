@@ -22,7 +22,10 @@ import ulaval.glo2003.domain.product.repository.ProductRepository;
 import ulaval.glo2003.domain.seller.Seller;
 import ulaval.glo2003.domain.seller.repository.SellerRepository;
 
+import java.lang.annotation.Annotation;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -69,7 +72,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         productDTO2.suggestedPrice = 6.49;
         productDTO2.categories = List.of("sports");
 
-        product = new Product();
+        product = new Product(Instant.now().atOffset(ZoneOffset.UTC));
         product.setProductId(VALID_PRODUCT_ID);
         product.setDescription("Un produit");
         product.setTitle("Produit");

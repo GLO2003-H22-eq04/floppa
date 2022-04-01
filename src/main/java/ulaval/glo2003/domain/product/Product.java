@@ -2,15 +2,15 @@ package ulaval.glo2003.domain.product;
 
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
-import dev.morphia.annotations.Reference;
-import dev.morphia.annotations.Transient;
-import dev.morphia.mapping.experimental.MorphiaReference;
-import ulaval.glo2003.applicatif.offer.OffersResponseDTO;
+import org.joda.time.Seconds;
+import ulaval.glo2003.applicatif.offer.OffersResponseDto;
 import ulaval.glo2003.domain.offer.Offers;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -22,17 +22,18 @@ public class Product {
     private UUID productId;
     private String title;
     private String description;
+
     private UUID sellerId;
-    private Amount suggestedPrice;
-    @Transient
-    private OffsetDateTime createdAt;
+    private Double suggestedPrice;
+
+    private Instant createdAt;
     private Offers offers;
     private final List<ProductCategory> categories = new ArrayList<>();
 
 
-    public Product() {
-        createdAt = Instant.now().atOffset(ZoneOffset.UTC);
-        this.offers = new Offers(OffersResponseDto.empty());
+    public Product(OffsetDateTime createdAt) {
+        setCreatedAt(createdAt);
+        this.offers = new Offers();
     }
 
     public UUID getProductId() {
@@ -76,19 +77,19 @@ public class Product {
     }
 
     public Amount getSuggestedPrice() {
-        return suggestedPrice;
+        return new Amount(suggestedPrice);
     }
 
     public void setSuggestedPrice(Amount suggestedPrice) {
-        this.suggestedPrice = suggestedPrice;
+        this.suggestedPrice = suggestedPrice.getValue();
     }
 
     public OffsetDateTime getCreatedAt() {
-        return createdAt;
+        return createdAt.atOffset(ZoneOffset.of(ZoneOffset.systemDefault().getId()));
     }
 
     public void setCreatedAt(OffsetDateTime createdAt) {
-        this.createdAt = createdAt;
+        this.createdAt = createdAt.toInstant().truncatedTo(ChronoUnit.MILLIS);
     }
 
     public List<String> getCategoriesName() {
@@ -103,7 +104,20 @@ public class Product {
         return offers;
     }
 
-    public UUID getID() {
-        return this.productId;
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true;
+
+        if (!(obj instanceof Product))
+            return false;
+
+        var comparedProduct = (Product) obj;
+
+        return comparedProduct.productId.equals(this.productId)
+                && comparedProduct.createdAt.equals(this.createdAt)
+                && comparedProduct.description.equals(this.description)
+                && comparedProduct.suggestedPrice.equals(this.suggestedPrice)
+                && comparedProduct.title.equals(this.title);
     }
 }

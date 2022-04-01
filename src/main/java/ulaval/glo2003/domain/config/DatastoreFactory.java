@@ -12,19 +12,17 @@ public class DatastoreFactory {
         this.datastore = createDatastore(clientSettings.getClientSetting());
     }
 
-    private Datastore createDatastore(MongoClientSettings clientSettings){
+    private Datastore createDatastore(MongoClientSettings clientSettings) {
         datastore = Morphia.createDatastore(MongoClients.create(clientSettings), "Floppa");
 
         datastore.getMapper().mapPackage("ulaval.glo2003.seller");
         datastore.getMapper().mapPackage("ulaval.glo2003.product");
         datastore.getMapper().mapPackage("ulaval.glo2003.offer");
-
-        datastore.getDatabase().drop();
         datastore.ensureIndexes();
         return datastore;
     }
 
-    public Datastore getDatastore(){
+    public Datastore getDatastore() {
         return datastore;
     }
 }

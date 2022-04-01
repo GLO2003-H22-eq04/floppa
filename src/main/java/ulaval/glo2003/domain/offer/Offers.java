@@ -1,22 +1,27 @@
 package ulaval.glo2003.domain.offer;
 
+import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
 import ulaval.glo2003.applicatif.offer.OffersResponseDto;
-import ulaval.glo2003.domain.product.Amount;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
+@Entity
 public class Offers {
     @Id
     private UUID id;
     private List<OfferItem> items = new ArrayList<>();
 
-    public Offers(OffersResponseDto offersDto) {
-        this.min = new Amount(offersDto.min);
-        this.max = new Amount(offersDto.max);
-        this.mean = new Amount(offersDto.mean.get().doubleValue());
-        this.count = offersDto.count;
+    public Offers() {
+        this.id = UUID.randomUUID();
+    }
+
+    public Offers(List<OfferItem> items) {
+        this.items = items;
         this.id = UUID.randomUUID();
     }
 
@@ -25,15 +30,15 @@ public class Offers {
     }
 
     public Optional<BigDecimal> getMean() {
-        if(items.isEmpty())
+        if (items.isEmpty())
             return Optional.empty();
 
         double sum = 0;
-        for(var item : items){
+        for (var item : items) {
             sum += item.getAmount().getValue();
         }
 
-        return Optional.of(BigDecimal.valueOf(sum/items.size()));
+        return Optional.of(BigDecimal.valueOf(sum / items.size()));
     }
 
     public double getMin() {

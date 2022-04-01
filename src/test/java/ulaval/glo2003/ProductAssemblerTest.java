@@ -35,7 +35,7 @@ public class ProductAssemblerTest {
 
     @Before
     public void setup() {
-        product = new Product();
+        product = new Product(Instant.now().atOffset(ZoneOffset.UTC));
         product.setSellerId(VALID_PRODUCT_ID1);
         product.setProductId(VALID_PRODUCT_ID1);
         product.setCreatedAt(EXPECTED_CREATED_AT);

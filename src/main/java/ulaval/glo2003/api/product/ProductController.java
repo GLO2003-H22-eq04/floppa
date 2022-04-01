@@ -1,23 +1,18 @@
 package ulaval.glo2003.api.product;
 
-import com.mongodb.client.result.UpdateResult;
-import dev.morphia.query.experimental.filters.Filters;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import ulaval.glo2003.Main;
 import ulaval.glo2003.api.validation.errors.InvalidParameterError;
 import ulaval.glo2003.api.validation.errors.ItemNotFoundError;
 import ulaval.glo2003.api.validation.errors.MissingParameterError;
 import ulaval.glo2003.applicatif.offer.OfferItemDto;
-import ulaval.glo2003.applicatif.offer.OfferItemResponseDto;
 import ulaval.glo2003.applicatif.offer.OffersResponseDto;
 import ulaval.glo2003.applicatif.product.*;
 import ulaval.glo2003.domain.offer.OfferFactory;
-import ulaval.glo2003.domain.offer.Offers;
 import ulaval.glo2003.domain.product.Product;
 import ulaval.glo2003.domain.product.ProductCategory;
 import ulaval.glo2003.domain.product.ProductFactory;
@@ -29,8 +24,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import static dev.morphia.query.experimental.updates.UpdateOperators.set;
 
 @Path(ProductController.PRODUCTS_PATH)
 public class ProductController {
@@ -116,7 +109,6 @@ public class ProductController {
                 }
 
                 var offers = product.getOffers();
-                var offerList = getOfferList(offers);
                 products.add(new ProductFilteredResponseDto(
                         product.getProductId(),
                         product.getCreatedAt(),
@@ -125,8 +117,7 @@ public class ProductController {
                         product.getSuggestedPrice().getValue(),
                         product.getCategories(),
                         productSeller,
-                        new OffersResponseDto(offers.getMin(),
-                                offers.getMax(), offers.getMean(), offers.getCount(), offerList)));
+                        OffersResponseDto.fromOffers(offers)));
             }
         }
 
@@ -153,10 +144,8 @@ public class ProductController {
         var productSellerDto = new ProductSellerDto(productInfo.getSellerId(), sellerInfo.getName());
 
         var offers = productInfo.getOffers();
-        var offerList = getOfferList(offers);
 
-        return productAssembler.toDto(productInfo, productSellerDto, new OffersResponseDto(offers.getMin(),
-                offers.getMax(), offers.getMean(), offers.getCount(), offerList));
+        return productAssembler.toDto(productInfo, productSellerDto, OffersResponseDto.fromOffers(offers));
     }
 
     @POST
@@ -182,18 +171,5 @@ public class ProductController {
                 .status(Response.Status.OK)
                 .entity("OK")
                 .build();
-    }
-
-    private List<OfferItemResponseDto> getOfferList(Offers offers) {
-        List<OfferItemResponseDto> offerList = new ArrayList<>();
-        for (var offer : offers.getListOffer()) {
-            offerList.add(new OfferItemResponseDto(
-                    offer.getName(),
-                    offer.getMessage(),
-                    offer.getEmail(),
-                    offer.getPhoneNumber(),
-                    offer.getAmount().getValue()));
-        }
-        return offerList;
     }
 }

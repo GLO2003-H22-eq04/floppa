@@ -1,12 +1,23 @@
 package ulaval.glo2003;
 
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
+import ulaval.glo2003.applicatif.offer.OffersResponseDto;
+import ulaval.glo2003.domain.config.ConfigMongodb;
+import ulaval.glo2003.domain.config.DatastoreFactory;
+import ulaval.glo2003.domain.offer.OfferItem;
+import ulaval.glo2003.domain.offer.Offers;
 import ulaval.glo2003.domain.product.Amount;
 import ulaval.glo2003.domain.product.Product;
 import ulaval.glo2003.domain.product.ProductCategory;
 import ulaval.glo2003.domain.product.repository.ProductMongodbRepository;
 
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -17,32 +28,53 @@ public class ProductMongodbRepositoryTests {
     private Product product1;
     private Product product2;
 
+    private Offers offers;
+    private OfferItem offerItem;
+
     private ProductMongodbRepository productMongodbRepository;
 
     @Before
     public void before() {
         productMongodbRepository = new ProductMongodbRepository();
-        product1 = new Product();
-        product1.setTitle("titleDT01");
+
+        offerItem = new OfferItem();
+        offerItem.setAmount(new Amount(11));
+        offerItem.setEmail("email@me.com");
+        offerItem.setMessage("message");
+        offerItem.setName("Nom");
+        offerItem.setCreatedAt(DateTime.now().minusDays(1));
+        offerItem.setPhoneNumber("4186666666");
+
+        var offerslist = new ArrayList<OfferItem>();
+        offerslist.add(offerItem);
+
+        offers = new Offers(offerslist);
+
+        product1 = new Product(Instant.now().atOffset(ZoneOffset.UTC));
+        product1.setTitle("titleDT0");
         product1.setDescription("descriptionDT01");
         product1.setSuggestedPrice(new Amount(4.29));
         product1.addCategory(ProductCategory.BEAUTY);
         product1.addCategory(ProductCategory.OTHER);
+        product1.setOffers(offers);
 
 
-        product2 = new Product();
+        product2 = new Product(Instant.now().atOffset(ZoneOffset.UTC));
         product2.setTitle("titleDT02");
         product2.setDescription("descriptionDT02");
         product2.setSuggestedPrice(new Amount(6.49));
         product2.addCategory(ProductCategory.SPORTS);
         product2.addCategory(ProductCategory.OTHER);
 
+
+        new DatastoreFactory(new ConfigMongodb()).getDatastore().getDatabase().drop();
     }
 
     @Test
     public void canAddOneProductNormal() {
         var id = productMongodbRepository.add(product1);
-        assertThat(productMongodbRepository.findAll()).contains(product1);
+        List<Product> all = productMongodbRepository.findAll();
+        assertThat(all.stream().findFirst().get().equals(product1)).isTrue();
     }
 
     @Test
