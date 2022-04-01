@@ -34,10 +34,16 @@ public class Seller {
         return bio;
     }
 
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
     public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public List<Product> getProductList() { return productList; }
+    public List<Product> getProductList() {
+        return productList;
+    }
 
 }
