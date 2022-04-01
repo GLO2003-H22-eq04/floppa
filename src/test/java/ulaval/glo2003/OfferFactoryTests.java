@@ -53,6 +53,11 @@ public class OfferFactoryTests {
     public void canCreateSingleOfferNormal(){
         var offer = offerFactory.createNewOffer(offerItemDto1);
         checkForNull(offer);
+        assertThat(offer.getName()).isEqualTo(offerItemDto1.name);
+        assertThat(offer.getMessage()).isEqualTo(offerItemDto1.message);
+        assertThat(offer.getPhoneNumber()).isEqualTo(offerItemDto1.phoneNumber);
+        assertThat(offer.getEmail()).isEqualTo(offerItemDto1.email);
+        assertThat(offer.getAmount()).isNotEqualTo(offerItemDto1.amount);
     }
 
     @Test
