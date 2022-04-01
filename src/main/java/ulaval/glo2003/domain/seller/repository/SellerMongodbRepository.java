@@ -9,12 +9,21 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class SellerMongodbRepository implements SellerRepository {
+
+    public SellerMongodbRepository() {
+    }
+
+    public SellerMongodbRepository(DatastoreFactory datastoreFactory) {
+        this.datastoreFactory = datastoreFactory;
+    }
+
     @Inject
     private DatastoreFactory datastoreFactory;
 
     @Override
     public UUID add(Seller seller) {
-        seller.setId(UUID.randomUUID());
+        if (seller.getID() == null)
+            seller.setId(UUID.randomUUID());
         datastoreFactory.getDatastore().save(seller);
         return seller.getID();
     }

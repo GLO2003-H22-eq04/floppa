@@ -50,6 +50,7 @@ public class Main {
                         bind(DatastoreFactory.class);
                     }
                 })
+                .register(new DatastoreFactory(new ConfigMongodb()))
                 .register(SellerController.class)
                 .register(HealthController.class)
                 .register(ProductController.class)

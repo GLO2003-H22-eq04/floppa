@@ -35,7 +35,7 @@ public class ProductMongodbRepositoryTests {
 
     @Before
     public void before() {
-        productMongodbRepository = new ProductMongodbRepository();
+        productMongodbRepository = new ProductMongodbRepository(new DatastoreFactory(new ConfigMongodb()));
 
         offerItem = new OfferItem();
         offerItem.setAmount(new Amount(11));
@@ -65,7 +65,6 @@ public class ProductMongodbRepositoryTests {
         product2.setSuggestedPrice(new Amount(6.49));
         product2.addCategory(ProductCategory.SPORTS);
         product2.addCategory(ProductCategory.OTHER);
-
 
         new DatastoreFactory(new ConfigMongodb()).getDatastore().getDatabase().drop();
     }

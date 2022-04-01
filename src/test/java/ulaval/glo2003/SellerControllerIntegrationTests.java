@@ -14,10 +14,12 @@ import org.mockito.junit.MockitoJUnitRunner;
 import ulaval.glo2003.api.seller.SellerController;
 import ulaval.glo2003.applicatif.seller.SellerDto;
 import ulaval.glo2003.applicatif.seller.SellerInfoResponseDto;
+import ulaval.glo2003.domain.product.repository.ProductRepository;
 import ulaval.glo2003.domain.seller.Seller;
 import ulaval.glo2003.domain.seller.repository.SellerRepository;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -33,6 +35,9 @@ public class SellerControllerIntegrationTests extends JerseyTest {
 
     @Mock
     private SellerRepository sellerListRepositoryMock;
+
+    @Mock
+    private ProductRepository productRepositoryMock;
 
     private SellerDto aSellerDTO1;
     private SellerDto aSellerDTO2;
@@ -55,6 +60,8 @@ public class SellerControllerIntegrationTests extends JerseyTest {
 
         when(sellerListRepositoryMock.findById(VALID_ID)).thenReturn(Optional.of(seller));
         when(sellerListRepositoryMock.add(any())).thenReturn(VALID_ID);
+
+        when(productRepositoryMock.productOf(VALID_ID)).thenReturn(new ArrayList<>());
     }
 
     @Override
@@ -64,6 +71,7 @@ public class SellerControllerIntegrationTests extends JerseyTest {
             @Override
             protected void configure() {
                 bind(sellerListRepositoryMock).to(SellerRepository.class).ranked(2);
+                bind(productRepositoryMock).to(ProductRepository.class).ranked(2);
             }
         });
         return resourceConfig;

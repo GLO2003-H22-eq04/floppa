@@ -1,6 +1,7 @@
 package ulaval.glo2003.domain.product.repository;
 
 import dev.morphia.query.experimental.filters.Filters;
+import jakarta.inject.Inject;
 import ulaval.glo2003.domain.config.ConfigMongodb;
 import ulaval.glo2003.domain.config.DatastoreFactory;
 import ulaval.glo2003.domain.product.Product;
@@ -12,7 +13,14 @@ import java.util.stream.Collectors;
 
 public class ProductMongodbRepository implements ProductRepository {
 
-    private final DatastoreFactory datastoreFactory = new DatastoreFactory(new ConfigMongodb());
+    public ProductMongodbRepository() {}
+
+    public ProductMongodbRepository(DatastoreFactory datastoreFactory) {
+        this.datastoreFactory = datastoreFactory;
+    }
+
+    @Inject
+    private DatastoreFactory datastoreFactory;
 
     @Override
     public UUID add(Product product) {
