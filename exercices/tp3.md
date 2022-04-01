@@ -24,7 +24,7 @@
 
 4. Le pipeline CI amène-t-il un élément qui pourrait devenir négatif ou dangeureux pour le processus, le produit et/ou l'équipe? Justifiez.
 
-> Le pipeline pourrait être dangereux s’il est mal configuré ou utilise les mauvais outils. Dans ce cas, il serait plutôt un handicap que d’autre chose dans un projet de développement.  Ainsi, l’équipe n’aurait pas une bonne relation avec celui-ci, et donc, il pourrait être mis de côté pour de mauvaises raisons.
+> Le pipeline pourrait être dangereux s’il est mal configuré ou utilise les mauvais outils. Dans ce cas, il serait plutôt un handicap que d’autre chose dans un projet de développement.  Ainsi, l’équipe n’aurait pas une bonne relation avec celui-ci, et donc, il pourrait être mis de côté pour de mauvaises raisons Aussi, il pourrait apporter un faux sentiment de sécurité, car même si tous les tests semblent passer, il ne faut surtout pas assumer que tous fonctionnent pour autant. C'est pourquoi il est important de s'assurer que le nouveau code soit couvert par des tests.
 
 #### Tests 
 1. Quel proportion de temps passez-vous à faire l'implémentation du code fonctionnel versus celui des tests? Est-ce que cette proportion évolue au fil du temps? Pourquoi?
