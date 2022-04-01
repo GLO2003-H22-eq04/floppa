@@ -13,6 +13,7 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -24,7 +25,7 @@ public class Product {
     private String description;
 
     private UUID sellerId;
-    private Double suggestedPrice;
+    private Amount suggestedPrice;
 
     private Instant createdAt;
     private Offers offers;
@@ -33,6 +34,11 @@ public class Product {
 
     public Product(OffsetDateTime createdAt) {
         setCreatedAt(createdAt);
+        this.offers = new Offers();
+    }
+
+    // Est utilisé par Morphia même si il est privé car java c'est dumb.
+    private Product() {
         this.offers = new Offers();
     }
 
@@ -77,15 +83,15 @@ public class Product {
     }
 
     public Amount getSuggestedPrice() {
-        return new Amount(suggestedPrice);
+        return suggestedPrice;
     }
 
     public void setSuggestedPrice(Amount suggestedPrice) {
-        this.suggestedPrice = suggestedPrice.getValue();
+        this.suggestedPrice = suggestedPrice;
     }
 
     public OffsetDateTime getCreatedAt() {
-        return createdAt.atOffset(ZoneOffset.of(ZoneOffset.systemDefault().getId()));
+        return createdAt.atOffset(ZoneOffset.UTC);
     }
 
     public void setCreatedAt(OffsetDateTime createdAt) {
@@ -114,7 +120,7 @@ public class Product {
 
         var comparedProduct = (Product) obj;
 
-        return comparedProduct.productId.equals(this.productId)
+        return (comparedProduct.productId == null || comparedProduct.productId.equals(this.productId))
                 && comparedProduct.createdAt.equals(this.createdAt)
                 && comparedProduct.description.equals(this.description)
                 && comparedProduct.suggestedPrice.equals(this.suggestedPrice)

@@ -8,17 +8,15 @@ import ulaval.glo2003.api.health.HealthController;
 import ulaval.glo2003.api.product.ProductAssembler;
 import ulaval.glo2003.api.product.ProductController;
 import ulaval.glo2003.api.seller.SellerController;
-import ulaval.glo2003.domain.config.ConfigMongodb;
-import ulaval.glo2003.domain.config.DatastoreFactory;
 import ulaval.glo2003.api.validation.handler.ConstraintViolationExceptionHandler;
 import ulaval.glo2003.api.validation.handler.ParamExceptionHandler;
 import ulaval.glo2003.api.validation.handler.ProcessingExceptionHandler;
 import ulaval.glo2003.api.validation.handler.ValidationExceptionHandler;
+import ulaval.glo2003.domain.config.ConfigMongodb;
+import ulaval.glo2003.domain.config.DatastoreFactory;
 import ulaval.glo2003.domain.product.ProductFactory;
-import ulaval.glo2003.domain.product.repository.ProductListRepository;
 import ulaval.glo2003.domain.product.repository.ProductMongodbRepository;
 import ulaval.glo2003.domain.product.repository.ProductRepository;
-import ulaval.glo2003.domain.seller.repository.SellerListRepository;
 import ulaval.glo2003.domain.seller.repository.SellerMongodbRepository;
 import ulaval.glo2003.domain.seller.repository.SellerRepository;
 
@@ -32,8 +30,8 @@ public class Main {
         final String port = System.getenv("PORT");
         final String baseUri = "http://0.0.0.0:" + port;
 
-        //URI uri = URI.create("http://localhost:8080/");
-        URI uri = URI.create(baseUri);
+        URI uri = URI.create("http://localhost:8080/");
+        //URI uri = URI.create(baseUri);
 
         HttpServer server = GrizzlyHttpServerFactory.createHttpServer(uri, getRessourceConfig());
         server.start();

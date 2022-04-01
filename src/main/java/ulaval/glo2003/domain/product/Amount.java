@@ -10,7 +10,22 @@ import java.math.RoundingMode;
 @Entity("Amount")
 public class Amount {
 
-    private final BigDecimal value;
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true;
+
+        if (!(obj instanceof Amount))
+            return false;
+
+        var comparedAmount = ((Amount) obj);
+
+        return comparedAmount.value.equals(this.value);
+    }
+
+    private BigDecimal value;
+
+    private Amount(){}
 
     @JsonbCreator
     public Amount(@JsonbProperty("value") double value) {

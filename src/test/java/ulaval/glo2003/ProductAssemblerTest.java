@@ -12,6 +12,7 @@ import ulaval.glo2003.domain.product.ProductCategory;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,7 +24,7 @@ public class ProductAssemblerTest {
     private static final String EXPECTED_DESCRIPTION = "Pink and all";
     private static final double EXPECTED_SUGGESTED_PRICE = 5.01;
     private static final List<String> EXPECTED_CATEGORIES = List.of("beauty", "apparel");
-    private static final OffsetDateTime EXPECTED_CREATED_AT = Instant.now().atOffset(ZoneOffset.UTC);
+    private static final OffsetDateTime EXPECTED_CREATED_AT = Instant.now().atOffset(ZoneOffset.UTC).truncatedTo(ChronoUnit.MILLIS);
 
     private static final UUID VALID_PRODUCT_ID1 = UUID.fromString("7b2e4fe9-aeaf-482d-b57d-98bac0183470");
 
@@ -35,7 +36,7 @@ public class ProductAssemblerTest {
 
     @Before
     public void setup() {
-        product = new Product(Instant.now().atOffset(ZoneOffset.UTC));
+        product = new Product(EXPECTED_CREATED_AT);
         product.setSellerId(VALID_PRODUCT_ID1);
         product.setProductId(VALID_PRODUCT_ID1);
         product.setCreatedAt(EXPECTED_CREATED_AT);
