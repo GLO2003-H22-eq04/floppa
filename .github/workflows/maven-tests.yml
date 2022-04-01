@@ -1,10 +1,6 @@
 name: Java CI
 
-on: 
-  push:
-    branches-ignore: [main]
-  pull_request:
-    branches-ignore: [main]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -33,4 +29,4 @@ jobs:
           heroku_email: "christopher.godin.1@ulaval.ca"
           healthcheck: "https://staging-floppa-eq04.herokuapp.com/health"
           rollbackonhealthcheckfailed: true
-          dontuseforce: true
+          dontuseforce: false
