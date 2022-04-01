@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class SellerAssembler {
 
-    public CurrentSellerDto currentSellerToDTO(Seller seller, UUID sellerId, List<ProductOfferInfoResponseDto> productOffer) {
+    public CurrentSellerDto currentSellerToDto(Seller seller, UUID sellerId, List<ProductOfferInfoResponseDto> productOffer) {
         var currentSeller = new CurrentSellerDto();
 
         currentSeller.id = sellerId;

@@ -82,7 +82,7 @@ public class SellerController {
         var sellerInfo = seller.get();
         var offerList = getProductOfferList(sellerInfo);
 
-        return sellerAssembler.currentSellerToDTO(sellerInfo, sellerId, offerList);
+        return sellerAssembler.currentSellerToDto(sellerInfo, sellerId, offerList);
     }
 
     private List<BuyerItemResponseDto> getOfferList(Offers offers) {
