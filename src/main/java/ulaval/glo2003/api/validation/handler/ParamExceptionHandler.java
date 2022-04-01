@@ -5,7 +5,6 @@ import jakarta.ws.rs.ext.ExceptionMapper;
 import org.glassfish.jersey.server.ParamException;
 import ulaval.glo2003.api.validation.ValidationExceptionResponseBuilder;
 import ulaval.glo2003.api.validation.errors.InvalidParameterError;
-import ulaval.glo2003.api.validation.errors.ValidationError;
 
 public class ParamExceptionHandler implements ExceptionMapper<ParamException> {
 

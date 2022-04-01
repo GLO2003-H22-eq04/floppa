@@ -135,7 +135,7 @@ public class FilterTest{
         Criteria criteria = new CriteriaTitle(testLetter);
         var actualResult = criteria.meetCriteria(products);
 
-        assertThat(criteria.meetCriteria(products).size()).isEqualTo(TITLE_WITH_E_COUNT);
+        assertThat(actualResult.size()).isEqualTo(TITLE_WITH_E_COUNT);
     }
 
     @Test
