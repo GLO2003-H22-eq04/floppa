@@ -76,7 +76,7 @@ public class SellerController {
 
         var seller = sellerRepository.findById(sellerId);
 
-        if (!seller.isPresent())
+        if (seller.isEmpty())
             throw new ItemNotFoundError("L'id fourni n'existe pas.");
 
         var sellerInfo = seller.get();
@@ -89,6 +89,7 @@ public class SellerController {
         List<BuyerItemResponseDto> buyerList = new ArrayList<>();
         for (var offer : offers.getListOffer()) {
             buyerList.add(new BuyerItemResponseDto(
+                    offer.getOfferId(),
                     offer.getCreatedAt(),
                     offer.getAmount().getValue(),
                     offer.getMessage(),
@@ -99,7 +100,6 @@ public class SellerController {
 
     private List<ProductOfferInfoResponseDto> getProductOfferList(Seller seller) {
         List<ProductOfferInfoResponseDto> productList = new ArrayList<>();
-        List<BuyerItemResponseDto> buyerList = new ArrayList<>();
         for (var product : seller.getProductList()) {
 
             productList.add(new ProductOfferInfoResponseDto(

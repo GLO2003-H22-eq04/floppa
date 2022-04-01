@@ -6,8 +6,10 @@ import ulaval.glo2003.domain.product.Amount;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.UUID;
 
 public class OfferItem {
+    private UUID offerId;
     private String name;
     private String email;
     private String phoneNumber;
@@ -17,6 +19,7 @@ public class OfferItem {
 
     public OfferItem() {
         this.createdAt = Instant.now().atOffset(ZoneOffset.UTC);
+        this.offerId = UUID.randomUUID();
     }
 
     public void setName(String name) {
@@ -65,5 +68,13 @@ public class OfferItem {
 
     public OffsetDateTime getCreatedAt() {
         return this.createdAt;
+    }
+
+    public UUID getOfferId() {
+        return offerId;
+    }
+
+    public void setOfferId(UUID offerId) {
+        this.offerId = offerId;
     }
 }
