@@ -28,6 +28,5 @@ jobs:
           heroku_app_name: "staging-floppa-eq04"
           heroku_email: "christopher.godin.1@ulaval.ca"
           healthcheck: "https://staging-floppa-eq04.herokuapp.com/health"
-          checkstring: "ok"
           rollbackonhealthcheckfailed: true
           dontuseforce: true
