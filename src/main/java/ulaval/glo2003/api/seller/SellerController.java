@@ -80,42 +80,7 @@ public class SellerController {
             throw new ItemNotFoundError("L'id fourni n'existe pas.");
 
         var sellerInfo = seller.get();
-        var offerList = getProductOfferList(sellerInfo);
 
-        return sellerAssembler.currentSellerToDto(sellerInfo, sellerId, offerList);
-    }
-
-    private List<BuyerItemResponseDto> getOfferList(Offers offers) {
-        List<BuyerItemResponseDto> buyerList = new ArrayList<>();
-        for (var offer : offers.getListOffer()) {
-            buyerList.add(new BuyerItemResponseDto(
-                    offer.getOfferId(),
-                    offer.getCreatedAt(),
-                    offer.getAmount().getValue(),
-                    offer.getMessage(),
-                    new BuyerInfoResponseDto(offer.getName(), offer.getEmail(), offer.getPhoneNumber())));
-        }
-        return buyerList;
-    }
-
-    private List<ProductOfferInfoResponseDto> getProductOfferList(Seller seller) {
-        List<ProductOfferInfoResponseDto> productList = new ArrayList<>();
-        for (var product : seller.getProductList()) {
-
-            productList.add(new ProductOfferInfoResponseDto(
-                    product.getProductId(),
-                    product.getTitle(),
-                    product.getDescription(),
-                    product.getCreatedAt(),
-                    product.getSuggestedPrice().getValue(),
-                    product.getCategories(),
-                    new OfferInfoResponseDto(product.getOffers().getMin(),
-                            product.getOffers().getMax(),
-                            product.getOffers().getMean(),
-                            product.getOffers().getCount(),
-                            getOfferList(product.getOffers()))));
-
-        }
-        return productList;
+        return sellerAssembler.currentSellerToDto(sellerInfo);
     }
 }

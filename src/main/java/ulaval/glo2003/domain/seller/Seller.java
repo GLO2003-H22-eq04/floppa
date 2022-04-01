@@ -9,6 +9,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Seller {
 
@@ -17,6 +18,7 @@ public class Seller {
     private final LocalDate birthDate;
     private final OffsetDateTime createdAt;
     private final List<Product> productList = new ArrayList<>();
+    private UUID sellerId;
 
 
     public Seller(SellerDto seller) {
@@ -42,8 +44,16 @@ public class Seller {
         return createdAt;
     }
 
-    public List<Product> getProductList() {
+    public List<Product> getProducts() {
         return productList;
+    }
+
+    public UUID getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(UUID sellerId) {
+        this.sellerId = sellerId;
     }
 
 }
