@@ -1,13 +1,10 @@
 package ulaval.glo2003;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import ulaval.glo2003.applicatif.offer.OfferItemDto;
-import ulaval.glo2003.applicatif.product.ProductDto;
 import ulaval.glo2003.domain.offer.OfferFactory;
 import ulaval.glo2003.domain.offer.OfferItem;
-import ulaval.glo2003.domain.offer.Offers;
 
 import java.util.List;
 import java.util.UUID;
