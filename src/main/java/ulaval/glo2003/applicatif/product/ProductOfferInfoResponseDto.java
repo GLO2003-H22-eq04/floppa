@@ -26,7 +26,7 @@ public class ProductOfferInfoResponseDto {
                                        @JsonbProperty("createdAt") OffsetDateTime createdAt,
                                        @JsonbProperty("suggestedPrice") double suggestedPrice,
                                        @JsonbProperty("categories") List<ProductCategory> categories,
-                                       @JsonbProperty("offers") OfferInfoResponseDto offers){
+                                       @JsonbProperty("offers") OfferInfoResponseDto offers) {
 
         this.id = id;
         this.title = title;

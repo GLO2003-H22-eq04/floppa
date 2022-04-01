@@ -72,30 +72,35 @@ public class SellerController {
     @GET
     @Path(GET_CURRENT_SELLER_PATH)
     @Produces(MediaType.APPLICATION_JSON)
-    public CurrentSellerDto getCurrentSeller(@HeaderParam(SELLER_ID_HEADER) UUID sellerId){
+    public CurrentSellerDto getCurrentSeller(@HeaderParam(SELLER_ID_HEADER) UUID sellerId) throws ItemNotFoundError {
 
-        var seller = sellerRepository.findById(sellerId).get();
-        var offerList = getProductOfferList(seller);
+        var seller = sellerRepository.findById(sellerId);
 
-        return sellerAssembler.currentSellerToDTO(seller, sellerId, offerList);
+        if (!seller.isPresent())
+            throw new ItemNotFoundError("L'id fourni n'existe pas.");
+
+        var sellerInfo = seller.get();
+        var offerList = getProductOfferList(sellerInfo);
+
+        return sellerAssembler.currentSellerToDTO(sellerInfo, sellerId, offerList);
     }
 
-    private List<BuyerItemResponseDto> getOfferList(Offers offers){
+    private List<BuyerItemResponseDto> getOfferList(Offers offers) {
         List<BuyerItemResponseDto> buyerList = new ArrayList<>();
-        for (var offer : offers.getListOffer()){
+        for (var offer : offers.getListOffer()) {
             buyerList.add(new BuyerItemResponseDto(
                     offer.getCreatedAt(),
                     offer.getAmount().getValue(),
                     offer.getMessage(),
-                    new BuyerInfoResponseDto(offer.getName(),offer.getEmail(),offer.getPhoneNumber())));
+                    new BuyerInfoResponseDto(offer.getName(), offer.getEmail(), offer.getPhoneNumber())));
         }
         return buyerList;
     }
 
-    private List<ProductOfferInfoResponseDto> getProductOfferList(Seller seller){
+    private List<ProductOfferInfoResponseDto> getProductOfferList(Seller seller) {
         List<ProductOfferInfoResponseDto> productList = new ArrayList<>();
         List<BuyerItemResponseDto> buyerList = new ArrayList<>();
-        for (var product : seller.getProductList()){
+        for (var product : seller.getProductList()) {
 
             productList.add(new ProductOfferInfoResponseDto(
                     product.getProductId(),

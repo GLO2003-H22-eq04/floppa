@@ -17,7 +17,7 @@ public class BuyerItemResponseDto {
     public BuyerItemResponseDto(@JsonbProperty("createdAt") OffsetDateTime createdAt,
                                 @JsonbProperty("amount") double amount,
                                 @JsonbProperty("message") String message,
-                                @JsonbProperty("buyer") BuyerInfoResponseDto buyer){
+                                @JsonbProperty("buyer") BuyerInfoResponseDto buyer) {
         this.createdAt = createdAt;
         this.amount = amount;
         this.message = message;
