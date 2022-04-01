@@ -2,7 +2,7 @@ package ulaval.glo2003;
 
 import org.junit.Before;
 import org.junit.Test;
-import ulaval.glo2003.api.product.dto.ProductDTO;
+import ulaval.glo2003.applicatif.product.ProductDto;
 import ulaval.glo2003.domain.product.Product;
 import ulaval.glo2003.domain.product.ProductCategory;
 import ulaval.glo2003.domain.product.ProductFactory;
@@ -16,11 +16,11 @@ public class ProductFactoryTests {
 
     private static final UUID SELLER_ID = UUID.fromString("b68a867d-9d27-42a9-afd4-9ff1eb5334ca");
     private ProductFactory productFactory;
-    private ProductDTO productDTO;
+    private ProductDto productDTO;
 
     @Before
     public void setUp() {
-        productDTO = new ProductDTO();
+        productDTO = new ProductDto();
         productDTO.title = "title";
         productDTO.description = "description";
         productDTO.suggestedPrice = 4.29;

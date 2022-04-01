@@ -12,8 +12,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import ulaval.glo2003.api.seller.SellerController;
-import ulaval.glo2003.api.seller.dto.SellerDTO;
-import ulaval.glo2003.api.seller.dto.SellerInfoResponseDTO;
+import ulaval.glo2003.applicatif.seller.SellerDto;
+import ulaval.glo2003.applicatif.seller.SellerInfoResponseDto;
 import ulaval.glo2003.domain.seller.Seller;
 import ulaval.glo2003.domain.seller.repository.SellerRepository;
 
@@ -34,19 +34,19 @@ public class SellerControllerIntegrationTests extends JerseyTest {
     @Mock
     private SellerRepository sellerListRepositoryMock;
 
-    private SellerDTO aSellerDTO1;
-    private SellerDTO aSellerDTO2;
+    private SellerDto aSellerDTO1;
+    private SellerDto aSellerDTO2;
 
     private Seller seller;
 
     @Before
     public void before() {
-        aSellerDTO1 = new SellerDTO();
+        aSellerDTO1 = new SellerDto();
         aSellerDTO1.name = "Testnom";
         aSellerDTO1.bio = "wow";
         aSellerDTO1.birthDate = LocalDate.now().minusYears(20);
 
-        aSellerDTO2 = new SellerDTO();
+        aSellerDTO2 = new SellerDto();
         aSellerDTO2.name = "Coolnom";
         aSellerDTO2.bio = "amazing";
         aSellerDTO2.birthDate = LocalDate.now().minusYears(30);
@@ -95,7 +95,7 @@ public class SellerControllerIntegrationTests extends JerseyTest {
     public void canReceiveRequestGetSellerNormal() {
         var response = getSellerResponse(VALID_ID);
         var status = response.getStatus();
-        var entity = response.readEntity(SellerInfoResponseDTO.class);
+        var entity = response.readEntity(SellerInfoResponseDto.class);
 
         assertThat(status).isEqualTo(Response.Status.OK.getStatusCode());
         assertThat(entity.name).isEqualTo(seller.getName());
@@ -111,7 +111,7 @@ public class SellerControllerIntegrationTests extends JerseyTest {
         assertThat(status).isEqualTo(Response.Status.NOT_FOUND.getStatusCode());
     }
 
-    private Response postCreatingSellerResponse(SellerDTO sellerDTO) {
+    private Response postCreatingSellerResponse(SellerDto sellerDTO) {
         return target(SellerController.SELLERS_PATH).request().post(Entity.entity(sellerDTO, MediaType.APPLICATION_JSON_TYPE));
     }
 

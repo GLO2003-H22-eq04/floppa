@@ -1,8 +1,11 @@
 package ulaval.glo2003.domain.seller;
 
-import ulaval.glo2003.api.seller.dto.SellerDTO;
+import ulaval.glo2003.applicatif.seller.SellerDto;
 
-import java.time.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 
 public class Seller {
 
@@ -12,7 +15,7 @@ public class Seller {
     private final OffsetDateTime createdAt;
 
 
-    public Seller(SellerDTO seller){
+    public Seller(SellerDto seller) {
         name = seller.name;
         bio = seller.bio;
         birthDate = seller.birthDate;
@@ -25,10 +28,6 @@ public class Seller {
 
     public String getBio() {
         return bio;
-    }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
     }
 
     public OffsetDateTime getCreatedAt() {
