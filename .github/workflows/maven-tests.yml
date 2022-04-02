@@ -30,4 +30,4 @@ jobs:
           healthcheck: "https://cherry-surprise-04129.herokuapp.com/health"
           rollbackonhealthcheckfailed: true
           dontuseforce: false
-          branch: "dev"
+          remote_branch: "dev"
