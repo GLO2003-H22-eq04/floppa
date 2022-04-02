@@ -18,8 +18,7 @@ public class ProductMongodbRepository implements ProductRepository {
     public ProductMongodbRepository(DatastoreFactory datastoreFactory) {
         this.datastoreFactory = datastoreFactory;
     }
-
-    @Inject
+    
     private DatastoreFactory datastoreFactory;
 
     @Override

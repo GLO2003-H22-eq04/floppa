@@ -17,7 +17,6 @@ public class SellerMongodbRepository implements SellerRepository {
         this.datastoreFactory = datastoreFactory;
     }
 
-    @Inject
     private DatastoreFactory datastoreFactory;
 
     @Override

@@ -38,19 +38,18 @@ public class Main {
     }
 
     public static ResourceConfig getRessourceConfig() {
+        var datastoreFactory = new DatastoreFactory(new ConfigMongodb());
         return new ResourceConfig()
                 .register(new AbstractBinder() {
                     @Override
                     protected void configure() {
-                        bind(new SellerMongodbRepository()).to(SellerRepository.class);
-                        bind(new ProductMongodbRepository()).to(ProductRepository.class);
+                        bind(new SellerMongodbRepository(datastoreFactory)).to(SellerRepository.class);
+                        bind(new ProductMongodbRepository(datastoreFactory)).to(ProductRepository.class);
                         bind(new ProductFactory()).to(ProductFactory.class);
                         bind(new ProductAssembler()).to(ProductAssembler.class);
                         bind(new ConfigMongodb()).to(ConfigMongodb.class);
-                        bind(DatastoreFactory.class);
                     }
                 })
-                .register(new DatastoreFactory(new ConfigMongodb()))
                 .register(SellerController.class)
                 .register(HealthController.class)
                 .register(ProductController.class)
