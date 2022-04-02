@@ -25,9 +25,9 @@ jobs:
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "staging-floppa-eq04"
+          heroku_app_name: "cherry-surprise-04129"
           heroku_email: "christopher.godin.1@ulaval.ca"
-          healthcheck: "https://staging-floppa-eq04.herokuapp.com/health"
+          healthcheck: "https://cherry-surprise-04129.herokuapp.com/health"
           rollbackonhealthcheckfailed: true
           dontuseforce: false
           branch: "dev"
