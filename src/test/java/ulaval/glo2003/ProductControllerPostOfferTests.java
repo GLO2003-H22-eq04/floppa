@@ -39,7 +39,7 @@ public class ProductControllerPostOfferTests extends JerseyTest {
 
     @Before
     public void before() {
-        Product product = new Product();
+        var product = new Product();
         product.setProductId(VALID_PRODUCT_ID);
         product.setDescription("Un produit");
         product.setTitle("Produit");
@@ -53,7 +53,7 @@ public class ProductControllerPostOfferTests extends JerseyTest {
         offerItemDto.email = "john.doe@gmail.com";
         offerItemDto.phoneNumber = "18191234567";
 
-        OfferItem offerItem = new OfferItem();
+        var offerItem = new OfferItem();
         offerItem.setName(offerItemDto.name);
         offerItem.setMessage(offerItemDto.message);
         offerItem.setAmount(new Amount(offerItemDto.amount));
