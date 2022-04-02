@@ -9,13 +9,16 @@ import ulaval.glo2003.domain.seller.Seller;
 import ulaval.glo2003.domain.seller.repository.SellerListRepository;
 import ulaval.glo2003.domain.seller.repository.SellerRepository;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import static com.google.common.truth.Truth.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SellerRepositoryTests {
 
-    private static final int INVALID_SELLER_ID = 42;
-    private static final int EXPECTED_SELLER_ID = 0;
+    private static final UUID NON_EXISTENT_SELLER_ID = UUID.fromString("df1a611f-00c8-47d5-b4d4-7276cd4165e2");
+    private static final UUID EXPECTED_SELLER_ID = UUID.fromString("9da43ed6-f5be-47ae-a3c9-7d5ab63d5f4a");
 
     @Mock
     private Seller sellerMock1;
@@ -34,7 +37,7 @@ public class SellerRepositoryTests {
     public void canAddOneSellerNormal() {
         var id = sellerListRepository.add(sellerMock1);
 
-        assertThat(id).isEqualTo(EXPECTED_SELLER_ID);
+        assertThat(sellerListRepository.findById(id)).isEqualTo(Optional.of(sellerMock1));
     }
 
     @Test
@@ -55,8 +58,8 @@ public class SellerRepositoryTests {
     }
 
     @Test
-    public void shouldNotFindInvalidId() {
-        var product = sellerListRepository.findById(INVALID_SELLER_ID);
+    public void shouldNotFindNonExistentId() {
+        var product = sellerListRepository.findById(NON_EXISTENT_SELLER_ID);
 
         assertThat(product.isPresent()).isFalse();
     }
@@ -72,7 +75,7 @@ public class SellerRepositoryTests {
 
     @Test
     public void shouldFailCheckIfExistInvalidId() {
-        var result = sellerListRepository.existById(INVALID_SELLER_ID);
+        var result = sellerListRepository.existById(NON_EXISTENT_SELLER_ID);
 
         assertThat(result).isFalse();
     }

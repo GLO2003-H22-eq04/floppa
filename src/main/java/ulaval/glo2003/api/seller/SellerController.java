@@ -6,15 +6,16 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import ulaval.glo2003.api.seller.dto.SellerDTO;
-import ulaval.glo2003.api.seller.dto.SellerInfoResponseDTO;
+import ulaval.glo2003.applicatif.seller.SellerDto;
+import ulaval.glo2003.applicatif.seller.SellerInfoResponseDto;
+import ulaval.glo2003.api.validation.errors.ItemNotFoundError;
+import ulaval.glo2003.api.validation.errors.MissingParameterError;
 import ulaval.glo2003.domain.product.repository.ProductRepository;
 import ulaval.glo2003.domain.seller.Seller;
 import ulaval.glo2003.domain.seller.repository.SellerRepository;
-import ulaval.glo2003.api.validation.errors.ItemNotFoundError;
-import ulaval.glo2003.api.validation.errors.MissingParameterError;
 
 import java.net.URI;
+import java.util.UUID;
 
 @Path(SellerController.SELLERS_PATH)
 public class SellerController {
@@ -30,25 +31,25 @@ public class SellerController {
     private ProductRepository productRepository;
 
     @POST
-    public Response postCreatingSeller(@Valid @NotNull(payload = MissingParameterError.class) SellerDTO seller) {
+    public Response postCreatingSeller(@Valid @NotNull(payload = MissingParameterError.class) SellerDto seller) {
         var sellerId = sellerRepository.add(new Seller(seller));
-        var url = String.format(SELLERS_PATH + "/%d", sellerId);
+        var url = SELLERS_PATH + "/" + sellerId;
         return Response.created(URI.create(url)).build();
     }
 
     @GET
     @Path(GET_SELLER_PATH)
     @Produces(MediaType.APPLICATION_JSON)
-    public SellerInfoResponseDTO getSeller(@PathParam(PARAM_SELLER_ID) int sellerId) throws ItemNotFoundError {
+    public SellerInfoResponseDto getSeller(@PathParam(PARAM_SELLER_ID) UUID sellerId) throws ItemNotFoundError {
         var seller = sellerRepository.findById(sellerId);
         if (seller.isPresent()) {
             var sellerInfos = seller.get();
-            return new SellerInfoResponseDTO(
+            return new SellerInfoResponseDto(
                     sellerId,
                     sellerInfos.getName(),
                     sellerInfos.getCreatedAt(),
                     sellerInfos.getBio(),
-                    productRepository.productOf(String.valueOf(sellerId))
+                    productRepository.productOf(sellerId)
             );
         }
 

@@ -1,13 +1,15 @@
-package ulaval.glo2003.api.product.dto;
+package ulaval.glo2003.applicatif.product;
 
+import ulaval.glo2003.applicatif.offer.OffersResponseDto;
 import ulaval.glo2003.domain.product.Amount;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.UUID;
 
-public class ProductInfoResponseDTO {
+public class ProductInfoResponseDto {
 
-    public String id;
+    public UUID id;
 
     public OffsetDateTime createdAt;
 
@@ -19,7 +21,7 @@ public class ProductInfoResponseDTO {
 
     public List<String> categories;
 
-    public ProductSellerDTO seller;
+    public ProductSellerDto seller;
 
-    public OfferDTO offers;
+    public OffersResponseDto offers;
 }

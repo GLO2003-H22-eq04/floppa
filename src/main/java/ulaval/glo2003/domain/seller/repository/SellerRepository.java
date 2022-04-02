@@ -3,12 +3,13 @@ package ulaval.glo2003.domain.seller.repository;
 import ulaval.glo2003.domain.seller.Seller;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public interface SellerRepository {
 
-    int add(Seller seller);
+    UUID add(Seller seller);
 
-    Optional<Seller> findById(int id);
+    Optional<Seller> findById(UUID id);
 
-    boolean existById(int id);
+    boolean existById(UUID id);
 }

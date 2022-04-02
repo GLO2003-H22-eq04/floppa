@@ -5,18 +5,19 @@ import ulaval.glo2003.domain.product.Product;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CriteriaTitle implements Criteria{
+public class CriteriaTitle implements Criteria {
     String title;
 
-    public CriteriaTitle(String p_title){
-        this.title = p_title;
+    public CriteriaTitle(String title) {
+        this.title = title;
     }
+
     @Override
-    public List<Product> meetCriteria(List<Product> p_products) {
+    public List<Product> meetCriteria(List<Product> products) {
         List<Product> sellerTitle = new ArrayList<Product>();
 
-        for(Product product : p_products){
-            if(product.getTitle().toLowerCase().contains(title.toLowerCase())){
+        for (Product product : products) {
+            if (product.getTitle().toLowerCase().contains(title.toLowerCase())) {
                 sellerTitle.add(product);
             }
         }
