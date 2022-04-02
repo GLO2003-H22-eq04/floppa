@@ -22,7 +22,7 @@ jobs:
           git config --global user.name 'CacttusMan'
           git config --global user.email 'christopher.godin.1@ulaval.ca'
           git commit -am "Automated report"
-          git push
+          git push dev:main
   deploy-heroku:
     needs: build
     runs-on: ubuntu-latest
