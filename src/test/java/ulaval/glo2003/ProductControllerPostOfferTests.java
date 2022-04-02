@@ -13,24 +13,15 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import ulaval.glo2003.api.product.ProductController;
 import ulaval.glo2003.applicatif.offer.OfferItemDto;
-import ulaval.glo2003.applicatif.product.ProductDto;
-import ulaval.glo2003.applicatif.seller.SellerDto;
-import ulaval.glo2003.domain.offer.OfferFactory;
 import ulaval.glo2003.domain.offer.OfferItem;
 import ulaval.glo2003.domain.product.Amount;
 import ulaval.glo2003.domain.product.Product;
-import ulaval.glo2003.domain.product.ProductFactory;
 import ulaval.glo2003.domain.product.repository.ProductRepository;
-import ulaval.glo2003.domain.seller.Seller;
-import ulaval.glo2003.domain.seller.repository.SellerRepository;
 
-import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -44,13 +35,11 @@ public class ProductControllerPostOfferTests extends JerseyTest {
     @Mock
     private ProductRepository productListRepositoryMock;
 
-    private Product product;
     private OfferItemDto offerItemDto;
-    private OfferItem offerItem;
 
     @Before
     public void before() {
-        product = new Product();
+        Product product = new Product();
         product.setProductId(VALID_PRODUCT_ID);
         product.setDescription("Un produit");
         product.setTitle("Produit");
@@ -64,7 +53,7 @@ public class ProductControllerPostOfferTests extends JerseyTest {
         offerItemDto.email = "john.doe@gmail.com";
         offerItemDto.phoneNumber = "18191234567";
 
-        offerItem = new OfferItem();
+        OfferItem offerItem = new OfferItem();
         offerItem.setName(offerItemDto.name);
         offerItem.setMessage(offerItemDto.message);
         offerItem.setAmount(new Amount(offerItemDto.amount));
