@@ -17,6 +17,12 @@ jobs:
         run: mvn checkstyle:checkstyle
       - name: Test with Maven
         run: mvn test
+      - name: Commit report
+        run: |
+          git config --global user.name 'CacttusMan'
+          git config --global user.email 'christopher.godin.1@ulaval.ca'
+          git commit -am "Automated report"
+          git push
   deploy-heroku:
     needs: build
     runs-on: ubuntu-latest
