@@ -27,7 +27,6 @@ public class Main {
         final String port = System.getenv("PORT");
         final String baseUri = "http://0.0.0.0:" + port;
 
-        //URI uri = URI.create("http://localhost:8080/");
         URI uri = URI.create(baseUri);
 
         HttpServer server = GrizzlyHttpServerFactory.createHttpServer(uri, getRessourceConfig());
