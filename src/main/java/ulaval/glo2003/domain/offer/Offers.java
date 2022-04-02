@@ -12,17 +12,13 @@ import java.util.UUID;
 
 @Entity
 public class Offers {
-    @Id
-    private UUID id;
     private List<OfferItem> items = new ArrayList<>();
 
     public Offers() {
-        this.id = UUID.randomUUID();
     }
 
     public Offers(List<OfferItem> items) {
         this.items = items;
-        this.id = UUID.randomUUID();
     }
 
     public void addNewOffer(OfferItem newOffer) {
