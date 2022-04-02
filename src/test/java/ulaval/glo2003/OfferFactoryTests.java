@@ -41,14 +41,6 @@ public class OfferFactoryTests {
         assertThat(offer.getPhoneNumber()).isNotNull();
     }
 
-    private void checkForSameObject(OfferItem offer, OfferItem offer2){
-        assertThat(offer).isNotEqualTo(offer2);
-        assertThat(offer.getName()).isNotEqualTo(offer2.getName());
-        assertThat(offer.getAmount()).isNotEqualTo(offer2.getAmount());
-        assertThat(offer.getMessage()).isNotEqualTo(offer2.getMessage());
-        assertThat(offer.getPhoneNumber()).isNotEqualTo(offer2.getPhoneNumber());
-    }
-
     @Test
     public void canCreateSingleOfferNormal(){
         var offer = offerFactory.createNewOffer(offerItemDto1);
@@ -66,6 +58,12 @@ public class OfferFactoryTests {
         checkForNull(offer);
         var offer2 = offerFactory.createNewOffer(offerItemDto2);
         checkForNull(offer2);
-        checkForSameObject(offer, offer2);
+
+        assertThat(offer).isNotEqualTo(offer2);
+        assertThat(offer.getName()).isNotEqualTo(offer2.getName());
+        assertThat(offer.getAmount()).isNotEqualTo(offer2.getAmount());
+        assertThat(offer.getMessage()).isNotEqualTo(offer2.getMessage());
+        assertThat(offer.getPhoneNumber()).isNotEqualTo(offer2.getPhoneNumber());
+        assertThat(offer.getEmail()).isNotEqualTo(offer2.getPhoneNumber());
     }
 }
