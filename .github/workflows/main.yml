@@ -18,10 +18,8 @@ jobs:
       - name: Test with Maven
         run: mvn test
       - name: Commit
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Dev to Main
-          push_options: --force
+        run: |
+          git push dev main -f
   deploy-heroku:
     needs: build
     runs-on: ubuntu-latest
