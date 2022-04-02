@@ -1,7 +1,6 @@
 package ulaval.glo2003.domain.seller.repository;
 
 import dev.morphia.query.experimental.filters.Filters;
-import jakarta.inject.Inject;
 import ulaval.glo2003.domain.config.DatastoreFactory;
 import ulaval.glo2003.domain.seller.Seller;
 
@@ -21,10 +20,10 @@ public class SellerMongodbRepository implements SellerRepository {
 
     @Override
     public UUID add(Seller seller) {
-        if (seller.getID() == null)
+        if (seller.getId() == null)
             seller.setId(UUID.randomUUID());
         datastoreFactory.getDatastore().save(seller);
-        return seller.getID();
+        return seller.getId();
     }
 
     @Override

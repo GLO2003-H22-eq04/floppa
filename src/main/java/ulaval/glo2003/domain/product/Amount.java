@@ -25,7 +25,8 @@ public class Amount {
 
     private BigDecimal value;
 
-    private Amount(){}
+    private Amount() {
+    }
 
     @JsonbCreator
     public Amount(@JsonbProperty("value") double value) {
@@ -34,7 +35,7 @@ public class Amount {
     }
 
 
-    public Amount(BigDecimal value){
+    public Amount(BigDecimal value) {
         this.value = value;
     }
 
