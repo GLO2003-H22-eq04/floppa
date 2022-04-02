@@ -17,9 +17,13 @@ jobs:
         run: mvn checkstyle:checkstyle
       - name: Test with Maven
         run: mvn test
-      - name: Commit
-        run: |
-          git push origin main -f
+      - name: Merge dev -> main
+        uses: devmasx/merge-branch@master
+        with:
+          type: now
+          from_branch: dev
+          target_branch: main
+          github_token: ${{ github.token }}
   deploy-heroku:
     needs: build
     runs-on: ubuntu-latest
