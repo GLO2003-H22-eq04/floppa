@@ -56,6 +56,7 @@ public class Main {
                         bind(new ProductMongodbRepository(datastoreFactory)).to(ProductRepository.class);
                         bind(new ProductFactory()).to(ProductFactory.class);
                         bind(new ProductAssembler()).to(ProductAssembler.class);
+                        bind(datastoreFactory).to(DatastoreFactory.class);
                         bind(new SellerAssembler()).to(SellerAssembler.class);
                     }
                 })
