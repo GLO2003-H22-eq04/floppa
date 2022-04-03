@@ -53,7 +53,7 @@ public class ProductControllerPostOfferTests extends JerseyTest {
         offerItemDto.email = "john.doe@gmail.com";
         offerItemDto.phoneNumber = "18191234567";
 
-        var offerItem = new OfferItem();
+        var offerItem = new OfferItem(OffsetDateTime.now().minusDays(8));
         offerItem.setName(offerItemDto.name);
         offerItem.setMessage(offerItemDto.message);
         offerItem.setAmount(new Amount(offerItemDto.amount));

@@ -35,7 +35,7 @@ public class ProductMongodbRepositoryTests {
     public void before() {
         productMongodbRepository = new ProductMongodbRepository(new DatastoreFactory(Main.loadConfig()));
 
-        offerItem = new OfferItem();
+        offerItem = new OfferItem(OffsetDateTime.now().minusDays(3));
         offerItem.setAmount(new Amount(11));
         offerItem.setEmail("email@me.com");
         offerItem.setMessage("message");

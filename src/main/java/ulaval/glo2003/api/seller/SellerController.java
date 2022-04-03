@@ -48,9 +48,6 @@ public class SellerController {
         var sellerId = sellerRepository.add(new Seller(seller));
         var url = SELLERS_PATH + "/" + sellerId;
 
-        var newSeller = sellerRepository.findById(sellerId).get();
-        newSeller.setId(sellerId);
-
         return Response.created(URI.create(url)).build();
     }
 
