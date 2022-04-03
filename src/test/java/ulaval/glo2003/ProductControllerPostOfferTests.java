@@ -77,7 +77,7 @@ public class ProductControllerPostOfferTests extends JerseyTest {
     }
 
     @Test
-    public void canAcceptRequestOnValidOffer(){
+    public void canAcceptRequestOnValidOffer() {
         var response = postCreatingProductResponse(offerItemDto, VALID_PRODUCT_ID.toString());
         var status = response.getStatus();
 
@@ -85,7 +85,7 @@ public class ProductControllerPostOfferTests extends JerseyTest {
     }
 
     @Test
-    public void canRejectRequestOnInvalidProductId(){
+    public void canRejectRequestOnInvalidProductId() {
         var response = postCreatingProductResponse(offerItemDto, MISSING_ID.toString());
         var status = response.getStatus();
 
@@ -93,7 +93,7 @@ public class ProductControllerPostOfferTests extends JerseyTest {
     }
 
     @Test
-    public void canRejectRequestOnInvalidName(){
+    public void canRejectRequestOnInvalidName() {
         offerItemDto.name = "";
         var response = postCreatingProductResponse(offerItemDto, VALID_PRODUCT_ID.toString());
         var status = response.getStatus();
@@ -102,7 +102,7 @@ public class ProductControllerPostOfferTests extends JerseyTest {
     }
 
     @Test
-    public void canRejectRequestOnInvalidEmail(){
+    public void canRejectRequestOnInvalidEmail() {
         offerItemDto.email = "bad email";
         var response = postCreatingProductResponse(offerItemDto, VALID_PRODUCT_ID.toString());
         var status = response.getStatus();
@@ -111,7 +111,7 @@ public class ProductControllerPostOfferTests extends JerseyTest {
     }
 
     @Test
-    public void canRejectRequestOnInvalidPhoneNumber(){
+    public void canRejectRequestOnInvalidPhoneNumber() {
         offerItemDto.email = "1";
         var response = postCreatingProductResponse(offerItemDto, VALID_PRODUCT_ID.toString());
         var status = response.getStatus();
@@ -120,7 +120,7 @@ public class ProductControllerPostOfferTests extends JerseyTest {
     }
 
     @Test
-    public void canRejectRequestOnTooLowAmount(){
+    public void canRejectRequestOnTooLowAmount() {
         offerItemDto.amount = 1;
         var response = postCreatingProductResponse(offerItemDto, VALID_PRODUCT_ID.toString());
         var status = response.getStatus();
@@ -129,7 +129,7 @@ public class ProductControllerPostOfferTests extends JerseyTest {
     }
 
     @Test
-    public void canRejectRequestOnTooShortMessage(){
+    public void canRejectRequestOnTooShortMessage() {
         offerItemDto.email = "Too Short";
         var response = postCreatingProductResponse(offerItemDto, VALID_PRODUCT_ID.toString());
         var status = response.getStatus();
@@ -138,7 +138,7 @@ public class ProductControllerPostOfferTests extends JerseyTest {
     }
 
     @Test
-    public void canRejectRequestOnNullName(){
+    public void canRejectRequestOnNullName() {
         offerItemDto.name = null;
         var response = postCreatingProductResponse(offerItemDto, VALID_PRODUCT_ID.toString());
         var status = response.getStatus();
@@ -147,7 +147,7 @@ public class ProductControllerPostOfferTests extends JerseyTest {
     }
 
     @Test
-    public void canRejectRequestOnNullEmail(){
+    public void canRejectRequestOnNullEmail() {
         offerItemDto.email = null;
         var response = postCreatingProductResponse(offerItemDto, VALID_PRODUCT_ID.toString());
         var status = response.getStatus();
@@ -156,7 +156,7 @@ public class ProductControllerPostOfferTests extends JerseyTest {
     }
 
     @Test
-    public void canRejectRequestOnNullPhoneNumber(){
+    public void canRejectRequestOnNullPhoneNumber() {
         offerItemDto.email = null;
         var response = postCreatingProductResponse(offerItemDto, VALID_PRODUCT_ID.toString());
         var status = response.getStatus();
@@ -165,7 +165,7 @@ public class ProductControllerPostOfferTests extends JerseyTest {
     }
 
     @Test
-    public void canRejectRequestOnNullMessage(){
+    public void canRejectRequestOnNullMessage() {
         offerItemDto.email = null;
         var response = postCreatingProductResponse(offerItemDto, VALID_PRODUCT_ID.toString());
         var status = response.getStatus();

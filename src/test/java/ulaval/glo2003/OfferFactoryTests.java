@@ -14,7 +14,7 @@ public class OfferFactoryTests {
     private OfferItemDto offerItemDto2;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         offerItemDto1 = new OfferItemDto();
         offerItemDto1.name = "John Smith";
         offerItemDto1.phoneNumber = "18191234567";
@@ -32,7 +32,7 @@ public class OfferFactoryTests {
         offerFactory = new OfferFactory();
     }
 
-    private void checkForNull(OfferItem offer){
+    private void checkForNull(OfferItem offer) {
         assertThat(offer).isNotNull();
         assertThat(offer.getName()).isNotNull();
         assertThat(offer.getAmount()).isNotNull();
@@ -42,7 +42,7 @@ public class OfferFactoryTests {
     }
 
     @Test
-    public void canCreateSingleOfferNormal(){
+    public void canCreateSingleOfferNormal() {
         var offer = offerFactory.createNewOffer(offerItemDto1);
         checkForNull(offer);
         assertThat(offer.getName()).isEqualTo(offerItemDto1.name);
@@ -53,7 +53,7 @@ public class OfferFactoryTests {
     }
 
     @Test
-    public void canCreateMultipleOfferNormal(){
+    public void canCreateMultipleOfferNormal() {
         var offer = offerFactory.createNewOffer(offerItemDto1);
         checkForNull(offer);
         var offer2 = offerFactory.createNewOffer(offerItemDto2);
