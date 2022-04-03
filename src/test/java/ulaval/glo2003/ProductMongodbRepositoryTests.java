@@ -12,6 +12,7 @@ import ulaval.glo2003.domain.product.ProductCategory;
 import ulaval.glo2003.domain.product.repository.ProductMongodbRepository;
 
 import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ public class ProductMongodbRepositoryTests {
         offerItem.setEmail("email@me.com");
         offerItem.setMessage("message");
         offerItem.setName("Nom");
-        offerItem.setCreatedAt(DateTime.now().minusDays(1));
+        offerItem.setCreatedAt(OffsetDateTime.now().minusDays(1));
         offerItem.setPhoneNumber("4186666666");
 
         var offerslist = new ArrayList<OfferItem>();

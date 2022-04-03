@@ -2,6 +2,7 @@ package ulaval.glo2003.domain.seller;
 
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
+import dev.morphia.annotations.Reference;
 import ulaval.glo2003.applicatif.seller.SellerDto;
 import ulaval.glo2003.domain.product.Product;
 
@@ -10,6 +11,8 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity("Seller")
@@ -20,6 +23,8 @@ public class Seller {
     private String bio;
     private LocalDate birthDate;
     private Instant createdAt;
+    @Reference
+    private List<Product> products = new ArrayList<>();
 
     private Seller() {
     }
@@ -80,5 +85,9 @@ public class Seller {
                 && comparedSeller.bio.equals(this.bio)
                 && comparedSeller.name.equals(this.name)
                 && (comparedSeller.createdAt == null || comparedSeller.createdAt.equals(this.createdAt));
+    }
+
+    public List<Product> getProducts() {
+        return products;
     }
 }

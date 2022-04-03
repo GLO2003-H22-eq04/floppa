@@ -14,7 +14,7 @@ public class SellerListRepository implements SellerRepository {
     @Override
     public UUID add(Seller seller) {
         var id = UUID.randomUUID();
-        seller.setSellerId(id);
+        seller.setId(id);
         sellers.put(id, seller);
         return id;
     }
