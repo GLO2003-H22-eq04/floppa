@@ -15,7 +15,7 @@ import java.util.UUID;
 import static com.google.common.truth.Truth.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SellerRepositoryTests {
+public class SellerListRepositoryTests {
 
     private static final UUID NON_EXISTENT_SELLER_ID = UUID.fromString("df1a611f-00c8-47d5-b4d4-7276cd4165e2");
     private static final UUID EXPECTED_SELLER_ID = UUID.fromString("9da43ed6-f5be-47ae-a3c9-7d5ab63d5f4a");

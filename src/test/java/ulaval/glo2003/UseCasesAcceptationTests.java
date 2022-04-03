@@ -29,7 +29,7 @@ public class UseCasesAcceptationTests extends JerseyTest {
 
     @Override
     protected Application configure() {
-        return Main.getRessourceConfig();
+        return Main.getRessourceConfig(Main.loadConfig());
     }
 
     @Before
