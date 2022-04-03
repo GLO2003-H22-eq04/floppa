@@ -1,6 +1,5 @@
 package ulaval.glo2003;
 
-import jakarta.ws.rs.core.UriBuilder;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -22,6 +21,7 @@ import ulaval.glo2003.domain.seller.repository.SellerMongodbRepository;
 import ulaval.glo2003.domain.seller.repository.SellerRepository;
 
 import java.io.IOException;
+import java.net.URI;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -31,7 +31,7 @@ public class Main {
         if (port == null)
             port = "8080";
 
-        var uri = UriBuilder.fromPath(config.apiBaseUrl).port(Integer.parseInt(port)).build();
+        var uri = URI.create(config.apiBaseUrl + ":" + port);
 
         var server = GrizzlyHttpServerFactory.createHttpServer(uri, getRessourceConfig(config));
         server.start();
