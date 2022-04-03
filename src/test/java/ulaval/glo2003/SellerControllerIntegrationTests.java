@@ -12,12 +12,24 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import ulaval.glo2003.api.seller.SellerController;
+import ulaval.glo2003.applicatif.offer.OfferItemResponseDto;
+import ulaval.glo2003.applicatif.offer.OffersResponseDto;
+import ulaval.glo2003.applicatif.seller.CurrentSellerDto;
 import ulaval.glo2003.applicatif.seller.SellerDto;
 import ulaval.glo2003.applicatif.seller.SellerInfoResponseDto;
+import ulaval.glo2003.domain.offer.OfferItem;
+import ulaval.glo2003.domain.offer.Offers;
+import ulaval.glo2003.domain.product.Amount;
+import ulaval.glo2003.domain.product.Product;
+import ulaval.glo2003.domain.product.ProductFactory;
+import ulaval.glo2003.domain.product.repository.ProductRepository;
 import ulaval.glo2003.domain.seller.Seller;
 import ulaval.glo2003.domain.seller.repository.SellerRepository;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,8 +40,10 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class SellerControllerIntegrationTests extends JerseyTest {
 
-    private final static UUID VALID_ID = UUID.fromString("34272b55-6b32-477c-8ab8-1f4d09a66949");
-    private final static UUID INVALID_ID = UUID.fromString("5a409ca2-7ec8-4d89-a224-0f6894056a42");
+    private final static UUID VALID_SELLER_ID = UUID.fromString("34272b55-6b32-477c-8ab8-1f4d09a66949");
+    private final static UUID INVALID_SELLER_ID = UUID.fromString("5a409ca2-7ec8-4d89-a224-0f6894056a42");
+
+    private final static UUID VALID_PRODUCT_ID = UUID.fromString("e372e035-1072-485a-9fbc-473fd9017658");
 
     @Mock
     private SellerRepository sellerListRepositoryMock;
@@ -38,6 +52,14 @@ public class SellerControllerIntegrationTests extends JerseyTest {
     private SellerDto aSellerDTO2;
 
     private Seller seller;
+
+    private Product product;
+
+    private OffersResponseDto offersResponseDto;
+    private OfferItemResponseDto offerItemResponseDto;
+
+    private Offers offer;
+    private OfferItem offerItem;
 
     @Before
     public void before() {
@@ -52,9 +74,35 @@ public class SellerControllerIntegrationTests extends JerseyTest {
         aSellerDTO2.birthDate = LocalDate.now().minusYears(30);
 
         seller = new Seller(aSellerDTO1);
+        seller.setSellerId(VALID_SELLER_ID);
 
-        when(sellerListRepositoryMock.findById(VALID_ID)).thenReturn(Optional.of(seller));
-        when(sellerListRepositoryMock.add(any())).thenReturn(VALID_ID);
+        product = new Product();
+        product.setProductId(VALID_PRODUCT_ID);
+        product.setDescription("Unproduit");
+        product.setSellerId(VALID_SELLER_ID);
+        product.setTitle("Produit");
+        product.setSuggestedPrice(new Amount(49.01));
+        seller.getProducts().add(product);
+
+        offerItemResponseDto = new OfferItemResponseDto("Offre", "Uneoffre", "u.n@email.com",
+                "18191234567", 5.01);
+        offerItem = new OfferItem();
+        offerItem.setName(offerItemResponseDto.name);
+        offerItem.setMessage(offerItemResponseDto.message);
+        offerItem.setEmail(offerItemResponseDto.email);
+        offerItem.setPhoneNumber(offerItemResponseDto.phoneNumber);
+        offerItem.setAmount(new Amount(offerItemResponseDto.amount));
+        List<OfferItemResponseDto> items = new ArrayList<>();
+        items.add(offerItemResponseDto);
+        offersResponseDto = new OffersResponseDto(5.01, 5.01, Optional.of(BigDecimal.valueOf(5.01)),
+                1, items);
+        offer = new Offers(offersResponseDto);
+        offer.getListOffer().add(offerItem);
+        product.getOffers().addNewOffer(offerItem);
+
+
+        when(sellerListRepositoryMock.findById(VALID_SELLER_ID)).thenReturn(Optional.of(seller));
+        when(sellerListRepositoryMock.add(any())).thenReturn(VALID_SELLER_ID);
     }
 
     @Override
@@ -75,7 +123,7 @@ public class SellerControllerIntegrationTests extends JerseyTest {
 
         var locationHeader = (String) response.getHeaders().getFirst("Location");
 
-        assertThat(locationHeader.contains(VALID_ID.toString())).isTrue();
+        assertThat(locationHeader.contains(VALID_SELLER_ID.toString())).isTrue();
         assertThat(IntegrationUtils.isUrl(locationHeader)).isTrue();
     }
 
@@ -93,7 +141,7 @@ public class SellerControllerIntegrationTests extends JerseyTest {
 
     @Test
     public void canReceiveRequestGetSellerNormal() {
-        var response = getSellerResponse(VALID_ID);
+        var response = getSellerResponse(VALID_SELLER_ID);
         var status = response.getStatus();
         var entity = response.readEntity(SellerInfoResponseDto.class);
 
@@ -105,7 +153,50 @@ public class SellerControllerIntegrationTests extends JerseyTest {
 
     @Test
     public void canRejectRequestGetSellerInvalidId() {
-        var response = getSellerResponse(INVALID_ID);
+        var response = getSellerResponse(INVALID_SELLER_ID);
+        var status = response.getStatus();
+
+        assertThat(status).isEqualTo(Response.Status.NOT_FOUND.getStatusCode());
+    }
+
+    @Test
+    public void canReceiveRequestGetCurrentSellerNormal() {
+        var response = getCurrentSellerResponse(VALID_SELLER_ID);
+        var status = response.getStatus();
+        var entity = response.readEntity(CurrentSellerDto.class);
+
+        assertThat(status).isEqualTo(Response.Status.OK.getStatusCode());
+        assertThat(entity.id).isEqualTo(seller.getSellerId());
+        assertThat(entity.name).isEqualTo(seller.getName());
+        assertThat(entity.bio).isEqualTo(seller.getBio());
+        assertThat(entity.birthdate).isEqualTo(seller.getBirthDate());
+        assertThat(entity.products.get(0).id).isEqualTo(product.getProductId());
+        assertThat(entity.products.get(0).title).isEqualTo(product.getTitle());
+        assertThat(entity.products.get(0).description).isEqualTo(product.getDescription());
+        assertThat(entity.products.get(0).createdAt).isEqualTo(product.getCreatedAt());
+        assertThat(entity.products.get(0).suggestedPrice).isEqualTo(product.getSuggestedPrice().getValue());
+        assertThat(entity.products.get(0).categories).isEqualTo(product.getCategories());
+        assertThat(entity.products.get(0).offers.min).isEqualTo(offer.getMin());
+        assertThat(entity.products.get(0).offers.max).isEqualTo(offer.getMax());
+        assertThat(entity.products.get(0).offers.count).isEqualTo(offer.getCount());
+        assertThat(entity.products.get(0).offers.items.get(0).id).isEqualTo(offer.getListOffer().get(0).getOfferId());
+        assertThat(entity.products.get(0).offers.items.get(0).createdAt).isEqualTo(
+                offer.getListOffer().get(0).getCreatedAt());
+        assertThat(entity.products.get(0).offers.items.get(0).amount).isEqualTo(
+                offer.getListOffer().get(0).getAmount().getValue());
+        assertThat(entity.products.get(0).offers.items.get(0).message).isEqualTo(
+                offer.getListOffer().get(0).getMessage());
+        assertThat(entity.products.get(0).offers.items.get(0).buyer.name).isEqualTo(
+                offer.getListOffer().get(0).getName());
+        assertThat(entity.products.get(0).offers.items.get(0).buyer.email).isEqualTo(
+                offer.getListOffer().get(0).getEmail());
+        assertThat(entity.products.get(0).offers.items.get(0).buyer.phoneNumber).isEqualTo(
+                offer.getListOffer().get(0).getPhoneNumber());
+    }
+
+    @Test
+    public void canRejectRequestGetCurrentSellerInvalidId() {
+        var response = getCurrentSellerResponse(INVALID_SELLER_ID);
         var status = response.getStatus();
 
         assertThat(status).isEqualTo(Response.Status.NOT_FOUND.getStatusCode());
@@ -117,5 +208,9 @@ public class SellerControllerIntegrationTests extends JerseyTest {
 
     private Response getSellerResponse(UUID sellerId) {
         return target(SellerController.SELLERS_PATH + '/' + sellerId).request().get();
+    }
+
+    private Response getCurrentSellerResponse(UUID sellerId) {
+        return target(SellerController.SELLERS_PATH + "/@me").request().header(SellerController.SELLER_ID_HEADER, sellerId).get();
     }
 }
