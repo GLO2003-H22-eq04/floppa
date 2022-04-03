@@ -94,7 +94,7 @@ public class ProductFilterIntegrationTests extends JerseyTest {
 
     @Override
     protected Application configure() {
-        return Main.getRessourceConfig().register(new AbstractBinder() {
+        return Main.getRessourceConfig(Main.loadConfig()).register(new AbstractBinder() {
             @Override
             protected void configure() {
                 bind(productRepositoryMock).to(ProductRepository.class).ranked(2);

@@ -3,8 +3,6 @@ package ulaval.glo2003;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
-import ulaval.glo2003.applicatif.offer.OffersResponseDto;
-import ulaval.glo2003.domain.config.ConfigMongodb;
 import ulaval.glo2003.domain.config.DatastoreFactory;
 import ulaval.glo2003.domain.offer.OfferItem;
 import ulaval.glo2003.domain.offer.Offers;
@@ -17,7 +15,6 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -35,7 +32,7 @@ public class ProductMongodbRepositoryTests {
 
     @Before
     public void before() {
-        productMongodbRepository = new ProductMongodbRepository(new DatastoreFactory(new ConfigMongodb()));
+        productMongodbRepository = new ProductMongodbRepository(new DatastoreFactory(Main.loadConfig()));
 
         offerItem = new OfferItem();
         offerItem.setAmount(new Amount(11));
@@ -66,7 +63,7 @@ public class ProductMongodbRepositoryTests {
         product2.addCategory(ProductCategory.SPORTS);
         product2.addCategory(ProductCategory.OTHER);
 
-        new DatastoreFactory(new ConfigMongodb()).getDatastore().getDatabase().drop();
+        new DatastoreFactory(Main.loadConfig()).getDatastore().getDatabase().drop();
     }
 
     @Test

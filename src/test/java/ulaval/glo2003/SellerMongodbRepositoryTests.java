@@ -2,7 +2,6 @@ package ulaval.glo2003;
 
 import org.junit.Before;
 import org.junit.Test;
-import ulaval.glo2003.domain.config.ConfigMongodb;
 import ulaval.glo2003.domain.config.DatastoreFactory;
 import ulaval.glo2003.domain.seller.Seller;
 import ulaval.glo2003.domain.seller.repository.SellerMongodbRepository;
@@ -14,8 +13,6 @@ import java.util.UUID;
 import static com.google.common.truth.Truth.assertThat;
 
 public class SellerMongodbRepositoryTests {
-
-
     private static final UUID NON_EXISTENT_SELLER_ID = UUID.fromString("df1a611f-00c8-47d5-b4d4-7276cd4165e2");
     private static final UUID EXPECTED_SELLER_ID_1 = UUID.fromString("9da43ed6-f5be-47ae-a3c9-7d5ab63d5f4a");
     private static final UUID EXPECTED_SELLER_ID_2 = UUID.fromString("49e7e0f2-1aca-48bc-80db-c7dce243b132");
@@ -27,9 +24,9 @@ public class SellerMongodbRepositoryTests {
 
     @Before
     public void before() {
-        new DatastoreFactory(new ConfigMongodb()).getDatastore().getDatabase().drop();
+        new DatastoreFactory(Main.loadConfig()).getDatastore().getDatabase().drop();
 
-        sellerListRepository = new SellerMongodbRepository(new DatastoreFactory(new ConfigMongodb()));
+        sellerListRepository = new SellerMongodbRepository(new DatastoreFactory(Main.loadConfig()));
 
         seller1 = new Seller(
                 EXPECTED_SELLER_ID_1,

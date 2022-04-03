@@ -99,7 +99,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
 
     @Override
     protected Application configure() {
-        var resourceConfig = Main.getRessourceConfig();
+        var resourceConfig = Main.getRessourceConfig(Main.loadConfig());
         resourceConfig.register(new AbstractBinder() {
             @Override
             protected void configure() {
