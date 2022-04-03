@@ -1,9 +1,6 @@
 package ulaval.glo2003.domain.offer;
 
 import dev.morphia.annotations.Entity;
-import dev.morphia.annotations.Id;
-import dev.morphia.annotations.Transient;
-import org.joda.time.DateTime;
 import ulaval.glo2003.domain.product.Amount;
 
 import java.time.Instant;
@@ -22,7 +19,8 @@ public class OfferItem {
     private String message;
     private Instant createdAt;
 
-    private OfferItem(){}
+    private OfferItem() {
+    }
 
     public OfferItem(OffsetDateTime createdAt) {
         this.createdAt = createdAt.toInstant();
