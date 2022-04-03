@@ -6,23 +6,23 @@ import dev.morphia.annotations.Transient;
 import org.joda.time.DateTime;
 import ulaval.glo2003.domain.product.Amount;
 
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.UUID;
 
-@Entity("OfferItem")
 public class OfferItem {
-    @Id
-    private UUID id;
+    private UUID offerId;
     private String name;
     private String email;
     private String phoneNumber;
     private Amount amount;
     private String message;
-    @Transient
-    private DateTime createdAt;
+    private OffsetDateTime createdAt;
 
     public OfferItem() {
-        this.createdAt = DateTime.now();
-        id = UUID.randomUUID();
+        this.createdAt = Instant.now().atOffset(ZoneOffset.UTC);
+        this.offerId = UUID.randomUUID();
     }
 
     public void setName(String name) {
@@ -65,11 +65,19 @@ public class OfferItem {
         return message;
     }
 
-    public void setCreatedAt(DateTime createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public DateTime getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return this.createdAt;
+    }
+
+    public UUID getOfferId() {
+        return offerId;
+    }
+
+    public void setOfferId(UUID offerId) {
+        this.offerId = offerId;
     }
 }

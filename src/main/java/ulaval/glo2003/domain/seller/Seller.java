@@ -3,6 +3,7 @@ package ulaval.glo2003.domain.seller;
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
 import ulaval.glo2003.applicatif.seller.SellerDto;
+import ulaval.glo2003.domain.product.Product;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -43,6 +44,10 @@ public class Seller {
 
     public String getBio() {
         return bio;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
     public OffsetDateTime getCreatedAt() {
