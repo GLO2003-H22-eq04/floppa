@@ -21,13 +21,15 @@ import ulaval.glo2003.domain.offer.OfferItem;
 import ulaval.glo2003.domain.offer.Offers;
 import ulaval.glo2003.domain.product.Amount;
 import ulaval.glo2003.domain.product.Product;
-import ulaval.glo2003.domain.product.ProductFactory;
 import ulaval.glo2003.domain.product.repository.ProductRepository;
 import ulaval.glo2003.domain.seller.Seller;
 import ulaval.glo2003.domain.seller.repository.SellerRepository;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -48,6 +50,9 @@ public class SellerControllerIntegrationTests extends JerseyTest {
     @Mock
     private SellerRepository sellerListRepositoryMock;
 
+    @Mock
+    private ProductRepository productRepositoryMock;
+
     private SellerDto aSellerDTO1;
     private SellerDto aSellerDTO2;
 
@@ -55,7 +60,6 @@ public class SellerControllerIntegrationTests extends JerseyTest {
 
     private Product product;
 
-    private OffersResponseDto offersResponseDto;
     private OfferItemResponseDto offerItemResponseDto;
 
     private Offers offer;
@@ -74,9 +78,10 @@ public class SellerControllerIntegrationTests extends JerseyTest {
         aSellerDTO2.birthDate = LocalDate.now().minusYears(30);
 
         seller = new Seller(aSellerDTO1);
-        seller.setSellerId(VALID_SELLER_ID);
+        seller.setId(VALID_SELLER_ID);
 
-        product = new Product();
+
+        product = new Product(Instant.now().atOffset(ZoneOffset.UTC).truncatedTo(ChronoUnit.MILLIS));
         product.setProductId(VALID_PRODUCT_ID);
         product.setDescription("Unproduit");
         product.setSellerId(VALID_SELLER_ID);
@@ -84,34 +89,33 @@ public class SellerControllerIntegrationTests extends JerseyTest {
         product.setSuggestedPrice(new Amount(49.01));
         seller.getProducts().add(product);
 
-        offerItemResponseDto = new OfferItemResponseDto("Offre", "Uneoffre", "u.n@email.com",
-                "18191234567", 5.01);
-        offerItem = new OfferItem();
-        offerItem.setName(offerItemResponseDto.name);
-        offerItem.setMessage(offerItemResponseDto.message);
-        offerItem.setEmail(offerItemResponseDto.email);
-        offerItem.setPhoneNumber(offerItemResponseDto.phoneNumber);
-        offerItem.setAmount(new Amount(offerItemResponseDto.amount));
+        offerItem = new OfferItem(Instant.now().atOffset(ZoneOffset.UTC).truncatedTo(ChronoUnit.MILLIS));
+        offerItem.setName("Buyer");
+        offerItem.setMessage("UneOffre");
+        offerItem.setEmail("u.n@email.com");
+        offerItem.setPhoneNumber("18191234567");
+        offerItem.setAmount(new Amount(5.01));
         List<OfferItemResponseDto> items = new ArrayList<>();
         items.add(offerItemResponseDto);
-        offersResponseDto = new OffersResponseDto(5.01, 5.01, Optional.of(BigDecimal.valueOf(5.01)),
-                1, items);
-        offer = new Offers(offersResponseDto);
+        offer = new Offers();
         offer.getListOffer().add(offerItem);
         product.getOffers().addNewOffer(offerItem);
 
 
         when(sellerListRepositoryMock.findById(VALID_SELLER_ID)).thenReturn(Optional.of(seller));
         when(sellerListRepositoryMock.add(any())).thenReturn(VALID_SELLER_ID);
+
+        when(productRepositoryMock.productOf(VALID_SELLER_ID)).thenReturn(new ArrayList<>());
     }
 
     @Override
     protected Application configure() {
-        var resourceConfig = Main.getRessourceConfig();
+        var resourceConfig = Main.getRessourceConfig(Main.loadConfig());
         resourceConfig.register(new AbstractBinder() {
             @Override
             protected void configure() {
                 bind(sellerListRepositoryMock).to(SellerRepository.class).ranked(2);
+                bind(productRepositoryMock).to(ProductRepository.class).ranked(2);
             }
         });
         return resourceConfig;
@@ -166,7 +170,7 @@ public class SellerControllerIntegrationTests extends JerseyTest {
         var entity = response.readEntity(CurrentSellerDto.class);
 
         assertThat(status).isEqualTo(Response.Status.OK.getStatusCode());
-        assertThat(entity.id).isEqualTo(seller.getSellerId());
+        assertThat(entity.id).isEqualTo(seller.getId());
         assertThat(entity.name).isEqualTo(seller.getName());
         assertThat(entity.bio).isEqualTo(seller.getBio());
         assertThat(entity.birthdate).isEqualTo(seller.getBirthDate());
@@ -178,6 +182,7 @@ public class SellerControllerIntegrationTests extends JerseyTest {
         assertThat(entity.products.get(0).categories).isEqualTo(product.getCategories());
         assertThat(entity.products.get(0).offers.min).isEqualTo(offer.getMin());
         assertThat(entity.products.get(0).offers.max).isEqualTo(offer.getMax());
+        assertThat(entity.products.get(0).offers.mean).isEqualTo(offer.getMean());
         assertThat(entity.products.get(0).offers.count).isEqualTo(offer.getCount());
         assertThat(entity.products.get(0).offers.items.get(0).id).isEqualTo(offer.getListOffer().get(0).getOfferId());
         assertThat(entity.products.get(0).offers.items.get(0).createdAt).isEqualTo(

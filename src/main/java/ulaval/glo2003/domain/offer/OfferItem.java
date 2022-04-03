@@ -1,13 +1,15 @@
 package ulaval.glo2003.domain.offer;
 
-import org.joda.time.DateTime;
+import dev.morphia.annotations.Entity;
 import ulaval.glo2003.domain.product.Amount;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
+@Entity
 public class OfferItem {
     private UUID offerId;
     private String name;
@@ -15,10 +17,13 @@ public class OfferItem {
     private String phoneNumber;
     private Amount amount;
     private String message;
-    private OffsetDateTime createdAt;
+    private Instant createdAt;
 
-    public OfferItem() {
-        this.createdAt = Instant.now().atOffset(ZoneOffset.UTC);
+    private OfferItem() {
+    }
+
+    public OfferItem(OffsetDateTime createdAt) {
+        this.createdAt = createdAt.toInstant();
         this.offerId = UUID.randomUUID();
     }
 
@@ -63,11 +68,11 @@ public class OfferItem {
     }
 
     public void setCreatedAt(OffsetDateTime createdAt) {
-        this.createdAt = createdAt;
+        this.createdAt = createdAt.toInstant().truncatedTo(ChronoUnit.MILLIS);
     }
 
     public OffsetDateTime getCreatedAt() {
-        return this.createdAt;
+        return this.createdAt.atOffset(ZoneOffset.UTC);
     }
 
     public UUID getOfferId() {

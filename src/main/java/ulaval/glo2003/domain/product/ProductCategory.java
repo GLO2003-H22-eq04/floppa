@@ -1,5 +1,8 @@
 package ulaval.glo2003.domain.product;
 
+import dev.morphia.annotations.Entity;
+
+@Entity("ProductCategory")
 public enum ProductCategory {
     SPORTS("sports"),
     ELECTRONICS("electronics"),

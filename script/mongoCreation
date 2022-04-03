@@ -1,0 +1,9 @@
+use morphia
+
+db.createUser(
+  {
+    user: "morphia",
+    pwd: "morphia",
+    roles: [ { role: "readWrite", db: "morphia" } ]
+  }
+)

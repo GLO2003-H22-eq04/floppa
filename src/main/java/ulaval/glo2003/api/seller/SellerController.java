@@ -47,6 +47,7 @@ public class SellerController {
     public Response postCreatingSeller(@Valid @NotNull(payload = MissingParameterError.class) SellerDto seller) {
         var sellerId = sellerRepository.add(new Seller(seller));
         var url = SELLERS_PATH + "/" + sellerId;
+
         return Response.created(URI.create(url)).build();
     }
 

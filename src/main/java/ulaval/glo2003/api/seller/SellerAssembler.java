@@ -18,7 +18,7 @@ public class SellerAssembler {
     public CurrentSellerDto currentSellerToDto(Seller seller) {
         var currentSeller = new CurrentSellerDto();
 
-        currentSeller.id = seller.getSellerId();
+        currentSeller.id = seller.getId();
         currentSeller.name = seller.getName();
         currentSeller.createdAt = Instant.now().atOffset(ZoneOffset.UTC);
         currentSeller.bio = seller.getBio();

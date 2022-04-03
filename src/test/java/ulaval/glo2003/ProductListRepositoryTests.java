@@ -9,6 +9,8 @@ import ulaval.glo2003.domain.product.Product;
 import ulaval.glo2003.domain.product.ProductCategory;
 import ulaval.glo2003.domain.product.repository.ProductListRepository;
 
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.UUID;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -25,7 +27,7 @@ public class ProductListRepositoryTests {
     @Before
     public void before() {
         productListRepository = new ProductListRepository();
-        product1 = new Product();
+        product1 = new Product(Instant.now().atOffset(ZoneOffset.UTC));
         product1.setTitle("titleDT01");
         product1.setDescription("descriptionDT01");
         product1.setSuggestedPrice(new Amount(4.29));
@@ -33,7 +35,7 @@ public class ProductListRepositoryTests {
         product1.addCategory(ProductCategory.OTHER);
 
 
-        product2 = new Product();
+        product2 = new Product(Instant.now().atOffset(ZoneOffset.UTC));
         product2.setTitle("titleDT02");
         product2.setDescription("descriptionDT02");
         product2.setSuggestedPrice(new Amount(6.49));
