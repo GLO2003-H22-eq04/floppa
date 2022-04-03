@@ -1,11 +1,15 @@
 package ulaval.glo2003.domain.seller;
 
 import ulaval.glo2003.applicatif.seller.SellerDto;
+import ulaval.glo2003.domain.product.Product;
 
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class Seller {
 
@@ -13,6 +17,8 @@ public class Seller {
     private final String bio;
     private final LocalDate birthDate;
     private final OffsetDateTime createdAt;
+    private final List<Product> productList = new ArrayList<>();
+    private UUID sellerId;
 
 
     public Seller(SellerDto seller) {
@@ -30,8 +36,24 @@ public class Seller {
         return bio;
     }
 
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
     public OffsetDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public List<Product> getProducts() {
+        return productList;
+    }
+
+    public UUID getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(UUID sellerId) {
+        this.sellerId = sellerId;
     }
 
 }
