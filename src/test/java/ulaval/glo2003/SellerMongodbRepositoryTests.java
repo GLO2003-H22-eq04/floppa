@@ -28,21 +28,9 @@ public class SellerMongodbRepositoryTests {
 
         sellerListRepository = new SellerMongodbRepository(new DatastoreFactory(Main.loadConfig()));
 
-        seller1 = new Seller(
-                EXPECTED_SELLER_ID_1,
-                "Nom1",
-                "bio1",
-                LocalDate.now().minusYears(30),
-                OffsetDateTime.now().minusDays(2)
-        );
+        seller1 = new Seller(EXPECTED_SELLER_ID_1, "Nom1", "bio1", LocalDate.now().minusYears(30), OffsetDateTime.now().minusDays(2));
 
-        seller2 = new Seller(
-                EXPECTED_SELLER_ID_2,
-                "Nom2",
-                "bio2",
-                LocalDate.now().minusYears(40),
-                OffsetDateTime.now().minusDays(3)
-        );
+        seller2 = new Seller(EXPECTED_SELLER_ID_2, "Nom2", "bio2", LocalDate.now().minusYears(40), OffsetDateTime.now().minusDays(3));
 
     }
 

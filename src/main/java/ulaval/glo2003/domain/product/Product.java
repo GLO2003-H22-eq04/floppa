@@ -31,7 +31,6 @@ public class Product {
     private Offers offers;
     private final List<ProductCategory> categories = new ArrayList<>();
 
-
     public Product(OffsetDateTime createdAt) {
         setCreatedAt(createdAt);
         this.offers = new Offers();

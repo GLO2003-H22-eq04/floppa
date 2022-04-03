@@ -34,7 +34,6 @@ public class Amount {
         this.value = BigDecimal.valueOf(decimal.doubleValue());
     }
 
-
     public Amount(BigDecimal value) {
         this.value = value;
     }
