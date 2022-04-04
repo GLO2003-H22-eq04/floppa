@@ -1,5 +1,13 @@
 # TP3
 
+
+### Stories
+> 1 - Un vendeur peut recevoir de nouvelles offres
+
+> 2 - Un vendeur peut voir le nombre de vue par produit
+
+> 3 - Un acheteur peut créer une surenchère automatique
+
 ### Rétrospective - Intégration continue et tests
 
 #### Pipeline CI
