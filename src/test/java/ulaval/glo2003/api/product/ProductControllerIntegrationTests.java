@@ -14,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import ulaval.glo2003.IntegrationUtils;
 import ulaval.glo2003.Main;
-import ulaval.glo2003.api.product.ProductController;
 import ulaval.glo2003.applicatif.product.ProductDto;
 import ulaval.glo2003.applicatif.product.ProductInfoResponseDto;
 import ulaval.glo2003.applicatif.seller.SellerDto;
@@ -25,7 +24,6 @@ import ulaval.glo2003.domain.product.repository.ProductRepository;
 import ulaval.glo2003.domain.seller.Seller;
 import ulaval.glo2003.domain.seller.repository.SellerRepository;
 
-import java.lang.annotation.Annotation;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;

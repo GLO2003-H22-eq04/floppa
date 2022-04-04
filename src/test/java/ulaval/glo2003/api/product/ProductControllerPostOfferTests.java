@@ -12,7 +12,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import ulaval.glo2003.Main;
-import ulaval.glo2003.api.product.ProductController;
 import ulaval.glo2003.applicatif.offer.OfferItemDto;
 import ulaval.glo2003.domain.offer.OfferItem;
 import ulaval.glo2003.domain.product.Amount;

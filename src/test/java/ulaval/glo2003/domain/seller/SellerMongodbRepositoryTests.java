@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import ulaval.glo2003.Main;
 import ulaval.glo2003.domain.config.DatastoreFactory;
-import ulaval.glo2003.domain.seller.Seller;
 import ulaval.glo2003.domain.seller.repository.SellerMongodbRepository;
 
 import java.time.LocalDate;

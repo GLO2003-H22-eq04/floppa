@@ -1,15 +1,11 @@
 package ulaval.glo2003.domain.product;
 
-import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import ulaval.glo2003.Main;
 import ulaval.glo2003.domain.config.DatastoreFactory;
 import ulaval.glo2003.domain.offer.OfferItem;
 import ulaval.glo2003.domain.offer.Offers;
-import ulaval.glo2003.domain.product.Amount;
-import ulaval.glo2003.domain.product.Product;
-import ulaval.glo2003.domain.product.ProductCategory;
 import ulaval.glo2003.domain.product.repository.ProductMongodbRepository;
 
 import java.time.Instant;

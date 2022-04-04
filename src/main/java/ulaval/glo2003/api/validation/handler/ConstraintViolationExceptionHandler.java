@@ -7,9 +7,9 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
+import ulaval.glo2003.api.validation.ValidationExceptionResponseBuilder;
 import ulaval.glo2003.api.validation.errors.InvalidParameterError;
 import ulaval.glo2003.api.validation.errors.ValidationError;
-import ulaval.glo2003.api.validation.ValidationExceptionResponseBuilder;
 
 import java.util.Optional;
 

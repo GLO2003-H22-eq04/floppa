@@ -4,9 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
-import ulaval.glo2003.domain.product.Amount;
-import ulaval.glo2003.domain.product.Product;
-import ulaval.glo2003.domain.product.ProductCategory;
 import ulaval.glo2003.domain.product.repository.ProductListRepository;
 
 import java.time.Instant;

@@ -2,7 +2,6 @@ package ulaval.glo2003.api.product;
 
 import org.junit.Before;
 import org.junit.Test;
-import ulaval.glo2003.api.product.ProductAssembler;
 import ulaval.glo2003.applicatif.offer.OffersResponseDto;
 import ulaval.glo2003.applicatif.product.ProductSellerDto;
 import ulaval.glo2003.domain.product.Amount;

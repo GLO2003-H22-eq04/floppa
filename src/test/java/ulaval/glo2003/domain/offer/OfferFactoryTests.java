@@ -3,8 +3,6 @@ package ulaval.glo2003.domain.offer;
 import org.junit.Before;
 import org.junit.Test;
 import ulaval.glo2003.applicatif.offer.OfferItemDto;
-import ulaval.glo2003.domain.offer.OfferFactory;
-import ulaval.glo2003.domain.offer.OfferItem;
 
 import static com.google.common.truth.Truth.assertThat;
 

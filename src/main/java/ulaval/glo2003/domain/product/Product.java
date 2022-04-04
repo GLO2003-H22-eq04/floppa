@@ -2,18 +2,14 @@ package ulaval.glo2003.domain.product;
 
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
-import org.joda.time.Seconds;
-import ulaval.glo2003.applicatif.offer.OffersResponseDto;
 import ulaval.glo2003.domain.offer.Offers;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.UUID;
 import java.util.stream.Collectors;
 

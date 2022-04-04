@@ -2,6 +2,7 @@ package ulaval.glo2003.api.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+
 import java.time.LocalDate;
 
 public class AgeValidator implements ConstraintValidator<MinimumAge, LocalDate> {

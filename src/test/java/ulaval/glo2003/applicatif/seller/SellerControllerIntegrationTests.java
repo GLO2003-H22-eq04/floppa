@@ -16,7 +16,6 @@ import ulaval.glo2003.IntegrationUtils;
 import ulaval.glo2003.Main;
 import ulaval.glo2003.api.seller.SellerController;
 import ulaval.glo2003.applicatif.offer.OfferItemResponseDto;
-import ulaval.glo2003.applicatif.offer.OffersResponseDto;
 import ulaval.glo2003.applicatif.seller.CurrentSellerDto;
 import ulaval.glo2003.applicatif.seller.SellerDto;
 import ulaval.glo2003.applicatif.seller.SellerInfoResponseDto;
@@ -28,7 +27,6 @@ import ulaval.glo2003.domain.product.repository.ProductRepository;
 import ulaval.glo2003.domain.seller.Seller;
 import ulaval.glo2003.domain.seller.repository.SellerRepository;
 
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;

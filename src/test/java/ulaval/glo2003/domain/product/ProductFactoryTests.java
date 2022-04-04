@@ -3,9 +3,6 @@ package ulaval.glo2003.domain.product;
 import org.junit.Before;
 import org.junit.Test;
 import ulaval.glo2003.applicatif.product.ProductDto;
-import ulaval.glo2003.domain.product.Product;
-import ulaval.glo2003.domain.product.ProductCategory;
-import ulaval.glo2003.domain.product.ProductFactory;
 
 import java.util.List;
 import java.util.UUID;
