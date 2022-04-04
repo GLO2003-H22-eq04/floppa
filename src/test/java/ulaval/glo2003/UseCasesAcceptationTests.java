@@ -170,6 +170,11 @@ public class UseCasesAcceptationTests extends JerseyTest {
         assertThat(response.jsonPath().getString("products")).isEqualTo("[]");
     }
 
+    @Test
+    public void canReturn200WithMinMaxMeanNullOnProductWithNoOffers(){
+
+    }
+
     private SellerCreationResponse createSeller() {
         var sellerCreationResponse = given().contentType(ContentType.JSON).body(serializer.toJson(sellerDTO)).post(SellerController.SELLERS_PATH);
         var location = sellerCreationResponse.header("Location");

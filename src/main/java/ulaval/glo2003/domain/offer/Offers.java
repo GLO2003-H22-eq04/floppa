@@ -1,14 +1,11 @@
 package ulaval.glo2003.domain.offer;
 
 import dev.morphia.annotations.Entity;
-import dev.morphia.annotations.Id;
-import ulaval.glo2003.applicatif.offer.OffersResponseDto;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Entity
 public class Offers {
@@ -37,12 +34,26 @@ public class Offers {
         return Optional.of(BigDecimal.valueOf(sum / items.size()));
     }
 
-    public double getMin() {
-        return items.stream().map(value -> value.getAmount().getValue()).min(Double::compareTo).orElse(0d);
+    public Optional<BigDecimal> getMin() {
+        if (items.isEmpty())
+            return Optional.empty();
+
+        var min = items.stream().map(value -> value.getAmount().getValue()).min(Double::compareTo).orElse(null);
+        if (min == null)
+            return Optional.empty();
+
+        return Optional.of(new BigDecimal(min));
     }
 
-    public double getMax() {
-        return items.stream().map(value -> value.getAmount().getValue()).max(Double::compareTo).orElse(0d);
+    public Optional<BigDecimal> getMax() {
+        if (items.isEmpty())
+            return Optional.empty();
+
+        var min = items.stream().map(value -> value.getAmount().getValue()).max(Double::compareTo).orElse(null);
+        if (min == null)
+            return Optional.empty();
+
+        return Optional.of(new BigDecimal(min));
     }
 
     public int getCount() {

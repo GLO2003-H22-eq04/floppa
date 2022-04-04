@@ -7,20 +7,19 @@ import ulaval.glo2003.domain.offer.Offers;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class OffersResponseDto {
 
     @JsonbProperty(nillable = true)
     public BigDecimal mean;
-    public double min;
-    public double max;
+    public BigDecimal min;
+    public BigDecimal max;
     public int count;
     public List<OfferItemResponseDto> items;
 
     @JsonbCreator
-    public OffersResponseDto(@JsonbProperty("min") double min,
-                             @JsonbProperty("max") double max,
+    public OffersResponseDto(@JsonbProperty(value = "min", nillable = true) BigDecimal min,
+                             @JsonbProperty(value = "max", nillable = true) BigDecimal max,
                              @JsonbProperty(value = "mean", nillable = true) BigDecimal mean,
                              @JsonbProperty("count") int count,
                              @JsonbProperty("items") List<OfferItemResponseDto> items) {
@@ -32,11 +31,15 @@ public class OffersResponseDto {
     }
 
     public static OffersResponseDto fromOffers(Offers offers) {
-        return new OffersResponseDto(offers.getMin(), offers.getMax(), offers.getMean().orElse(null), offers.getCount(), getOfferList(offers));
+        return new OffersResponseDto(offers.getMin().orElse(null),
+                offers.getMax().orElse(null),
+                offers.getMean().orElse(null),
+                offers.getCount(),
+                getOfferList(offers));
     }
 
     public static OffersResponseDto empty() {
-        return new OffersResponseDto(0, 0, BigDecimal.ZERO, 0, new ArrayList<>());
+        return new OffersResponseDto(null, null, null, 0, new ArrayList<>());
     }
 
     private static List<OfferItemResponseDto> getOfferList(Offers offers) {
