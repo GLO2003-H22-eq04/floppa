@@ -12,7 +12,9 @@ public class OffersResponseDto {
 
     @JsonbProperty(nillable = true)
     public BigDecimal mean;
+    @JsonbProperty(nillable = true)
     public BigDecimal min;
+    @JsonbProperty(nillable = true)
     public BigDecimal max;
     public int count;
     public List<OfferItemResponseDto> items;

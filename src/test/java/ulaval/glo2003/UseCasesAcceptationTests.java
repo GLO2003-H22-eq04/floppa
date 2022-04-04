@@ -10,8 +10,9 @@ import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Before;
 import org.junit.Test;
 import ulaval.glo2003.api.product.ProductController;
-import ulaval.glo2003.applicatif.product.ProductDto;
 import ulaval.glo2003.api.seller.SellerController;
+import ulaval.glo2003.applicatif.product.ProductDto;
+import ulaval.glo2003.applicatif.product.ProductInfoResponseDto;
 import ulaval.glo2003.applicatif.seller.SellerDto;
 
 import java.time.LocalDate;
@@ -26,6 +27,8 @@ public class UseCasesAcceptationTests extends JerseyTest {
     private SellerDto sellerDTO;
     private ProductDto productDTO;
     private Jsonb serializer;
+    private SellerCreationResponse sellerCreationResponse;
+    private io.restassured.response.Response productCreationResponse;
 
     @Override
     protected Application configure() {
@@ -137,7 +140,7 @@ public class UseCasesAcceptationTests extends JerseyTest {
     }
 
     @Test
-    public void canReturn200WithInclusiveFilteredProduct(){
+    public void canReturn200WithInclusiveFilteredProduct() {
         given().contentType(ContentType.JSON)
                 .body(serializer.toJson(sellerDTO))
                 .post(SellerController.SELLERS_PATH);
@@ -147,14 +150,14 @@ public class UseCasesAcceptationTests extends JerseyTest {
                 .header(new Header(ProductController.SELLER_ID_HEADER, "0"))
                 .post(ProductController.PRODUCTS_PATH);
 
-        var response = given().header(new Header(ProductController.SELLER_ID_HEADER, "0")).get(ProductController.PRODUCTS_PATH+"?title=OdU&minPrice=10&maxPrice=10");
+        var response = given().header(new Header(ProductController.SELLER_ID_HEADER, "0")).get(ProductController.PRODUCTS_PATH + "?title=OdU&minPrice=10&maxPrice=10");
 
         assertThat(response.statusCode()).isEqualTo(Response.Status.OK.getStatusCode());
         assertThat(response.jsonPath().getString("products")).isNotEmpty();
     }
 
     @Test
-    public void canReturn200WithoutExclusiveFilteredProduct(){
+    public void canReturn200WithoutExclusiveFilteredProduct() {
         given().contentType(ContentType.JSON)
                 .body(serializer.toJson(sellerDTO))
                 .post(SellerController.SELLERS_PATH);
@@ -164,33 +167,73 @@ public class UseCasesAcceptationTests extends JerseyTest {
                 .header(new Header(ProductController.SELLER_ID_HEADER, "0"))
                 .post(ProductController.PRODUCTS_PATH);
 
-        var response = given().header(new Header(ProductController.SELLER_ID_HEADER, "0")).get(ProductController.PRODUCTS_PATH+"?minPrice=11");
+        var response = given().header(new Header(ProductController.SELLER_ID_HEADER, "0")).get(ProductController.PRODUCTS_PATH + "?minPrice=11");
 
         assertThat(response.statusCode()).isEqualTo(Response.Status.OK.getStatusCode());
         assertThat(response.jsonPath().getString("products")).isEqualTo("[]");
     }
 
     @Test
-    public void canReturn200WithMinMaxMeanNullOnProductWithNoOffers(){
+    public void canReturn200WithMinMaxMeanNullOnProductWithNoOffers() {
+        createSellerWithProduct();
 
+        var response = given().get(productCreationResponse.header("Location"));
+        var body = response.body().asString();
+        var responseDto = serializer.fromJson(body, ProductInfoResponseDto.class);
+
+        assertThat(responseDto.offers.max).isNull();
+        assertThat(responseDto.offers.min).isNull();
+        assertThat(responseDto.offers.mean).isNull();
+    }
+
+    private void createSellerWithProduct() {
+        var sellerCreationResponse = given().contentType(ContentType.JSON)
+                .body(serializer.toJson(sellerDTO))
+                .post(SellerController.SELLERS_PATH);
+        this.sellerCreationResponse = new SellerCreationResponse(sellerCreationResponse);
+        productCreationResponse = given().contentType(ContentType.JSON)
+                .body(serializer.toJson(productDTO))
+                .header(new Header(ProductController.SELLER_ID_HEADER, getIdFromUrl(sellerCreationResponse.header("Location"))))
+                .post(ProductController.PRODUCTS_PATH);
+    }
+
+    private String getIdFromUrl(String url) {
+        return url.substring(url.lastIndexOf('/') + 1);
     }
 
     private SellerCreationResponse createSeller() {
         var sellerCreationResponse = given().contentType(ContentType.JSON).body(serializer.toJson(sellerDTO)).post(SellerController.SELLERS_PATH);
         var location = sellerCreationResponse.header("Location");
-        var sellerId = UUID.fromString(location.substring(location.lastIndexOf('/') +1));
+        var sellerId = UUID.fromString(location.substring(location.lastIndexOf('/') + 1));
         return new SellerCreationResponse(location, sellerId, sellerCreationResponse.statusCode());
     }
 }
 
-class SellerCreationResponse{
+class SellerCreationResponse {
     public String location;
     public UUID id;
     public int statusCode;
 
-    public SellerCreationResponse(String location, UUID id, int statusCode) {
+    public SellerCreationResponse(io.restassured.response.Response response) {
+        this.location = response.header("Location");
+        this.id = getIdFromUrl(location);
+        this.statusCode = response.statusCode();
+    }
+
+    private UUID getIdFromUrl(String url) {
+        var id = url.substring(url.lastIndexOf('/') + 1);
+        return UUID.fromString(id);
+    }
+
+}
+
+class ProductCreationResponse {
+    public String location;
+    public UUID id;
+    public int statusCode;
+
+    public ProductCreationResponse(io.restassured.response.Response response) {
         this.location = location;
         this.id = id;
         this.statusCode = statusCode;
     }
-}
