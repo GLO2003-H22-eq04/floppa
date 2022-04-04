@@ -1,5 +1,6 @@
-package ulaval.glo2003;
+package ulaval.glo2003.api.seller;
 
+import com.google.common.truth.Truth;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.Application;
 import jakarta.ws.rs.core.MediaType;
@@ -11,6 +12,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import ulaval.glo2003.IntegrationUtils;
+import ulaval.glo2003.Main;
 import ulaval.glo2003.api.seller.SellerController;
 import ulaval.glo2003.applicatif.seller.SellerDto;
 import ulaval.glo2003.applicatif.seller.SellerInfoResponseDto;
@@ -76,7 +79,7 @@ public class SellerControllerIntegrationTests extends JerseyTest {
         var locationHeader = (String) response.getHeaders().getFirst("Location");
 
         assertThat(locationHeader.contains(VALID_ID.toString())).isTrue();
-        assertThat(IntegrationUtils.isUrl(locationHeader)).isTrue();
+        Truth.assertThat(IntegrationUtils.isUrl(locationHeader)).isTrue();
     }
 
     @Test

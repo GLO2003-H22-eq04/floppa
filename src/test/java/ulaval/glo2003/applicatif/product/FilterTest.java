@@ -1,4 +1,4 @@
-package ulaval.glo2003;
+package ulaval.glo2003.applicatif.product;
 
 import org.junit.Before;
 import org.junit.Test;
