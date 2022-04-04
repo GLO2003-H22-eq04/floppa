@@ -1,4 +1,4 @@
-package ulaval.glo2003;
+package ulaval.glo2003.api.product;
 
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.Application;
@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import ulaval.glo2003.Main;
 import ulaval.glo2003.api.product.ProductController;
 import ulaval.glo2003.applicatif.offer.OfferItemDto;
 import ulaval.glo2003.domain.offer.OfferItem;

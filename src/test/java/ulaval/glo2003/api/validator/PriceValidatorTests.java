@@ -1,4 +1,4 @@
-package ulaval.glo2003;
+package ulaval.glo2003.api.validator;
 
 import jakarta.validation.ConstraintValidatorContext;
 import org.junit.Before;

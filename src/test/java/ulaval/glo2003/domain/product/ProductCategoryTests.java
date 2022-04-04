@@ -1,4 +1,4 @@
-package ulaval.glo2003;
+package ulaval.glo2003.domain.product;
 
 import org.junit.Test;
 import ulaval.glo2003.domain.product.ProductCategory;
