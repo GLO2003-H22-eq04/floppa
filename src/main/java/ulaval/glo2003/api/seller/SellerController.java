@@ -6,23 +6,16 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import ulaval.glo2003.applicatif.buyer.BuyerInfoResponseDto;
-import ulaval.glo2003.applicatif.buyer.BuyerItemResponseDto;
-import ulaval.glo2003.applicatif.offer.OfferInfoResponseDto;
-import ulaval.glo2003.applicatif.product.ProductOfferInfoResponseDto;
+import ulaval.glo2003.api.validation.errors.ItemNotFoundError;
+import ulaval.glo2003.api.validation.errors.MissingParameterError;
 import ulaval.glo2003.applicatif.seller.CurrentSellerDto;
 import ulaval.glo2003.applicatif.seller.SellerDto;
 import ulaval.glo2003.applicatif.seller.SellerInfoResponseDto;
-import ulaval.glo2003.api.validation.errors.ItemNotFoundError;
-import ulaval.glo2003.api.validation.errors.MissingParameterError;
-import ulaval.glo2003.domain.offer.Offers;
 import ulaval.glo2003.domain.product.repository.ProductRepository;
 import ulaval.glo2003.domain.seller.Seller;
 import ulaval.glo2003.domain.seller.repository.SellerRepository;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Path(SellerController.SELLERS_PATH)

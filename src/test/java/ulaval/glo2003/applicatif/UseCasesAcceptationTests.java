@@ -13,8 +13,8 @@ import org.junit.Test;
 import ulaval.glo2003.IntegrationUtils;
 import ulaval.glo2003.Main;
 import ulaval.glo2003.api.product.ProductController;
-import ulaval.glo2003.applicatif.product.ProductDto;
 import ulaval.glo2003.api.seller.SellerController;
+import ulaval.glo2003.applicatif.product.ProductDto;
 import ulaval.glo2003.applicatif.seller.SellerDto;
 
 import java.time.LocalDate;

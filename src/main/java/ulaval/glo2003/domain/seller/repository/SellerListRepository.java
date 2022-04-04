@@ -4,7 +4,10 @@ import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Reference;
 import ulaval.glo2003.domain.seller.Seller;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 @Entity("SellerListRepository")
 public class SellerListRepository implements SellerRepository {

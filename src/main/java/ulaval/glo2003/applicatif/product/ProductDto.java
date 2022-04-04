@@ -3,10 +3,10 @@ package ulaval.glo2003.applicatif.product;
 import jakarta.validation.GroupSequence;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import ulaval.glo2003.api.validation.errors.InvalidParameterError;
-import ulaval.glo2003.api.validation.errors.MissingParameterError;
 import ulaval.glo2003.api.validation.HighPriority;
 import ulaval.glo2003.api.validation.MinimumPrice;
+import ulaval.glo2003.api.validation.errors.InvalidParameterError;
+import ulaval.glo2003.api.validation.errors.MissingParameterError;
 
 import java.util.ArrayList;
 import java.util.List;

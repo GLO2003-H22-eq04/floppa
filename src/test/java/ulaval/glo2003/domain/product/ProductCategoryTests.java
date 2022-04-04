@@ -1,7 +1,6 @@
 package ulaval.glo2003.domain.product;
 
 import org.junit.Test;
-import ulaval.glo2003.domain.product.ProductCategory;
 
 import static com.google.common.truth.Truth.assertThat;
 
