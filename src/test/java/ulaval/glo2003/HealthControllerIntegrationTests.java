@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import ulaval.glo2003.api.health.HealthController;
+import ulaval.glo2003.applicatif.health.HealthDto;
 import ulaval.glo2003.domain.config.DatastoreFactory;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -51,8 +52,11 @@ public class HealthControllerIntegrationTests extends JerseyTest {
         var response = getHealthResponse();
 
         var status = response.getStatus();
+        var entity = response.readEntity(HealthDto.class);
 
         assertThat(status).isEqualTo(Response.Status.OK.getStatusCode());
+        assertThat(entity.api).isTrue();
+        assertThat(entity.bd).isTrue();
     }
 
     @Test
@@ -61,8 +65,11 @@ public class HealthControllerIntegrationTests extends JerseyTest {
         var response = getHealthResponse();
 
         var status = response.getStatus();
+        var entity = response.readEntity(HealthDto.class);
 
         assertThat(status).isEqualTo(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+        assertThat(entity.api).isTrue();
+        assertThat(entity.bd).isFalse();
     }
 
     private Response getHealthResponse() {
