@@ -10,11 +10,9 @@ import ulaval.glo2003.api.validation.errors.InvalidParameterError;
 import ulaval.glo2003.api.validation.errors.ItemNotFoundError;
 import ulaval.glo2003.api.validation.errors.MissingParameterError;
 import ulaval.glo2003.applicatif.offer.OfferItemDto;
-import ulaval.glo2003.applicatif.offer.OfferItemResponseDto;
 import ulaval.glo2003.applicatif.offer.OffersResponseDto;
 import ulaval.glo2003.applicatif.product.*;
 import ulaval.glo2003.domain.offer.OfferFactory;
-import ulaval.glo2003.domain.offer.Offers;
 import ulaval.glo2003.domain.product.Product;
 import ulaval.glo2003.domain.product.ProductCategory;
 import ulaval.glo2003.domain.product.ProductFactory;
@@ -54,7 +52,11 @@ public class ProductController {
             throw new ItemNotFoundError("L'id fourni n'existe pas.");
 
         var product = productFactory.createProduct(productDto, sellerId);
+        var seller = sellerRepository.findById(sellerId).get();
+        seller.getProducts().add(product);
         UUID productId = productRepository.add(product);
+        product.setProductId(productId);
+
         var url = PRODUCTS_PATH + "/" + productId;
         return Response.created(URI.create(url)).build();
     }
@@ -109,7 +111,6 @@ public class ProductController {
                 }
 
                 var offers = product.getOffers();
-                var offerList = getOfferList(offers);
                 products.add(new ProductFilteredResponseDto(
                         product.getProductId(),
                         product.getCreatedAt(),
@@ -118,8 +119,7 @@ public class ProductController {
                         product.getSuggestedPrice().getValue(),
                         product.getCategories(),
                         productSeller,
-                        new OffersResponseDto(offers.getMin(),
-                                offers.getMax(), offers.getMean(), offers.getCount(), offerList)));
+                        OffersResponseDto.fromOffers(offers)));
             }
         }
 
@@ -146,10 +146,8 @@ public class ProductController {
         var productSellerDto = new ProductSellerDto(productInfo.getSellerId(), sellerInfo.getName());
 
         var offers = productInfo.getOffers();
-        var offerList = getOfferList(offers);
 
-        return productAssembler.toDto(productInfo, productSellerDto, new OffersResponseDto(offers.getMin(),
-                offers.getMax(), offers.getMean(), offers.getCount(), offerList));
+        return productAssembler.toDto(productInfo, productSellerDto, OffersResponseDto.fromOffers(offers));
     }
 
     @POST
@@ -170,22 +168,10 @@ public class ProductController {
         var newOffer = offerFactory.createNewOffer(offerItemDto);
 
         productOffers.addNewOffer(newOffer);
+
         return Response
                 .status(Response.Status.OK)
                 .entity("OK")
                 .build();
-    }
-
-    private List<OfferItemResponseDto> getOfferList(Offers offers) {
-        List<OfferItemResponseDto> offerList = new ArrayList<>();
-        for (var offer : offers.getListOffer()) {
-            offerList.add(new OfferItemResponseDto(
-                    offer.getName(),
-                    offer.getMessage(),
-                    offer.getEmail(),
-                    offer.getPhoneNumber(),
-                    offer.getAmount().getValue()));
-        }
-        return offerList;
     }
 }

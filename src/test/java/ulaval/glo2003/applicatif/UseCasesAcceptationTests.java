@@ -1,5 +1,6 @@
-package ulaval.glo2003;
+package ulaval.glo2003.applicatif;
 
+import com.google.common.truth.Truth;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import jakarta.json.bind.Jsonb;
@@ -9,6 +10,8 @@ import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Before;
 import org.junit.Test;
+import ulaval.glo2003.IntegrationUtils;
+import ulaval.glo2003.Main;
 import ulaval.glo2003.api.product.ProductController;
 import ulaval.glo2003.applicatif.product.ProductDto;
 import ulaval.glo2003.api.seller.SellerController;
@@ -29,7 +32,7 @@ public class UseCasesAcceptationTests extends JerseyTest {
 
     @Override
     protected Application configure() {
-        return Main.getRessourceConfig();
+        return Main.getRessourceConfig(Main.loadConfig());
     }
 
     @Before
@@ -54,7 +57,7 @@ public class UseCasesAcceptationTests extends JerseyTest {
         var response = createSeller();
 
         assertThat(response.statusCode).isEqualTo(Response.Status.CREATED.getStatusCode());
-        assertThat(IntegrationUtils.isUrl(response.location)).isTrue();
+        Truth.assertThat(IntegrationUtils.isUrl(response.location)).isTrue();
     }
 
     @Test

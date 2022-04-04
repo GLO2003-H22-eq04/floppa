@@ -1,31 +1,44 @@
 package ulaval.glo2003.domain.product;
 
+import dev.morphia.annotations.Entity;
+import dev.morphia.annotations.Id;
+import org.joda.time.Seconds;
 import ulaval.glo2003.applicatif.offer.OffersResponseDto;
 import ulaval.glo2003.domain.offer.Offers;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Entity("Product")
 public class Product {
-
+    @Id
     private UUID productId;
     private String title;
     private String description;
+
     private UUID sellerId;
     private Amount suggestedPrice;
-    private OffsetDateTime createdAt;
+
+    private Instant createdAt;
     private Offers offers;
     private final List<ProductCategory> categories = new ArrayList<>();
 
+    public Product(OffsetDateTime createdAt) {
+        setCreatedAt(createdAt);
+        this.offers = new Offers();
+    }
 
-    public Product() {
-        createdAt = Instant.now().atOffset(ZoneOffset.UTC);
-        this.offers = new Offers(OffersResponseDto.empty());
+    // Est utilisé par Morphia même si il est privé car java c'est dumb.
+    private Product() {
+        this.offers = new Offers();
     }
 
     public UUID getProductId() {
@@ -77,11 +90,11 @@ public class Product {
     }
 
     public OffsetDateTime getCreatedAt() {
-        return createdAt;
+        return createdAt.atOffset(ZoneOffset.UTC);
     }
 
     public void setCreatedAt(OffsetDateTime createdAt) {
-        this.createdAt = createdAt;
+        this.createdAt = createdAt.toInstant().truncatedTo(ChronoUnit.MILLIS);
     }
 
     public List<String> getCategoriesName() {
@@ -94,5 +107,22 @@ public class Product {
 
     public Offers getOffers() {
         return offers;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true;
+
+        if (!(obj instanceof Product))
+            return false;
+
+        var comparedProduct = (Product) obj;
+
+        return (comparedProduct.productId == null || comparedProduct.productId.equals(this.productId))
+                && comparedProduct.createdAt.equals(this.createdAt)
+                && comparedProduct.description.equals(this.description)
+                && comparedProduct.suggestedPrice.equals(this.suggestedPrice)
+                && comparedProduct.title.equals(this.title);
     }
 }
