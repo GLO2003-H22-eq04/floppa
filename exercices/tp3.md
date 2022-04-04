@@ -2,7 +2,7 @@
 
 
 ### Stories
-> 1 - Un vendeur peut recevoir de nouvelles offres
+> 1 - Un vendeur peut se faire notifier de nouvelles offres
 
 > 2 - Un vendeur peut voir le nombre de vue par produit
 
