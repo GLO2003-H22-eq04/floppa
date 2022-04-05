@@ -1,7 +1,6 @@
 package ulaval.glo2003.domain.config;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 
 public class EnvironmentPropertiesMapper {
