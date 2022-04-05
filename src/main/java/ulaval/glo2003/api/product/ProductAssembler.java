@@ -1,8 +1,8 @@
 package ulaval.glo2003.api.product;
 
-import ulaval.glo2003.applicatif.offer.OffersResponseDto;
-import ulaval.glo2003.applicatif.product.ProductInfoResponseDto;
-import ulaval.glo2003.applicatif.product.ProductSellerDto;
+import ulaval.glo2003.applicatif.dto.offer.OffersResponseDto;
+import ulaval.glo2003.applicatif.dto.product.ProductInfoResponseDto;
+import ulaval.glo2003.applicatif.dto.product.ProductSellerDto;
 import ulaval.glo2003.domain.product.Product;
 
 public class ProductAssembler {

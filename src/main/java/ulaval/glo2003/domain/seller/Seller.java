@@ -3,7 +3,7 @@ package ulaval.glo2003.domain.seller;
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
 import dev.morphia.annotations.Reference;
-import ulaval.glo2003.applicatif.seller.SellerDto;
+import ulaval.glo2003.applicatif.dto.seller.SellerDto;
 import ulaval.glo2003.domain.product.Product;
 
 import java.time.Instant;

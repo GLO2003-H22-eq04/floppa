@@ -1,6 +1,6 @@
 package ulaval.glo2003.domain.offer;
 
-import ulaval.glo2003.applicatif.offer.OfferItemDto;
+import ulaval.glo2003.applicatif.dto.offer.OfferItemDto;
 import ulaval.glo2003.domain.product.Amount;
 
 import java.time.OffsetDateTime;

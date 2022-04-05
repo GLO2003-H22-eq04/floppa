@@ -1,10 +1,10 @@
 package ulaval.glo2003.api.seller;
 
-import ulaval.glo2003.applicatif.buyer.BuyerInfoResponseDto;
-import ulaval.glo2003.applicatif.buyer.BuyerItemResponseDto;
-import ulaval.glo2003.applicatif.offer.OfferInfoResponseDto;
-import ulaval.glo2003.applicatif.product.ProductOfferInfoResponseDto;
-import ulaval.glo2003.applicatif.seller.CurrentSellerDto;
+import ulaval.glo2003.applicatif.dto.buyer.BuyerInfoResponseDto;
+import ulaval.glo2003.applicatif.dto.buyer.BuyerItemResponseDto;
+import ulaval.glo2003.applicatif.dto.offer.OfferInfoResponseDto;
+import ulaval.glo2003.applicatif.dto.product.ProductOfferInfoResponseDto;
+import ulaval.glo2003.applicatif.dto.seller.CurrentSellerDto;
 import ulaval.glo2003.domain.offer.Offers;
 import ulaval.glo2003.domain.seller.Seller;
 
