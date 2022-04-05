@@ -6,7 +6,7 @@ import ulaval.glo2003.applicatif.validation.errors.ValidationError;
 import ulaval.glo2003.applicatif.validation.ValidationExceptionResponseBuilder;
 
 public class ValidationExceptionHandler implements ExceptionMapper<ValidationError> {
-    private ValidationExceptionResponseBuilder responseBuilder = new ValidationExceptionResponseBuilder();
+    private final ValidationExceptionResponseBuilder responseBuilder = new ValidationExceptionResponseBuilder();
 
     @Override
     public Response toResponse(ValidationError e) {

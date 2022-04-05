@@ -24,7 +24,7 @@ public class Seller {
     private LocalDate birthDate;
     private Instant createdAt;
     @Reference
-    private List<Product> products = new ArrayList<>();
+    private final List<Product> products = new ArrayList<>();
 
     private Seller() {
     }
