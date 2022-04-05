@@ -12,7 +12,6 @@ import ulaval.glo2003.applicatif.validation.errors.ItemNotFoundError;
 import ulaval.glo2003.applicatif.validation.errors.MissingParameterError;
 import ulaval.glo2003.applicatif.dto.offer.OfferItemDto;
 import ulaval.glo2003.applicatif.dto.offer.OffersResponseDto;
-import ulaval.glo2003.applicatif.product.*;
 import ulaval.glo2003.domain.offer.OfferFactory;
 import ulaval.glo2003.domain.product.Product;
 import ulaval.glo2003.domain.product.ProductCategory;
