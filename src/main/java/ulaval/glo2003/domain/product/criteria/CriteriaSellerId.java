@@ -17,11 +17,7 @@ public class CriteriaSellerId implements Criteria {
     public List<Product> meetCriteria(List<Product> products) {
         List<Product> sellerIdList = new ArrayList<Product>();
 
-        for (Product product : products) {
-            if (product.getSellerId().equals(sellerId)) {
-                sellerIdList.add(product);
-            }
-        }
+        for (var product : products) if (product.getSellerId().equals(sellerId)) sellerIdList.add(product);
 
         return sellerIdList;
     }

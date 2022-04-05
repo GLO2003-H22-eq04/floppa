@@ -46,14 +46,13 @@ public class OffersResponseDto {
 
     private static List<OfferItemResponseDto> getOfferList(Offers offers) {
         List<OfferItemResponseDto> offerList = new ArrayList<>();
-        for (var offer : offers.getListOffer()) {
+        for (var offer : offers.getListOffer())
             offerList.add(new OfferItemResponseDto(
                     offer.getName(),
                     offer.getMessage(),
                     offer.getEmail(),
                     offer.getPhoneNumber(),
                     offer.getAmount().getValue()));
-        }
         return offerList;
     }
 }

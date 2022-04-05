@@ -30,21 +30,19 @@ public class SellerAssembler {
 
     public List<BuyerItemResponseDto> getOfferList(Offers offers) {
         List<BuyerItemResponseDto> buyerList = new ArrayList<>();
-        for (var offer : offers.getListOffer()) {
+        for (var offer : offers.getListOffer())
             buyerList.add(new BuyerItemResponseDto(
                     offer.getOfferId(),
                     offer.getCreatedAt(),
                     offer.getAmount().getValue(),
                     offer.getMessage(),
                     new BuyerInfoResponseDto(offer.getName(), offer.getEmail(), offer.getPhoneNumber())));
-        }
         return buyerList;
     }
 
     public List<ProductOfferInfoResponseDto> getProductOfferList(Seller seller) {
         List<ProductOfferInfoResponseDto> productList = new ArrayList<>();
-        for (var product : seller.getProducts()) {
-
+        for (var product : seller.getProducts())
             productList.add(new ProductOfferInfoResponseDto(
                     product.getProductId(),
                     product.getTitle(),
@@ -57,8 +55,6 @@ public class SellerAssembler {
                             product.getOffers().getMean(),
                             product.getOffers().getCount(),
                             getOfferList(product.getOffers()))));
-
-        }
         return productList;
     }
 

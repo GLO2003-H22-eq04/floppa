@@ -16,11 +16,8 @@ public class CriteriaTitle implements Criteria {
     public List<Product> meetCriteria(List<Product> products) {
         List<Product> sellerTitle = new ArrayList<Product>();
 
-        for (Product product : products) {
-            if (product.getTitle().toLowerCase().contains(title.toLowerCase())) {
-                sellerTitle.add(product);
-            }
-        }
+        for (var product : products)
+            if (product.getTitle().toLowerCase().contains(title.toLowerCase())) sellerTitle.add(product);
 
         return sellerTitle;
     }

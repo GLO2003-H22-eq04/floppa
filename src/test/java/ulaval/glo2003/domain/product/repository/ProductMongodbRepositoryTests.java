@@ -1,6 +1,5 @@
 package ulaval.glo2003.domain.product.repository;
 
-import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import ulaval.glo2003.Main;
@@ -16,7 +15,6 @@ import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -71,7 +69,7 @@ public class ProductMongodbRepositoryTests {
     @Test
     public void canAddOneProductNormal() {
         var id = productMongodbRepository.add(product1);
-        List<Product> all = productMongodbRepository.findAll();
+        var all = productMongodbRepository.findAll();
         assertThat(all.stream().findFirst().get().equals(product1)).isTrue();
     }
 
