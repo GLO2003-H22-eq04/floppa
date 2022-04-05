@@ -1,5 +1,8 @@
 package ulaval.glo2003.domain.product;
 
+import dev.morphia.annotations.Entity;
+
+@Entity("ProductCategory")
 public enum ProductCategory {
     SPORTS("sports"),
     ELECTRONICS("electronics"),
@@ -19,11 +22,7 @@ public enum ProductCategory {
     }
 
     public static ProductCategory findByName(String name) {
-        for (var category : values()) {
-            if (category.name.equals(name)) {
-                return category;
-            }
-        }
+        for (var category : values()) if (category.name.equals(name)) return category;
         return OTHER;
     }
 }

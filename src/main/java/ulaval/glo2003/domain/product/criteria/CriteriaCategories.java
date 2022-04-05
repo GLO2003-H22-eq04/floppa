@@ -17,14 +17,12 @@ public class CriteriaCategories implements Criteria {
     public List<Product> meetCriteria(List<Product> products) {
         List<Product> sellerCategory = new ArrayList<Product>();
 
-        for (Product product : products) {
-            for (ProductCategory productCategory : productCategories) {
+        for (var product : products)
+            for (var productCategory : productCategories)
                 if (product.getCategories().contains(productCategory)) {
                     sellerCategory.add(product);
                     break;
                 }
-            }
-        }
 
         return sellerCategory;
     }

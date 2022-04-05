@@ -11,7 +11,8 @@ public class ProductListRepository implements ProductRepository {
 
     @Override
     public UUID add(Product product) {
-        UUID id = UUID.randomUUID();
+        var id = UUID.randomUUID();
+        product.setProductId(id);
         products.put(id, product);
         return id;
     }
