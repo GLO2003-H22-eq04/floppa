@@ -2,7 +2,7 @@ package ulaval.glo2003;
 
 import java.util.regex.Pattern;
 
-class IntegrationUtils {
+public class IntegrationUtils {
 
     public static boolean isUrl(String sequence) {
         try {

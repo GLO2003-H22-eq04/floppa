@@ -1,6 +1,6 @@
 package ulaval.glo2003.domain.product;
 
-import ulaval.glo2003.applicatif.product.ProductDto;
+import ulaval.glo2003.applicatif.dto.product.ProductDto;
 
 import java.time.Instant;
 import java.time.ZoneOffset;
