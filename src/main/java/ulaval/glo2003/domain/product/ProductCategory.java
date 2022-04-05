@@ -22,11 +22,7 @@ public enum ProductCategory {
     }
 
     public static ProductCategory findByName(String name) {
-        for (var category : values()) {
-            if (category.name.equals(name)) {
-                return category;
-            }
-        }
+        for (var category : values()) if (category.name.equals(name)) return category;
         return OTHER;
     }
 }

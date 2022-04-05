@@ -27,9 +27,7 @@ public class Offers {
             return Optional.empty();
 
         double sum = 0;
-        for (var item : items) {
-            sum += item.getAmount().getValue();
-        }
+        for (var item : items) sum += item.getAmount().getValue();
 
         return Optional.of(BigDecimal.valueOf(sum / items.size()));
     }

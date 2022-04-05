@@ -51,10 +51,10 @@ public class ProductController {
         if (!sellerRepository.existById(sellerId))
             throw new ItemNotFoundError("L'id fourni n'existe pas.");
 
-        Product product = productFactory.createProduct(productDto, sellerId);
+        var product = productFactory.createProduct(productDto, sellerId);
         var seller = sellerRepository.findById(sellerId).get();
         seller.getProducts().add(product);
-        UUID productId = productRepository.add(product);
+        var productId = productRepository.add(product);
         product.setProductId(productId);
 
         var url = PRODUCTS_PATH + "/" + productId;
@@ -69,7 +69,7 @@ public class ProductController {
                                                                      @QueryParam("minPrice") float minPrice,
                                                                      @QueryParam("maxPrice") float maxPrice) {
 
-        List<Product> productList = productRepository.findAll();
+        var productList = productRepository.findAll();
         List<ProductFilteredResponseDto> products = new ArrayList<>();
 
         if (sellerId != null) {
@@ -83,9 +83,7 @@ public class ProductController {
         }
         if (!categories.isEmpty()) {
             List<ProductCategory> productCategoriesList = new ArrayList<>();
-            for (String category : categories) {
-                productCategoriesList.add(ProductCategory.findByName(category));
-            }
+            for (var category : categories) productCategoriesList.add(ProductCategory.findByName(category));
 
             Criteria categoryFilter = new CriteriaCategories(productCategoriesList);
             productList = categoryFilter.meetCriteria(productList);
@@ -99,28 +97,24 @@ public class ProductController {
             productList = maxPriceFilter.meetCriteria(productList);
         }
 
-        if (!productList.isEmpty()) {
-            for (Product product : productList) {
-                var seller = sellerRepository.findById(product.getSellerId());
-                ProductSellerDto productSeller = null;
-                if (seller.isPresent()) {
-                    productSeller = new ProductSellerDto(
-                            product.getSellerId(),
-                            seller.get().getName()
-                    );
-                }
+        if (!productList.isEmpty()) for (var product : productList) {
+            var seller = sellerRepository.findById(product.getSellerId());
+            ProductSellerDto productSeller = null;
+            if (seller.isPresent()) productSeller = new ProductSellerDto(
+                    product.getSellerId(),
+                    seller.get().getName()
+            );
 
-                var offers = product.getOffers();
-                products.add(new ProductFilteredResponseDto(
-                        product.getProductId(),
-                        product.getCreatedAt(),
-                        product.getTitle(),
-                        product.getDescription(),
-                        product.getSuggestedPrice().getValue(),
-                        product.getCategories(),
-                        productSeller,
-                        OffersResponseDto.fromOffers(offers)));
-            }
+            var offers = product.getOffers();
+            products.add(new ProductFilteredResponseDto(
+                    product.getProductId(),
+                    product.getCreatedAt(),
+                    product.getTitle(),
+                    product.getDescription(),
+                    product.getSuggestedPrice().getValue(),
+                    product.getCategories(),
+                    productSeller,
+                    OffersResponseDto.fromOffers(offers)));
         }
 
         return new ProductFilterResponsesCollectionDto(products);

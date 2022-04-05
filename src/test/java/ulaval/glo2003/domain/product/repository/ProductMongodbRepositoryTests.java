@@ -71,7 +71,7 @@ public class ProductMongodbRepositoryTests {
     @Test
     public void canAddOneProductNormal() {
         var id = productMongodbRepository.add(product1);
-        List<Product> all = productMongodbRepository.findAll();
+        var all = productMongodbRepository.findAll();
         assertThat(all.stream().findFirst().get().equals(product1)).isTrue();
     }
 

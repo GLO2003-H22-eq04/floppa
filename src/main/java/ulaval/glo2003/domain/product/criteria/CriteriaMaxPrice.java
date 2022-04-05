@@ -16,11 +16,8 @@ public class CriteriaMaxPrice implements Criteria {
     public List<Product> meetCriteria(List<Product> products) {
         List<Product> productPrice = new ArrayList<Product>();
 
-        for (Product product : products) {
-            if (product.getSuggestedPrice().getValue() <= maxPrice) {
-                productPrice.add(product);
-            }
-        }
+        for (var product : products)
+            if (product.getSuggestedPrice().getValue() <= maxPrice) productPrice.add(product);
 
         return productPrice;
     }
