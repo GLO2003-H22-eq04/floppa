@@ -27,8 +27,8 @@ public class UseCasesAcceptationTests extends JerseyTest {
     private SellerDto sellerDTO;
     private ProductDto productDTO;
     private Jsonb serializer;
-    private SellerCreationResponse sellerCreationResponse;
-    private io.restassured.response.Response productCreationResponse;
+    private CreationResponse createdSeller;
+    private CreationResponse createdProduct;
 
     @Override
     protected Application configure() {
@@ -54,37 +54,26 @@ public class UseCasesAcceptationTests extends JerseyTest {
 
     @Test
     public void canReturn201OnCreatedSeller() {
-        var response = createSeller();
+        createSeller();
 
-        assertThat(response.statusCode).isEqualTo(Response.Status.CREATED.getStatusCode());
-        assertThat(IntegrationUtils.isUrl(response.location)).isTrue();
+        assertThat(createdSeller.statusCode).isEqualTo(Response.Status.CREATED.getStatusCode());
+        assertThat(IntegrationUtils.isUrl(createdSeller.location)).isTrue();
     }
 
     @Test
     public void shouldReturn400OnInvalidCreatedSeller() {
         sellerDTO.name = "";
-        var request = given()
-                .contentType(ContentType.JSON)
-                .body(serializer.toJson(sellerDTO));
+        createSeller();
 
-        var response = request.post(SellerController.SELLERS_PATH).then().extract();
-
-        assertThat(response.statusCode()).isEqualTo(Response.Status.BAD_REQUEST.getStatusCode());
-        assertThat(response.body().jsonPath().getString("code")).isEqualTo("INVALID_PARAMETER");
+        assertThat(createdSeller.statusCode).isEqualTo(Response.Status.BAD_REQUEST.getStatusCode());
+        assertThat(createdSeller.response.body().jsonPath().getString("code")).isEqualTo("INVALID_PARAMETER");
     }
 
     @Test
     public void canReturn201OnCreatedProduct() {
-        var sellerCreationResponse = createSeller();
+        createSellerWithProduct();
 
-        var request = given()
-                .contentType(ContentType.JSON)
-                .body(serializer.toJson(productDTO))
-                .header(new Header(ProductController.SELLER_ID_HEADER, sellerCreationResponse.id.toString()));
-
-        var response = request.post(ProductController.PRODUCTS_PATH).then().extract();
-
-        assertThat(response.statusCode()).isEqualTo(Response.Status.CREATED.getStatusCode());
+        assertThat(createdProduct.statusCode).isEqualTo(Response.Status.CREATED.getStatusCode());
     }
 
     @Test
@@ -102,14 +91,9 @@ public class UseCasesAcceptationTests extends JerseyTest {
 
     @Test
     public void canReturn200AndRequestedSellerWithProduct() {
-        var seller = createSeller();
+        createSellerWithProduct();
 
-        given().contentType(ContentType.JSON)
-                .body(serializer.toJson(productDTO))
-                .header(new Header(ProductController.SELLER_ID_HEADER, seller.id.toString()))
-                .post(ProductController.PRODUCTS_PATH);
-
-        var response = get(SellerController.SELLERS_PATH + "/" + seller.id).then().extract();
+        var response = get(SellerController.SELLERS_PATH + "/" + createdSeller.id.toString()).then().extract();
 
         assertThat(response.statusCode()).isEqualTo(Response.Status.OK.getStatusCode());
         assertThat(response.body().jsonPath().getString("products")).isNotEmpty();
@@ -117,17 +101,9 @@ public class UseCasesAcceptationTests extends JerseyTest {
 
     @Test
     public void canReturn200OnRequestedProduct() {
-        var sellerCreationResponse = createSeller();
+        createSellerWithProduct();
 
-        var productCreationResponse = given().contentType(ContentType.JSON)
-                .body(serializer.toJson(productDTO))
-                .header(new Header(ProductController.SELLER_ID_HEADER, sellerCreationResponse.id.toString()))
-                .post(ProductController.PRODUCTS_PATH);
-
-        String location = productCreationResponse.header("Location");
-        var productId = location.substring(location.lastIndexOf('/') + 1);
-
-        var response = get(ProductController.PRODUCTS_PATH + "/" + productId).then().extract();
+        var response = get(ProductController.PRODUCTS_PATH + "/" + createdProduct.id.toString()).then().extract();
 
         assertThat(response.statusCode()).isEqualTo(Response.Status.OK.getStatusCode());
     }
@@ -141,16 +117,10 @@ public class UseCasesAcceptationTests extends JerseyTest {
 
     @Test
     public void canReturn200WithInclusiveFilteredProduct() {
-        given().contentType(ContentType.JSON)
-                .body(serializer.toJson(sellerDTO))
-                .post(SellerController.SELLERS_PATH);
+        createSellerWithProduct();
 
-        given().contentType(ContentType.JSON)
-                .body(serializer.toJson(productDTO))
-                .header(new Header(ProductController.SELLER_ID_HEADER, "0"))
-                .post(ProductController.PRODUCTS_PATH);
-
-        var response = given().header(new Header(ProductController.SELLER_ID_HEADER, "0")).get(ProductController.PRODUCTS_PATH + "?title=OdU&minPrice=10&maxPrice=10");
+        var response = given().header(new Header(ProductController.SELLER_ID_HEADER, createdSeller.id.toString()))
+                .get(ProductController.PRODUCTS_PATH + "?title=OdU&minPrice=10&maxPrice=10");
 
         assertThat(response.statusCode()).isEqualTo(Response.Status.OK.getStatusCode());
         assertThat(response.jsonPath().getString("products")).isNotEmpty();
@@ -158,16 +128,10 @@ public class UseCasesAcceptationTests extends JerseyTest {
 
     @Test
     public void canReturn200WithoutExclusiveFilteredProduct() {
-        given().contentType(ContentType.JSON)
-                .body(serializer.toJson(sellerDTO))
-                .post(SellerController.SELLERS_PATH);
+        createSellerWithProduct();
 
-        given().contentType(ContentType.JSON)
-                .body(serializer.toJson(productDTO))
-                .header(new Header(ProductController.SELLER_ID_HEADER, "0"))
-                .post(ProductController.PRODUCTS_PATH);
-
-        var response = given().header(new Header(ProductController.SELLER_ID_HEADER, "0")).get(ProductController.PRODUCTS_PATH + "?minPrice=11");
+        var response = given().header(new Header(ProductController.SELLER_ID_HEADER, createdSeller.id.toString()))
+                .get(ProductController.PRODUCTS_PATH + "?minPrice=11");
 
         assertThat(response.statusCode()).isEqualTo(Response.Status.OK.getStatusCode());
         assertThat(response.jsonPath().getString("products")).isEqualTo("[]");
@@ -177,7 +141,7 @@ public class UseCasesAcceptationTests extends JerseyTest {
     public void canReturn200WithMinMaxMeanNullOnProductWithNoOffers() {
         createSellerWithProduct();
 
-        var response = given().get(productCreationResponse.header("Location"));
+        var response = given().get(createdProduct.location);
         var body = response.body().asString();
         var responseDto = serializer.fromJson(body, ProductInfoResponseDto.class);
 
@@ -187,37 +151,46 @@ public class UseCasesAcceptationTests extends JerseyTest {
     }
 
     private void createSellerWithProduct() {
-        var sellerCreationResponse = given().contentType(ContentType.JSON)
-                .body(serializer.toJson(sellerDTO))
-                .post(SellerController.SELLERS_PATH);
-        this.sellerCreationResponse = new SellerCreationResponse(sellerCreationResponse);
-        productCreationResponse = given().contentType(ContentType.JSON)
+        createSeller();
+        createProduct(createdSeller);
+    }
+
+    private void createProduct(CreationResponse seller) {
+        var response = given().contentType(ContentType.JSON)
                 .body(serializer.toJson(productDTO))
-                .header(new Header(ProductController.SELLER_ID_HEADER, getIdFromUrl(sellerCreationResponse.header("Location"))))
+                .header(new Header(ProductController.SELLER_ID_HEADER, getIdFromUrl(seller.id.toString())))
                 .post(ProductController.PRODUCTS_PATH);
+
+        createdProduct = new CreationResponse(response);
     }
 
     private String getIdFromUrl(String url) {
         return url.substring(url.lastIndexOf('/') + 1);
     }
 
-    private SellerCreationResponse createSeller() {
-        var sellerCreationResponse = given().contentType(ContentType.JSON).body(serializer.toJson(sellerDTO)).post(SellerController.SELLERS_PATH);
-        var location = sellerCreationResponse.header("Location");
-        var sellerId = UUID.fromString(location.substring(location.lastIndexOf('/') + 1));
-        return new SellerCreationResponse(location, sellerId, sellerCreationResponse.statusCode());
+    private void createSeller() {
+        var sellerCreationResponse = given().contentType(ContentType.JSON)
+                .body(serializer.toJson(sellerDTO))
+                .post(SellerController.SELLERS_PATH);
+        this.createdSeller = new CreationResponse(sellerCreationResponse);
     }
 }
 
-class SellerCreationResponse {
-    public String location;
-    public UUID id;
-    public int statusCode;
+class CreationResponse {
+    public final String location;
+    public final UUID id;
+    public final int statusCode;
+    public final io.restassured.response.Response response;
 
-    public SellerCreationResponse(io.restassured.response.Response response) {
+    public CreationResponse(io.restassured.response.Response response) {
         this.location = response.header("Location");
-        this.id = getIdFromUrl(location);
+        if (location != null)
+            this.id = getIdFromUrl(location);
+        else
+            this.id = null;
+
         this.statusCode = response.statusCode();
+        this.response = response;
     }
 
     private UUID getIdFromUrl(String url) {
@@ -226,14 +199,3 @@ class SellerCreationResponse {
     }
 
 }
-
-class ProductCreationResponse {
-    public String location;
-    public UUID id;
-    public int statusCode;
-
-    public ProductCreationResponse(io.restassured.response.Response response) {
-        this.location = location;
-        this.id = id;
-        this.statusCode = statusCode;
-    }
