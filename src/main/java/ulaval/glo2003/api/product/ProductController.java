@@ -51,7 +51,7 @@ public class ProductController {
         if (!sellerRepository.existById(sellerId))
             throw new ItemNotFoundError("L'id fourni n'existe pas.");
 
-        var product = productFactory.createProduct(productDto, sellerId);
+        Product product = productFactory.createProduct(productDto, sellerId);
         var seller = sellerRepository.findById(sellerId).get();
         seller.getProducts().add(product);
         UUID productId = productRepository.add(product);

@@ -10,14 +10,14 @@ import java.util.Optional;
 
 public class OfferInfoResponseDto {
     public Optional<BigDecimal> mean;
-    public double min;
-    public double max;
+    public Optional<BigDecimal> min;
+    public Optional<BigDecimal> max;
     public int count;
     public List<BuyerItemResponseDto> items;
 
     @JsonbCreator
-    public OfferInfoResponseDto(@JsonbProperty("min") double min,
-                                @JsonbProperty("max") double max,
+    public OfferInfoResponseDto(@JsonbProperty("min") Optional<BigDecimal> min,
+                                @JsonbProperty("max") Optional<BigDecimal> max,
                                 @JsonbProperty("mean") Optional<BigDecimal> mean,
                                 @JsonbProperty("count") int count,
                                 @JsonbProperty("items") List<BuyerItemResponseDto> items) {
