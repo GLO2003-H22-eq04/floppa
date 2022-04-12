@@ -22,7 +22,7 @@ public class HealthController {
     public Response healthRequest() {
         var healthDto = new HealthDto(true, getDatabaseStatus());
 
-        return Response.status(healthDto.bd ? Response.Status.OK : Response.Status.INTERNAL_SERVER_ERROR)
+        return Response.status(healthDto.db ? Response.Status.OK : Response.Status.INTERNAL_SERVER_ERROR)
                 .entity(healthDto)
                 .build();
     }
