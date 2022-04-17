@@ -21,9 +21,9 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - name: Checkstyle with Maven
-        run: mvn checkstyle:checkstyle
+        run: mvn checkstyle:checkstyle --no-transfer-progress
       - name: Test with Maven
-        run: mvn test
+        run: mvn test --no-transfer-progress
   deploy-heroku:
     needs: build
     runs-on: ubuntu-latest
