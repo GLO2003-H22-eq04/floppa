@@ -9,5 +9,6 @@ public class ErrorDto {
         this.description = description;
     }
 
-    public ErrorDto(){}
+    public ErrorDto() {
+    }
 }
