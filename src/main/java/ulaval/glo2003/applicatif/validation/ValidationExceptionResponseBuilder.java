@@ -6,7 +6,7 @@ import ulaval.glo2003.applicatif.validation.errors.ValidationError;
 
 public class ValidationExceptionResponseBuilder {
     public Response buildFromException(ValidationError exception) {
-        ErrorDto dto = new ErrorDto(exception.getCode(), exception.getMessage());
+        var dto = new ErrorDto(exception.getCode(), exception.getMessage());
         return Response.status(exception.getStatus()).entity(dto).build();
     }
 }
