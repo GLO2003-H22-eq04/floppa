@@ -199,7 +199,7 @@ public class UseCasesAcceptationTests extends JerseyTest {
 }
 
 class CreationResponse {
-    public final boolean succes;
+    public final boolean success;
     public final ErrorDto error;
     public final String location;
     public final UUID id;
@@ -215,9 +215,9 @@ class CreationResponse {
 
         this.statusCode = response.statusCode();
         this.response = response;
-        succes = statusCode == 201;
+        success = statusCode == 201;
 
-        if (!succes) {
+        if (!success) {
             error = response.body().as(ErrorDto.class);
         } else
             error = null;
