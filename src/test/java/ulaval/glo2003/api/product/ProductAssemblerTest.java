@@ -99,7 +99,7 @@ public class ProductAssemblerTest {
         var productInfoResponseDTO = productAssembler.toDto(product, productSellerDTO, offersDTO);
 
         checkForNull(product);
-        assertThat(productInfoResponseDTO.suggestedPrice.getValue()).isEqualTo(EXPECTED_SUGGESTED_PRICE);
+        assertThat(productInfoResponseDTO.suggestedPrice).isEqualTo(EXPECTED_SUGGESTED_PRICE);
     }
 
     @Test

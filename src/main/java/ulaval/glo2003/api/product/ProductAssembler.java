@@ -14,7 +14,7 @@ public class ProductAssembler {
         productDto.createdAt = product.getCreatedAt();
         productDto.title = product.getTitle();
         productDto.description = product.getDescription();
-        productDto.suggestedPrice = product.getSuggestedPrice();
+        productDto.suggestedPrice = product.getSuggestedPrice().getValue();
         productDto.categories = product.getCategoriesName();
         productDto.seller = productSellerDto;
         productDto.offers = offersDto;
