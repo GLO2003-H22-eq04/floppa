@@ -212,7 +212,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         assertThat(entity.title).isEqualTo(product.getTitle());
         assertThat(entity.categories).isEqualTo(product.getCategories());
         assertThat(entity.createdAt).isEqualTo(product.getCreatedAt());
-        assertThat(entity.suggestedPrice.getValue()).isEqualTo(product.getSuggestedPrice().getValue());
+        assertThat(entity.suggestedPrice).isEqualTo(product.getSuggestedPrice().getValue());
         assertThat(entity.description).isEqualTo(product.getDescription());
         assertThat(entity.seller.id).isEqualTo(product.getSellerId());
     }
