@@ -20,3 +20,6 @@ mvn clean install
 ```
 mvn exec:java
 ```
+
+
+[Code of conduct](CODE_OF_CONDUCT "Code of conduct")
