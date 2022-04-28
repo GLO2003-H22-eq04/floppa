@@ -23,3 +23,7 @@ mvn exec:java
 
 
 [Code of conduct](CODE_OF_CONDUCT "Code of conduct")
+
+[License](LICENSE.md "License")
+
+[How to contribute](CONTRIBUTION.md "Contribution")
