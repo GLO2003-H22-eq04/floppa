@@ -16,7 +16,7 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - name: Run Coverage
-        run: mvn jacoco:prepare-agent test jacoco:report
+        run: mvn jacoco:prepare-agent test jacoco:report --no-transfer-progress
 
       - name: Add coverage to PR
         id: jacoco
