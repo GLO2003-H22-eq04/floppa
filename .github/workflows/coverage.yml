@@ -16,13 +16,13 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - name: Run Coverage
-        run: mvn jacoco:prepare-agent test
+        run: mvn jacoco:prepare-agent test jacoco:report
 
       - name: Add coverage to PR
         id: jacoco
         uses: madrapps/jacoco-report@v1.2
         with:
-          paths: ${{ github.workspace }}/build/reports/jacoco/testCoverage/testCoverage.xml
+          paths: ${{ github.workspace }}/target/site/jacoco.xml
           token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 0
           min-coverage-changed-files: 0
