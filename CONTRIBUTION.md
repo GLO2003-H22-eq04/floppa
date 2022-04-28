@@ -11,6 +11,7 @@ If you are interested in making a code contribution and would like to learn more
 - Include bulleted list of
 - Resources (tutorials, videos, books) that new contributors
 - Can use to learn what they need to know to contribute to your project
+
 ##How do I make a contribution?
 Never made an open source contribution before? Wondering how contributions work in the in our project? Here's a quick rundown!
 
