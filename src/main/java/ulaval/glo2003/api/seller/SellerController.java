@@ -51,13 +51,7 @@ public class SellerController {
         var seller = sellerRepository.findById(sellerId);
         if (seller.isPresent()) {
             var sellerInfos = seller.get();
-            return new SellerInfoResponseDto(
-                    sellerId,
-                    sellerInfos.getName(),
-                    sellerInfos.getCreatedAt(),
-                    sellerInfos.getBio(),
-                    productRepository.productOf(sellerId)
-            );
+            return sellerAssembler.sellerInfoResponseToDto(sellerInfos);
         }
 
         throw new ItemNotFoundError("L'id fourni n'existe pas.");
