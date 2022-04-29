@@ -8,4 +8,7 @@ public class ProductFilterResponsesCollectionDto {
     public ProductFilterResponsesCollectionDto(List<ProductFilteredResponseDto> products) {
         this.products = products;
     }
+
+    public ProductFilterResponsesCollectionDto() {
+    }
 }

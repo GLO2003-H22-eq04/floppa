@@ -105,8 +105,6 @@ public class SellerControllerIntegrationTests extends JerseyTest {
 
         when(sellerListRepositoryMock.findById(VALID_SELLER_ID)).thenReturn(Optional.of(seller));
         when(sellerListRepositoryMock.add(any())).thenReturn(VALID_SELLER_ID);
-
-        when(productRepositoryMock.productOf(VALID_SELLER_ID)).thenReturn(new ArrayList<>());
     }
 
     @Override
