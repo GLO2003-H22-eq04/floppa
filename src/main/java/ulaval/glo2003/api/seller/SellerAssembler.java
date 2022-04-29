@@ -27,7 +27,7 @@ public class SellerAssembler {
         currentSeller.name = seller.getName();
         currentSeller.createdAt = Instant.now().atOffset(ZoneOffset.UTC);
         currentSeller.bio = seller.getBio();
-        currentSeller.birthdate = seller.getBirthDate();
+        currentSeller.birthDate = seller.getBirthDate();
         currentSeller.products = getProductOfferList(seller);
 
         return currentSeller;
@@ -41,6 +41,7 @@ public class SellerAssembler {
         sellerInfo.bio = seller.getBio();
         sellerInfo.createdAt = seller.getCreatedAt();
         sellerInfo.products = getSellerProductList(seller);
+        sellerInfo.birthDate = seller.getBirthDate();
 
         return sellerInfo;
     }

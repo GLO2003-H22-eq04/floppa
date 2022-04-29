@@ -172,7 +172,7 @@ public class SellerControllerIntegrationTests extends JerseyTest {
         assertThat(entity.id).isEqualTo(seller.getId());
         assertThat(entity.name).isEqualTo(seller.getName());
         assertThat(entity.bio).isEqualTo(seller.getBio());
-        assertThat(entity.birthdate).isEqualTo(seller.getBirthDate());
+        assertThat(entity.birthDate).isEqualTo(seller.getBirthDate());
         assertThat(entity.products.get(0).id).isEqualTo(product.getProductId());
         assertThat(entity.products.get(0).title).isEqualTo(product.getTitle());
         assertThat(entity.products.get(0).description).isEqualTo(product.getDescription());

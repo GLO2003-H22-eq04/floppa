@@ -19,6 +19,8 @@ public class SellerInfoResponseDto {
 
     public OffsetDateTime createdAt;
 
+    public LocalDate birthDate;
+
     public String bio;
 
     public LocalDate birthdate;
