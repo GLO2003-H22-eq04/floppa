@@ -41,6 +41,7 @@ public class SellerAssembler {
         sellerInfo.bio = seller.getBio();
         sellerInfo.createdAt = seller.getCreatedAt();
         sellerInfo.products = getSellerProductList(seller);
+        sellerInfo.birthDate = seller.getBirthDate();
 
         return sellerInfo;
     }
