@@ -22,8 +22,25 @@ jobs:
           distribution: 'adopt'
       - name: Checkstyle with Maven
         run: mvn checkstyle:checkstyle --no-transfer-progress
-      - name: Test with Maven
-        run: mvn test --no-transfer-progress
+      - name: Run test coverage
+        run: mvn jacoco:prepare-agent test jacoco:report --no-transfer-progress
+      - name: JaCoCo Code Coverage Report
+        id: jacoco_reporter
+        uses: PavanMudigonda/jacoco-reporter@v2.7
+        with:
+          coverage_results_path: target/site/jacoco/jacoco.xml
+          coverage_report_name: Coverage
+          coverage_report_title: JaCoCo
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          skip_check_run: false
+
+      # uploads the coverage-report.md artifact
+      - name: Upload Code Coverage Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: code-coverage-report-markdown
+          path: "*/coverage-results.md"
+          retention-days: 1
   deploy-heroku:
     needs: build
     runs-on: ubuntu-latest
