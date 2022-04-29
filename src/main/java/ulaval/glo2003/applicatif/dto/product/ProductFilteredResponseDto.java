@@ -1,6 +1,7 @@
 package ulaval.glo2003.applicatif.dto.product;
 
 
+import ulaval.glo2003.applicatif.dto.offer.OffersCountDto;
 import ulaval.glo2003.applicatif.dto.offer.OffersResponseDto;
 import ulaval.glo2003.domain.product.ProductCategory;
 
@@ -24,7 +25,7 @@ public class ProductFilteredResponseDto {
 
     public ProductSellerDto seller;
 
-    public OffersResponseDto offers;
+    public OffersCountDto offers;
 
     public int visits;
 
@@ -40,7 +41,8 @@ public class ProductFilteredResponseDto {
             List<ProductCategory> categories,
             ProductSellerDto seller,
             OffersResponseDto offers,
-            int visits
+            int visits,
+            OffersCountDto offers
     ) {
         this.id = id;
         this.createdAt = createdAt;
