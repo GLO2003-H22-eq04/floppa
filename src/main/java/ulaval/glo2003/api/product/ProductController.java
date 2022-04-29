@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import ulaval.glo2003.applicatif.dto.offer.OffersCountDto;
 import ulaval.glo2003.applicatif.dto.offer.OfferItemDto;
 import ulaval.glo2003.applicatif.dto.offer.OffersResponseDto;
 import ulaval.glo2003.applicatif.dto.product.*;
@@ -114,7 +115,7 @@ public class ProductController {
                         product.getSuggestedPrice().getValue(),
                         product.getCategories(),
                         productSeller,
-                        OffersResponseDto.fromOffers(offers)));
+                        new OffersCountDto(offers.getCount())));
             }
 
         return new ProductFilterResponsesCollectionDto(products);
