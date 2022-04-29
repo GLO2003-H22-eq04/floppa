@@ -42,7 +42,8 @@ public class SellerAssembler {
 
     public List<ProductOfferInfoResponseDto> getProductOfferList(Seller seller) {
         List<ProductOfferInfoResponseDto> productList = new ArrayList<>();
-        for (var product : seller.getProducts())
+        for (var product : seller.getProducts()) {
+            product.setVisits();
             productList.add(new ProductOfferInfoResponseDto(
                     product.getProductId(),
                     product.getTitle(),
@@ -55,6 +56,7 @@ public class SellerAssembler {
                             product.getOffers().getMean(),
                             product.getOffers().getCount(),
                             getOfferList(product.getOffers()))));
+        }
         return productList;
     }
 

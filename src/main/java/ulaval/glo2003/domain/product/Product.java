@@ -25,6 +25,7 @@ public class Product {
 
     private Instant createdAt;
     private Offers offers;
+    private int visits;
     private final List<ProductCategory> categories = new ArrayList<>();
 
     public Product(OffsetDateTime createdAt) {
@@ -101,8 +102,14 @@ public class Product {
         this.offers = offers;
     }
 
+    public void setVisits(){this.visits++;}
+
     public Offers getOffers() {
         return offers;
+    }
+
+    public int getVisits(){
+        return visits;
     }
 
     @Override

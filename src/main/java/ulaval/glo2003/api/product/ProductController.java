@@ -105,6 +105,8 @@ public class ProductController {
                         seller.get().getName()
                 );
 
+                product.setVisits();
+
                 var offers = product.getOffers();
                 products.add(new ProductFilteredResponseDto(
                         product.getProductId(),
@@ -167,5 +169,21 @@ public class ProductController {
                 .status(Response.Status.OK)
                 .entity("OK")
                 .build();
+    }
+
+    @GET
+    @Path("/{productId}/visits")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ProductVisitsDto getVisits(@PathParam("productId") UUID productId) throws ItemNotFoundError {
+        var product = productRepository.findById(productId);
+
+        if (product.isPresent()) {
+            var productInfo = product.get();
+            return new ProductVisitsDto(
+                    productInfo.getVisits()
+            );
+        }
+
+        throw new ItemNotFoundError("L'id fourni n'existe pas.");
     }
 }
