@@ -40,7 +40,6 @@ public class ProductFilteredResponseDto {
             double suggestedPrice,
             List<ProductCategory> categories,
             ProductSellerDto seller,
-            OffersResponseDto offers,
             int visits,
             OffersCountDto offers
     ) {

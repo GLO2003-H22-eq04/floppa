@@ -83,6 +83,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         product.setTitle("Produit");
         product.setSellerId(VALID_SELLER_ID);
         product.setSuggestedPrice(new Amount(5.01));
+        product.addVisits(3);
 
         product2 = new Product(OffsetDateTime.parse("2022-04-06T18:20:43.149Z"));
         product2.setProductId(VALID_PRODUCT_ID);
@@ -91,6 +92,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         product2.setSellerId(VALID_SELLER_ID);
         product2.setSuggestedPrice(new Amount(2.99));
         product2.addCategory(ProductCategory.APPAREL);
+        product2.addVisits(4);
 
         var sellerDTO = new SellerDto();
         sellerDTO.name = "John Doe";
@@ -228,6 +230,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         assertThat(entity.suggestedPrice).isEqualTo(product.getSuggestedPrice().getValue());
         assertThat(entity.description).isEqualTo(product.getDescription());
         assertThat(entity.seller.id).isEqualTo(product.getSellerId());
+        assertThat(entity.visits).isEqualTo(product.getVisits());
     }
 
     @Test
@@ -258,6 +261,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         assertThat(result.description).isEqualTo(product.getDescription());
         assertThat(result.seller.id).isEqualTo(product.getSellerId());
         assertThat(result.offers.count).isEqualTo(product.getOffers().getCount());
+        assertThat(result.visits).isEqualTo(product.getVisits());
     }
 
     @Test
@@ -279,6 +283,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         assertThat(result.description).isEqualTo(product2.getDescription());
         assertThat(result.seller.id).isEqualTo(product2.getSellerId());
         assertThat(result.offers.count).isEqualTo(product2.getOffers().getCount());
+        assertThat(result.visits).isEqualTo(product2.getVisits());
     }
 
     @Test
@@ -300,6 +305,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         assertThat(result.description).isEqualTo(product2.getDescription());
         assertThat(result.seller.id).isEqualTo(product2.getSellerId());
         assertThat(result.offers.count).isEqualTo(product2.getOffers().getCount());
+        assertThat(result.visits).isEqualTo(product2.getVisits());
     }
 
     @Test
@@ -321,6 +327,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         assertThat(result.description).isEqualTo(product2.getDescription());
         assertThat(result.seller.id).isEqualTo(product2.getSellerId());
         assertThat(result.offers.count).isEqualTo(product2.getOffers().getCount());
+        assertThat(result.visits).isEqualTo(product2.getVisits());
     }
 
     @Test

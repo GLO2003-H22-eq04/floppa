@@ -102,7 +102,8 @@ public class Product {
         this.offers = offers;
     }
 
-    public void addVisits(){this.visits++;}
+    // Paramètre utilisé seulement pour les tests, le reste du temps devrait toujours être 1
+    public void addVisits(int numberOfVisitsToAdd){this.visits+= numberOfVisitsToAdd;}
 
     public Offers getOffers() {
         return offers;

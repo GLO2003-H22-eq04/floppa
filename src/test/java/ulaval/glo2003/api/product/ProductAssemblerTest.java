@@ -2,10 +2,8 @@ package ulaval.glo2003.api.product;
 
 import org.junit.Before;
 import org.junit.Test;
-import ulaval.glo2003.api.product.ProductAssembler;
 import ulaval.glo2003.applicatif.dto.offer.OffersResponseDto;
 import ulaval.glo2003.applicatif.dto.product.ProductSellerDto;
-import ulaval.glo2003.applicatif.dto.product.ProductVisitsDto;
 import ulaval.glo2003.domain.product.Amount;
 import ulaval.glo2003.domain.product.Product;
 import ulaval.glo2003.domain.product.ProductCategory;
@@ -24,6 +22,7 @@ public class ProductAssemblerTest {
     private static final String EXPECTED_TITLE = "A cool hairbrush";
     private static final String EXPECTED_DESCRIPTION = "Pink and all";
     private static final double EXPECTED_SUGGESTED_PRICE = 5.01;
+    private static final int EXPECTED_VISITS = 10;
     private static final List<String> EXPECTED_CATEGORIES = List.of("beauty", "apparel");
     private static final OffsetDateTime EXPECTED_CREATED_AT = Instant.now().atOffset(ZoneOffset.UTC).truncatedTo(ChronoUnit.MILLIS);
 
@@ -33,7 +32,6 @@ public class ProductAssemblerTest {
     private Product product;
     private ProductSellerDto productSellerDTO;
     private OffersResponseDto offersDTO;
-    private ProductVisitsDto productVisitsDTO;
 
 
     @Before
@@ -47,10 +45,10 @@ public class ProductAssemblerTest {
         product.setSuggestedPrice(new Amount(5.01));
         product.addCategory(ProductCategory.BEAUTY);
         product.addCategory(ProductCategory.APPAREL);
+        product.addVisits(10);
 
         productSellerDTO = new ProductSellerDto(VALID_PRODUCT_ID1, "John Doe");
         offersDTO = OffersResponseDto.empty();
-        productVisitsDTO = new ProductVisitsDto(0);
 
         productAssembler = new ProductAssembler();
     }
@@ -67,7 +65,7 @@ public class ProductAssemblerTest {
 
     @Test
     public void canGetExpectedId() {
-        var productInfoResponseDTO = productAssembler.toDto(product, productSellerDTO, offersDTO, productVisitsDTO);
+        var productInfoResponseDTO = productAssembler.toDto(product, productSellerDTO, offersDTO);
 
         checkForNull(product);
         assertThat(productInfoResponseDTO.id).isEqualTo(VALID_PRODUCT_ID1);
@@ -75,7 +73,7 @@ public class ProductAssemblerTest {
 
     @Test
     public void canGetExpectedCreationDate() {
-        var productInfoResponseDTO = productAssembler.toDto(product, productSellerDTO, offersDTO, productVisitsDTO);
+        var productInfoResponseDTO = productAssembler.toDto(product, productSellerDTO, offersDTO);
 
         checkForNull(product);
         assertThat(productInfoResponseDTO.createdAt).isEqualTo(EXPECTED_CREATED_AT);
@@ -83,7 +81,7 @@ public class ProductAssemblerTest {
 
     @Test
     public void canGetExpectedTitle() {
-        var productInfoResponseDTO = productAssembler.toDto(product, productSellerDTO, offersDTO, productVisitsDTO);
+        var productInfoResponseDTO = productAssembler.toDto(product, productSellerDTO, offersDTO);
 
         checkForNull(product);
         assertThat(productInfoResponseDTO.title).isEqualTo(EXPECTED_TITLE);
@@ -91,7 +89,7 @@ public class ProductAssemblerTest {
 
     @Test
     public void canGetExpectedDescription() {
-        var productInfoResponseDTO = productAssembler.toDto(product, productSellerDTO, offersDTO, productVisitsDTO);
+        var productInfoResponseDTO = productAssembler.toDto(product, productSellerDTO, offersDTO);
 
         checkForNull(product);
         assertThat(productInfoResponseDTO.description).isEqualTo(EXPECTED_DESCRIPTION);
@@ -99,7 +97,7 @@ public class ProductAssemblerTest {
 
     @Test
     public void canGetExpectedSuggestedPrice() {
-        var productInfoResponseDTO = productAssembler.toDto(product, productSellerDTO, offersDTO, productVisitsDTO);
+        var productInfoResponseDTO = productAssembler.toDto(product, productSellerDTO, offersDTO);
 
         checkForNull(product);
         assertThat(productInfoResponseDTO.suggestedPrice).isEqualTo(EXPECTED_SUGGESTED_PRICE);
@@ -107,9 +105,17 @@ public class ProductAssemblerTest {
 
     @Test
     public void canGetExpectedCategories() {
-        var productInfoResponseDTO = productAssembler.toDto(product, productSellerDTO, offersDTO, productVisitsDTO);
+        var productInfoResponseDTO = productAssembler.toDto(product, productSellerDTO, offersDTO);
 
         checkForNull(product);
         assertThat(productInfoResponseDTO.categories).isEqualTo(EXPECTED_CATEGORIES);
+    }
+
+    @Test
+    public void canGetExpectedVisits() {
+        var productInfoResponseDTO = productAssembler.toDto(product, productSellerDTO, offersDTO);
+
+        checkForNull(product);
+        assertThat(productInfoResponseDTO.visits).isEqualTo(EXPECTED_VISITS);
     }
 }
