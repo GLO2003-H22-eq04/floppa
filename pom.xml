@@ -219,9 +219,6 @@
                 </dependencies>
             </plugin>
         </plugins>
-        <directory>out</directory>
-
-
     </build>
     <reporting>
         <plugins>
