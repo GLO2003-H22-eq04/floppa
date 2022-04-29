@@ -56,6 +56,7 @@ public class SellerController {
                     sellerInfos.getName(),
                     sellerInfos.getCreatedAt(),
                     sellerInfos.getBio(),
+                    sellerInfos.getBirthDate(),
                     productRepository.productOf(sellerId)
             );
         }
