@@ -102,7 +102,7 @@ public class Product {
         this.offers = offers;
     }
 
-    public void setVisits(){this.visits++;}
+    public void addVisits(){this.visits++;}
 
     public Offers getOffers() {
         return offers;

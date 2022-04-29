@@ -105,7 +105,7 @@ public class ProductController {
                         seller.get().getName()
                 );
 
-                product.setVisits();
+                product.addVisits();
 
                 var offers = product.getOffers();
                 products.add(new ProductFilteredResponseDto(
@@ -116,7 +116,8 @@ public class ProductController {
                         product.getSuggestedPrice().getValue(),
                         product.getCategories(),
                         productSeller,
-                        OffersResponseDto.fromOffers(offers)));
+                        OffersResponseDto.fromOffers(offers),
+                        product.getVisits()));
             }
 
         return new ProductFilterResponsesCollectionDto(products);
@@ -132,6 +133,7 @@ public class ProductController {
             throw new ItemNotFoundError("L'id fourni n'existe pas.");
 
         var productInfo = product.get();
+        productInfo.addVisits();
 
         var seller = sellerRepository.findById(product.get().getSellerId());
 
@@ -141,9 +143,11 @@ public class ProductController {
         var sellerInfo = seller.get();
         var productSellerDto = new ProductSellerDto(productInfo.getSellerId(), sellerInfo.getName());
 
+        var productVisitDto = new ProductVisitsDto(productInfo.getVisits());
+
         var offers = productInfo.getOffers();
 
-        return productAssembler.toDto(productInfo, productSellerDto, OffersResponseDto.fromOffers(offers));
+        return productAssembler.toDto(productInfo, productSellerDto, OffersResponseDto.fromOffers(offers), productVisitDto);
     }
 
     @POST
@@ -169,21 +173,5 @@ public class ProductController {
                 .status(Response.Status.OK)
                 .entity("OK")
                 .build();
-    }
-
-    @GET
-    @Path("/{productId}/visits")
-    @Produces(MediaType.APPLICATION_JSON)
-    public ProductVisitsDto getVisits(@PathParam("productId") UUID productId) throws ItemNotFoundError {
-        var product = productRepository.findById(productId);
-
-        if (product.isPresent()) {
-            var productInfo = product.get();
-            return new ProductVisitsDto(
-                    productInfo.getVisits()
-            );
-        }
-
-        throw new ItemNotFoundError("L'id fourni n'existe pas.");
     }
 }

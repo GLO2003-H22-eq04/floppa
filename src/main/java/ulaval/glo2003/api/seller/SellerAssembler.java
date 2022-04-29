@@ -43,7 +43,6 @@ public class SellerAssembler {
     public List<ProductOfferInfoResponseDto> getProductOfferList(Seller seller) {
         List<ProductOfferInfoResponseDto> productList = new ArrayList<>();
         for (var product : seller.getProducts()) {
-            product.setVisits();
             productList.add(new ProductOfferInfoResponseDto(
                     product.getProductId(),
                     product.getTitle(),

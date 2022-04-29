@@ -26,6 +26,8 @@ public class ProductFilteredResponseDto {
 
     public OffersResponseDto offers;
 
+    public int visits;
+
     public ProductFilteredResponseDto() {
     }
 
@@ -37,7 +39,8 @@ public class ProductFilteredResponseDto {
             double suggestedPrice,
             List<ProductCategory> categories,
             ProductSellerDto seller,
-            OffersResponseDto offers
+            OffersResponseDto offers,
+            int visits
     ) {
         this.id = id;
         this.createdAt = createdAt;
@@ -47,5 +50,6 @@ public class ProductFilteredResponseDto {
         this.categories = categories;
         this.seller = seller;
         this.offers = offers;
+        this.visits = visits;
     }
 }
