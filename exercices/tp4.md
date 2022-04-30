@@ -24,10 +24,10 @@ Des efforts supplémentaires doivent être utilisés pour s’assurer que la vis
 Il est possible que des acteurs malveillants veulent intentionnellement introduire du code vulnérable. Il y a donc un défi de vérifier attentivement le code reçu par plusieurs personnes pour assurer sa sécurité.
 
 ### Information surprenante
-Le côté légal est pas mal plus développé que attendu. Par exemple, il y a beaucoup de types de licences et de problèmes judiciaires liés au changement de cette licence.
+Le côté légal est pas mal plus développé qu'attendu. Par exemple, il y a beaucoup de types de licences et de problèmes judiciaires liés au changement de cette licence.
 
 ## Outils metriques
-Tous les outils sont exécuté lorsque une pull-request est crée et mise à jour.
+Tous les outils sont exécuté lorsqu'une pull-request est crée et mise à jour.
 ### Sécurité
 
 Nous avous choisi l'outil CodeQL qui permet de faire des rapports sur les vulnérabilités dans les librairies utilisés.
