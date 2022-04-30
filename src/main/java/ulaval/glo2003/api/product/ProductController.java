@@ -106,6 +106,8 @@ public class ProductController {
                         seller.get().getName()
                 );
 
+                product.addVisits(1);
+
                 var offers = product.getOffers();
                 products.add(new ProductFilteredResponseDto(
                         product.getProductId(),
@@ -115,6 +117,7 @@ public class ProductController {
                         product.getSuggestedPrice().getValue(),
                         product.getCategories(),
                         productSeller,
+                        product.getVisits(),
                         new OffersCountDto(offers.getCount())));
             }
 
@@ -131,6 +134,7 @@ public class ProductController {
             throw new ItemNotFoundError("L'id fourni n'existe pas.");
 
         var productInfo = product.get();
+        productInfo.addVisits(1);
 
         var seller = sellerRepository.findById(product.get().getSellerId());
 

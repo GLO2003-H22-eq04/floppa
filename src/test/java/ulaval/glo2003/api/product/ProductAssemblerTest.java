@@ -2,7 +2,6 @@ package ulaval.glo2003.api.product;
 
 import org.junit.Before;
 import org.junit.Test;
-import ulaval.glo2003.api.product.ProductAssembler;
 import ulaval.glo2003.applicatif.dto.offer.OffersResponseDto;
 import ulaval.glo2003.applicatif.dto.product.ProductSellerDto;
 import ulaval.glo2003.domain.product.Amount;
@@ -23,6 +22,7 @@ public class ProductAssemblerTest {
     private static final String EXPECTED_TITLE = "A cool hairbrush";
     private static final String EXPECTED_DESCRIPTION = "Pink and all";
     private static final double EXPECTED_SUGGESTED_PRICE = 5.01;
+    private static final int EXPECTED_VISITS = 10;
     private static final List<String> EXPECTED_CATEGORIES = List.of("beauty", "apparel");
     private static final OffsetDateTime EXPECTED_CREATED_AT = Instant.now().atOffset(ZoneOffset.UTC).truncatedTo(ChronoUnit.MILLIS);
 
@@ -45,6 +45,7 @@ public class ProductAssemblerTest {
         product.setSuggestedPrice(new Amount(5.01));
         product.addCategory(ProductCategory.BEAUTY);
         product.addCategory(ProductCategory.APPAREL);
+        product.addVisits(10);
 
         productSellerDTO = new ProductSellerDto(VALID_PRODUCT_ID1, "John Doe");
         offersDTO = OffersResponseDto.empty();
@@ -108,5 +109,13 @@ public class ProductAssemblerTest {
 
         checkForNull(product);
         assertThat(productInfoResponseDTO.categories).isEqualTo(EXPECTED_CATEGORIES);
+    }
+
+    @Test
+    public void canGetExpectedVisits() {
+        var productInfoResponseDTO = productAssembler.toDto(product, productSellerDTO, offersDTO);
+
+        checkForNull(product);
+        assertThat(productInfoResponseDTO.visits).isEqualTo(EXPECTED_VISITS);
     }
 }

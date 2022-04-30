@@ -18,6 +18,7 @@ public class ProductAssembler {
         productDto.categories = product.getCategoriesName();
         productDto.seller = productSellerDto;
         productDto.offers = offersDto;
+        productDto.visits = product.getVisits();
 
         return productDto;
     }

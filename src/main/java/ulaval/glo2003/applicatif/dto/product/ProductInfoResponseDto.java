@@ -24,4 +24,6 @@ public class ProductInfoResponseDto {
     public ProductSellerDto seller;
 
     public OffersResponseDto offers;
+
+    public int visits;
 }
