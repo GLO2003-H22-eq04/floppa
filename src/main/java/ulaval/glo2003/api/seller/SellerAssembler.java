@@ -88,7 +88,7 @@ public class SellerAssembler {
                     product.getTitle(),
                     product.getDescription(),
                     product.getSuggestedPrice().getValue(),
-                    product.getCategoriesName(),
+                    product.getCategories(),
                     new OfferResponseDto(product.getOffers().getMean(),
                             product.getOffers().getCount())));
 

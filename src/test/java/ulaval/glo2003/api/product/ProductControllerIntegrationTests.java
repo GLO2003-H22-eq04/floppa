@@ -1,6 +1,5 @@
 package ulaval.glo2003.api.product;
 
-import com.google.common.truth.Truth;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.Application;
 import jakarta.ws.rs.core.MediaType;
@@ -91,7 +90,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         product2.setTitle("Socks");
         product2.setSellerId(VALID_SELLER_ID);
         product2.setSuggestedPrice(new Amount(2.99));
-        product2.addCategory(ProductCategory.APPAREL);
+        product2.addCategory(ProductCategory.apparel);
         product2.addVisits(4);
 
         var sellerDTO = new SellerDto();
@@ -310,7 +309,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
 
     @Test
     public void canGetFilteredProductFromCategories() {
-        var response = getProductResponse("categories", ProductCategory.APPAREL.getName());
+        var response = getProductResponse("categories", "apparel");
 
         var entity = response.readEntity(ProductFilterResponsesCollectionDto.class);
         var status = response.getStatus();

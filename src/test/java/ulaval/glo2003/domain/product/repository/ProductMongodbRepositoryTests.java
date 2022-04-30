@@ -9,7 +9,6 @@ import ulaval.glo2003.domain.offer.Offers;
 import ulaval.glo2003.domain.product.Amount;
 import ulaval.glo2003.domain.product.Product;
 import ulaval.glo2003.domain.product.ProductCategory;
-import ulaval.glo2003.domain.product.repository.ProductMongodbRepository;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -51,8 +50,8 @@ public class ProductMongodbRepositoryTests {
         product1.setTitle("titleDT0");
         product1.setDescription("descriptionDT01");
         product1.setSuggestedPrice(new Amount(4.29));
-        product1.addCategory(ProductCategory.BEAUTY);
-        product1.addCategory(ProductCategory.OTHER);
+        product1.addCategory(ProductCategory.beauty);
+        product1.addCategory(ProductCategory.other);
         product1.setOffers(offers);
 
 
@@ -60,8 +59,8 @@ public class ProductMongodbRepositoryTests {
         product2.setTitle("titleDT02");
         product2.setDescription("descriptionDT02");
         product2.setSuggestedPrice(new Amount(6.49));
-        product2.addCategory(ProductCategory.SPORTS);
-        product2.addCategory(ProductCategory.OTHER);
+        product2.addCategory(ProductCategory.sports);
+        product2.addCategory(ProductCategory.other);
 
         new DatastoreFactory(Main.loadConfig()).getDatastore().getDatabase().drop();
     }

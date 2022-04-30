@@ -12,7 +12,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import ulaval.glo2003.Main;
-import ulaval.glo2003.api.product.ProductController;
 import ulaval.glo2003.applicatif.dto.seller.SellerDto;
 import ulaval.glo2003.domain.product.Amount;
 import ulaval.glo2003.domain.product.Product;
@@ -58,16 +57,16 @@ public class ProductFilterIntegrationTests extends JerseyTest {
         product1.setTitle("titleDT01");
         product1.setDescription("descriptionDT01");
         product1.setSuggestedPrice(new Amount(4.29));
-        product1.addCategory(ProductCategory.BEAUTY);
-        product1.addCategory(ProductCategory.OTHER);
+        product1.addCategory(ProductCategory.beauty);
+        product1.addCategory(ProductCategory.other);
         product1.setSellerId(VALID_SELLER_ID_1);
 
         product2 = new Product(Instant.now().atOffset(ZoneOffset.UTC));
         product2.setTitle("titleDT02");
         product2.setDescription("descriptionDT02");
         product2.setSuggestedPrice(new Amount(6.49));
-        product2.addCategory(ProductCategory.SPORTS);
-        product2.addCategory(ProductCategory.OTHER);
+        product2.addCategory(ProductCategory.sports);
+        product2.addCategory(ProductCategory.other);
         product2.setSellerId(VALID_SELLER_ID_2);
 
         sellerDTO1 = new SellerDto();

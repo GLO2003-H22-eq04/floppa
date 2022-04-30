@@ -43,8 +43,8 @@ public class ProductAssemblerTest {
         product.setTitle("A cool hairbrush");
         product.setDescription("Pink and all");
         product.setSuggestedPrice(new Amount(5.01));
-        product.addCategory(ProductCategory.BEAUTY);
-        product.addCategory(ProductCategory.APPAREL);
+        product.addCategory(ProductCategory.beauty);
+        product.addCategory(ProductCategory.apparel);
         product.addVisits(10);
 
         productSellerDTO = new ProductSellerDto(VALID_PRODUCT_ID1, "John Doe");
@@ -108,7 +108,10 @@ public class ProductAssemblerTest {
         var productInfoResponseDTO = productAssembler.toDto(product, productSellerDTO, offersDTO);
 
         checkForNull(product);
-        assertThat(productInfoResponseDTO.categories).isEqualTo(EXPECTED_CATEGORIES);
+
+        assertThat(productInfoResponseDTO.categories.size()).isEqualTo(EXPECTED_CATEGORIES.size());
+        assertThat(productInfoResponseDTO.categories.get(0).toString()).isEqualTo(EXPECTED_CATEGORIES.get(0));
+        assertThat(productInfoResponseDTO.categories.get(1).toString()).isEqualTo(EXPECTED_CATEGORIES.get(1));
     }
 
     @Test

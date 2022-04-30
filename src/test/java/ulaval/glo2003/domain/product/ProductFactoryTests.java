@@ -3,9 +3,6 @@ package ulaval.glo2003.domain.product;
 import org.junit.Before;
 import org.junit.Test;
 import ulaval.glo2003.applicatif.dto.product.ProductDto;
-import ulaval.glo2003.domain.product.Product;
-import ulaval.glo2003.domain.product.ProductCategory;
-import ulaval.glo2003.domain.product.ProductFactory;
 
 import java.util.List;
 import java.util.UUID;
@@ -49,7 +46,7 @@ public class ProductFactoryTests {
     @Test
     public void canCreateProductWithMultipleCategories() {
         productDTO.categories = List.of("beauty", "test");
-        var expectedCategories = List.of(ProductCategory.BEAUTY, ProductCategory.OTHER);
+        var expectedCategories = List.of(ProductCategory.beauty, ProductCategory.other);
 
         var product = productFactory.createProduct(productDTO, SELLER_ID);
 
