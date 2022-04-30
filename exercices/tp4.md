@@ -95,19 +95,21 @@ Le concept de code review formel Ã©tait aussi nouveau pour nous. Nous avions lâ€
 
 ##### PR 1
 
-<img width="1000" alt="pr1 1" src="https://user-images.githubusercontent.com/90847140/166083287-f0b8a22d-8261-486f-baf9-0a80ed7ff182.png">
+<img width="840" alt="pr2 1" src="https://user-images.githubusercontent.com/89783105/166085571-ead16585-8a08-4ce9-81a4-3c22cfed65a7.PNG">
 
-<img width="1000" alt="pr1 2" src="https://user-images.githubusercontent.com/90847140/166083300-6417d521-7352-4da3-95a5-22b8113844d7.png">
+<img width="836" alt="pr2 2" src="https://user-images.githubusercontent.com/89783105/166085581-baa52ae9-233b-4fd9-bf59-8462bfee4910.PNG">
 
 ##### PR 2
 
-<img width="1000" alt="pr2 1" src="https://user-images.githubusercontent.com/90847140/166083665-8f7056eb-5a88-4561-8f83-8ff444c2fb26.png">
+<img width="855" alt="pr 3 1" src="https://user-images.githubusercontent.com/89783105/166085656-2668ec3c-a9ec-45d9-82c1-c37374a1ef6c.PNG">
 
-<img width="1000" alt="pr2 2" src="https://user-images.githubusercontent.com/90847140/166083693-1ba7742b-b522-4e75-a645-c7587e6b85d7.png">
+<img width="856" alt="pr 3 2" src="https://user-images.githubusercontent.com/89783105/166085596-df1593a4-1158-472f-927c-5f60340d5810.PNG">
 
 ##### PR 3
 
-<img width="1000" alt="pr3 1" src="https://user-images.githubusercontent.com/90847140/166084087-b3a4890a-516d-4c3c-b61c-cdf6a109aefc.png">
+<img width="845" alt="pr 1 1" src="https://user-images.githubusercontent.com/89783105/166085757-a72dfca2-0412-4d7f-a041-3afd7e46dc8e.PNG">
+
+<img width="860" alt="pr1 2" src="https://user-images.githubusercontent.com/89783105/166085776-6583e41a-343f-4440-8f3f-3fe5f417c443.PNG">
 
 ##### Arbre de commits et de branches
 
