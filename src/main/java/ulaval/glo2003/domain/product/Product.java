@@ -94,10 +94,6 @@ public class Product {
         this.createdAt = createdAt.toInstant().truncatedTo(ChronoUnit.MILLIS);
     }
 
-    public List<String> getCategoriesName() {
-        return categories.stream().map(ProductCategory::getName).collect(Collectors.toList());
-    }
-
     public void setOffers(Offers offers) {
         this.offers = offers;
     }

@@ -1,7 +1,6 @@
 package ulaval.glo2003.domain.product;
 
 import org.junit.Test;
-import ulaval.glo2003.domain.product.ProductCategory;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -13,7 +12,7 @@ public class ProductCategoryTests {
 
         var productCategory = ProductCategory.findByName(category);
 
-        assertThat(productCategory).isEqualTo(ProductCategory.BEAUTY);
+        assertThat(productCategory).isEqualTo(ProductCategory.beauty);
     }
 
     @Test
@@ -22,6 +21,6 @@ public class ProductCategoryTests {
 
         var productCategory = ProductCategory.findByName(category);
 
-        assertThat(productCategory).isEqualTo(ProductCategory.OTHER);
+        assertThat(productCategory).isEqualTo(ProductCategory.other);
     }
 }

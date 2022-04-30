@@ -257,7 +257,7 @@ public class FilterTest{
 
     @Test
     public void canFilterFromCategoriesNeverAppear(){
-        var categories = List.of(ProductCategory.ELECTRONICS);
+        var categories = List.of(ProductCategory.electronics);
         Criteria criteria = new CriteriaCategories(categories);
         var actualResult = criteria.meetCriteria(products);
 
