@@ -17,6 +17,7 @@ import ulaval.glo2003.api.seller.SellerController;
 import ulaval.glo2003.applicatif.dto.product.ProductDto;
 import ulaval.glo2003.applicatif.dto.product.ProductInfoResponseDto;
 import ulaval.glo2003.applicatif.dto.seller.SellerDto;
+import ulaval.glo2003.applicatif.validation.ErrorDto;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -27,6 +28,8 @@ import static io.restassured.RestAssured.*;
 public class UseCasesAcceptationTests extends JerseyTest {
 
     private final static UUID NON_USED_ID = UUID.fromString("84850a41-7948-41d6-b9fd-c193dd6e4171");
+    private static final String MISSING_PARAMETER_CODE = "MISSING_PARAMETER";
+    private static final String INVALID_PARAMETER_CODE = "INVALID_PARAMETER";
     private SellerDto sellerDTO;
     private ProductDto productDTO;
     private Jsonb serializer;
@@ -153,6 +156,22 @@ public class UseCasesAcceptationTests extends JerseyTest {
         assertThat(responseDto.offers.mean).isNull();
     }
 
+    @Test
+    public void canReturn400WithMissingErrorCodeOnMissingNameOfPostSeller() {
+        sellerDTO.name = null;
+        createSeller();
+        assertThat(createdSeller.statusCode).isEqualTo(400);
+        assertThat(createdSeller.error.code).isEqualTo(MISSING_PARAMETER_CODE);
+    }
+
+    @Test
+    public void canReturn400WithInvalidErrorCodeOnInvalidNameOfPostSeller() {
+        sellerDTO.name = " ";
+        createSeller();
+        assertThat(createdSeller.statusCode).isEqualTo(400);
+        assertThat(createdSeller.error.code).isEqualTo(INVALID_PARAMETER_CODE);
+    }
+
     private void createSellerWithProduct() {
         createSeller();
         createProduct(createdSeller);
@@ -180,6 +199,8 @@ public class UseCasesAcceptationTests extends JerseyTest {
 }
 
 class CreationResponse {
+    public final boolean success;
+    public final ErrorDto error;
     public final String location;
     public final UUID id;
     public final int statusCode;
@@ -194,6 +215,12 @@ class CreationResponse {
 
         this.statusCode = response.statusCode();
         this.response = response;
+        success = statusCode == 201;
+
+        if (!success) {
+            error = response.body().as(ErrorDto.class);
+        } else
+            error = null;
     }
 
     private UUID getIdFromUrl(String url) {

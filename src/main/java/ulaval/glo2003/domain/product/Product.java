@@ -25,6 +25,7 @@ public class Product {
 
     private Instant createdAt;
     private Offers offers;
+    private int visits;
     private final List<ProductCategory> categories = new ArrayList<>();
 
     public Product(OffsetDateTime createdAt) {
@@ -93,16 +94,21 @@ public class Product {
         this.createdAt = createdAt.toInstant().truncatedTo(ChronoUnit.MILLIS);
     }
 
-    public List<String> getCategoriesName() {
-        return categories.stream().map(ProductCategory::getName).collect(Collectors.toList());
-    }
-
     public void setOffers(Offers offers) {
         this.offers = offers;
     }
 
+    // Paramètre utilisé seulement pour les tests, le reste du temps devrait toujours être 1
+    public void addVisits(int numberOfVisitsToAdd) {
+        this.visits += numberOfVisitsToAdd;
+    }
+
     public Offers getOffers() {
         return offers;
+    }
+
+    public int getVisits() {
+        return visits;
     }
 
     @Override

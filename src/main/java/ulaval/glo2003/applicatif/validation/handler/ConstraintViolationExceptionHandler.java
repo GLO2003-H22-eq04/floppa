@@ -37,7 +37,7 @@ public class ConstraintViolationExceptionHandler implements ExceptionMapper<Cons
 
     private Optional<ValidationError> getErrorInstance(Class<? extends Payload> errorType, String message) {
         try {
-            return Optional.of((ValidationError) errorType.getDeclaredConstructor().newInstance(message));
+            return Optional.of((ValidationError) errorType.getConstructor(String.class).newInstance(message));
         } catch (Exception e) {
             return Optional.empty();
         }

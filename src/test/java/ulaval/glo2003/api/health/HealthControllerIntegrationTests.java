@@ -13,7 +13,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import ulaval.glo2003.Main;
-import ulaval.glo2003.api.health.HealthController;
 import ulaval.glo2003.applicatif.health.HealthDto;
 import ulaval.glo2003.domain.config.DatastoreFactory;
 
@@ -57,7 +56,7 @@ public class HealthControllerIntegrationTests extends JerseyTest {
 
         assertThat(status).isEqualTo(Response.Status.OK.getStatusCode());
         assertThat(entity.api).isTrue();
-        assertThat(entity.bd).isTrue();
+        assertThat(entity.db).isTrue();
     }
 
     @Test
@@ -70,7 +69,7 @@ public class HealthControllerIntegrationTests extends JerseyTest {
 
         assertThat(status).isEqualTo(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
         assertThat(entity.api).isTrue();
-        assertThat(entity.bd).isFalse();
+        assertThat(entity.db).isFalse();
     }
 
     private Response getHealthResponse() {

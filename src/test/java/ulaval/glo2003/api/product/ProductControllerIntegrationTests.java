@@ -1,6 +1,5 @@
 package ulaval.glo2003.api.product;
 
-import com.google.common.truth.Truth;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.Application;
 import jakarta.ws.rs.core.MediaType;
@@ -14,12 +13,13 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import ulaval.glo2003.IntegrationUtils;
 import ulaval.glo2003.Main;
-import ulaval.glo2003.api.product.ProductController;
 import ulaval.glo2003.applicatif.dto.product.ProductDto;
+import ulaval.glo2003.applicatif.dto.product.ProductFilterResponsesCollectionDto;
 import ulaval.glo2003.applicatif.dto.product.ProductInfoResponseDto;
 import ulaval.glo2003.applicatif.dto.seller.SellerDto;
 import ulaval.glo2003.domain.product.Amount;
 import ulaval.glo2003.domain.product.Product;
+import ulaval.glo2003.domain.product.ProductCategory;
 import ulaval.glo2003.domain.product.ProductFactory;
 import ulaval.glo2003.domain.product.repository.ProductRepository;
 import ulaval.glo2003.domain.seller.Seller;
@@ -27,6 +27,7 @@ import ulaval.glo2003.domain.seller.repository.SellerRepository;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
@@ -59,6 +60,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
     private ProductDto productDTO1;
     private ProductDto productDTO2;
     private Product product;
+    private Product product2;
 
     @Before
     public void before() {
@@ -80,6 +82,16 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         product.setTitle("Produit");
         product.setSellerId(VALID_SELLER_ID);
         product.setSuggestedPrice(new Amount(5.01));
+        product.addVisits(3);
+
+        product2 = new Product(OffsetDateTime.parse("2022-04-06T18:20:43.149Z"));
+        product2.setProductId(VALID_PRODUCT_ID);
+        product2.setDescription("Old and dirty");
+        product2.setTitle("Socks");
+        product2.setSellerId(VALID_SELLER_ID);
+        product2.setSuggestedPrice(new Amount(2.99));
+        product2.addCategory(ProductCategory.apparel);
+        product2.addVisits(4);
 
         var sellerDTO = new SellerDto();
         sellerDTO.name = "John Doe";
@@ -91,6 +103,8 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         when(sellerListRepositoryMock.existById(VALID_SELLER_ID)).thenReturn(true);
         when(sellerListRepositoryMock.existById(INVALID_SELLER_ID)).thenReturn(false);
         when(sellerListRepositoryMock.findById(VALID_SELLER_ID)).thenReturn(Optional.of(seller));
+
+        when(productListRepositoryMock.findAll()).thenReturn(List.of(product, product2));
 
         when(productListRepositoryMock.add(any())).thenReturn(VALID_SELLER_ID);
         when(productListRepositoryMock.findById(VALID_SELLER_ID)).thenReturn(Optional.of(product));
@@ -120,7 +134,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         var locationHeader = (String) response.getHeaders().getFirst("Location");
 
         assertThat(locationHeader.contains(VALID_SELLER_ID.toString())).isTrue();
-        Truth.assertThat(IntegrationUtils.isUrl(locationHeader)).isTrue();
+        assertThat(IntegrationUtils.isUrl(locationHeader)).isTrue();
     }
 
     @Test
@@ -202,7 +216,7 @@ public class ProductControllerIntegrationTests extends JerseyTest {
 
     @Test
     public void canGetExistingProduct() {
-        var response = getProductResponse(VALID_SELLER_ID);
+        var response = getSellerResponse(VALID_SELLER_ID);
 
         var entity = response.readEntity(ProductInfoResponseDto.class);
         var status = response.getStatus();
@@ -212,14 +226,121 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         assertThat(entity.title).isEqualTo(product.getTitle());
         assertThat(entity.categories).isEqualTo(product.getCategories());
         assertThat(entity.createdAt).isEqualTo(product.getCreatedAt());
-        assertThat(entity.suggestedPrice.getValue()).isEqualTo(product.getSuggestedPrice().getValue());
+        assertThat(entity.suggestedPrice).isEqualTo(product.getSuggestedPrice().getValue());
         assertThat(entity.description).isEqualTo(product.getDescription());
         assertThat(entity.seller.id).isEqualTo(product.getSellerId());
+        assertThat(entity.visits).isEqualTo(product.getVisits());
+    }
+
+    @Test
+    public void canGetExistingProductNoFilter() {
+        var response = getProductResponse("", "");
+
+        var status = response.getStatus();
+
+        assertThat(status).isEqualTo(Response.Status.OK.getStatusCode());
+    }
+
+    @Test
+    public void canGetFilteredProductFromMinPrice() {
+        var response = getProductResponse("minPrice", "5");
+
+        var entity = response.readEntity(ProductFilterResponsesCollectionDto.class);
+        var status = response.getStatus();
+
+        assertThat(status).isEqualTo(Response.Status.OK.getStatusCode());
+
+        assertThat(entity.products.size()).isEqualTo(1);
+        var result = entity.products.get(0);
+        assertThat(result.id).isEqualTo(product.getProductId());
+        assertThat(result.title).isEqualTo(product.getTitle());
+        assertThat(result.categories).isEqualTo(product.getCategories());
+        assertThat(result.createdAt).isEqualTo(product.getCreatedAt());
+        assertThat(result.suggestedPrice).isEqualTo(product.getSuggestedPrice().getValue());
+        assertThat(result.description).isEqualTo(product.getDescription());
+        assertThat(result.seller.id).isEqualTo(product.getSellerId());
+        assertThat(result.offers.count).isEqualTo(product.getOffers().getCount());
+        assertThat(result.visits).isEqualTo(product.getVisits());
+    }
+
+    @Test
+    public void canGetFilteredProductFromMaxPrice() {
+        var response = getProductResponse("maxPrice", "3");
+
+        var entity = response.readEntity(ProductFilterResponsesCollectionDto.class);
+        var status = response.getStatus();
+
+        assertThat(status).isEqualTo(Response.Status.OK.getStatusCode());
+
+        assertThat(entity.products.size()).isEqualTo(1);
+        var result = entity.products.get(0);
+        assertThat(result.id).isEqualTo(product2.getProductId());
+        assertThat(result.title).isEqualTo(product2.getTitle());
+        assertThat(result.categories).isEqualTo(product2.getCategories());
+        assertThat(result.createdAt).isEqualTo(product2.getCreatedAt());
+        assertThat(result.suggestedPrice).isEqualTo(product2.getSuggestedPrice().getValue());
+        assertThat(result.description).isEqualTo(product2.getDescription());
+        assertThat(result.seller.id).isEqualTo(product2.getSellerId());
+        assertThat(result.offers.count).isEqualTo(product2.getOffers().getCount());
+        assertThat(result.visits).isEqualTo(product2.getVisits());
+    }
+
+    @Test
+    public void canGetFilteredProductFromTitle() {
+        var response = getProductResponse("title", "Socks");
+
+        var entity = response.readEntity(ProductFilterResponsesCollectionDto.class);
+        var status = response.getStatus();
+
+        assertThat(status).isEqualTo(Response.Status.OK.getStatusCode());
+
+        assertThat(entity.products.size()).isEqualTo(1);
+        var result = entity.products.get(0);
+        assertThat(result.id).isEqualTo(product2.getProductId());
+        assertThat(result.title).isEqualTo(product2.getTitle());
+        assertThat(result.categories).isEqualTo(product2.getCategories());
+        assertThat(result.createdAt).isEqualTo(product2.getCreatedAt());
+        assertThat(result.suggestedPrice).isEqualTo(product2.getSuggestedPrice().getValue());
+        assertThat(result.description).isEqualTo(product2.getDescription());
+        assertThat(result.seller.id).isEqualTo(product2.getSellerId());
+        assertThat(result.offers.count).isEqualTo(product2.getOffers().getCount());
+        assertThat(result.visits).isEqualTo(product2.getVisits());
+    }
+
+    @Test
+    public void canGetFilteredProductFromCategories() {
+        var response = getProductResponse("categories", "apparel");
+
+        var entity = response.readEntity(ProductFilterResponsesCollectionDto.class);
+        var status = response.getStatus();
+
+        assertThat(status).isEqualTo(Response.Status.OK.getStatusCode());
+
+        assertThat(entity.products.size()).isEqualTo(1);
+        var result = entity.products.get(0);
+        assertThat(result.id).isEqualTo(product2.getProductId());
+        assertThat(result.title).isEqualTo(product2.getTitle());
+        assertThat(result.categories).isEqualTo(product2.getCategories());
+        assertThat(result.createdAt).isEqualTo(product2.getCreatedAt());
+        assertThat(result.suggestedPrice).isEqualTo(product2.getSuggestedPrice().getValue());
+        assertThat(result.description).isEqualTo(product2.getDescription());
+        assertThat(result.seller.id).isEqualTo(product2.getSellerId());
+        assertThat(result.offers.count).isEqualTo(product2.getOffers().getCount());
+        assertThat(result.visits).isEqualTo(product2.getVisits());
+    }
+
+    @Test
+    public void canGetFilteredProductFromSellerID() {
+        var response = getProductResponse("sellerId", VALID_SELLER_ID.toString());
+
+        var status = response.getStatus();
+
+        assertThat(status).isEqualTo(Response.Status.OK.getStatusCode());
     }
 
     @Test
     public void shouldRejectNonExistingProduct() {
-        var response = getProductResponse(MISSING_ID);
+        var response = getSellerResponse(MISSING_ID);
         var status = response.getStatus();
 
         assertThat(status).isEqualTo(Response.Status.NOT_FOUND.getStatusCode());
@@ -233,7 +354,11 @@ public class ProductControllerIntegrationTests extends JerseyTest {
         return target(ProductController.PRODUCTS_PATH).request().header(ProductController.SELLER_ID_HEADER, sellerId).post(Entity.entity(productDTO, MediaType.APPLICATION_JSON_TYPE));
     }
 
-    private Response getProductResponse(UUID productId) {
+    private Response getSellerResponse(UUID productId) {
         return target(ProductController.PRODUCTS_PATH + '/' + productId).request().get();
+    }
+
+    private Response getProductResponse(String paramName, String paramValue) {
+        return target(ProductController.PRODUCTS_PATH).queryParam(paramName, paramValue).request().get();
     }
 }

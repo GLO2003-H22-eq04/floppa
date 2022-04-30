@@ -2,6 +2,7 @@ package ulaval.glo2003.applicatif.dto.product;
 
 import ulaval.glo2003.applicatif.dto.offer.OffersResponseDto;
 import ulaval.glo2003.domain.product.Amount;
+import ulaval.glo2003.domain.product.ProductCategory;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -17,11 +18,13 @@ public class ProductInfoResponseDto {
 
     public String description;
 
-    public Amount suggestedPrice;
+    public Double suggestedPrice;
 
-    public List<String> categories;
+    public List<ProductCategory> categories;
 
     public ProductSellerDto seller;
 
     public OffersResponseDto offers;
+
+    public int visits;
 }
