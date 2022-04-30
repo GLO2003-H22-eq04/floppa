@@ -1,3 +1,7 @@
+![](https://img.shields.io/badge/Production-OK-sucess)
+![](https://img.shields.io/badge/Staging-OK-sucess)
+![](https://img.shields.io/badge/Build-passing-sucess)
+
 # Floppa
 
 Le meilleur site de vente anonyme au Québec!
