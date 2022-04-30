@@ -13,6 +13,6 @@ public class CurrentSellerDto {
     public String name;
     public OffsetDateTime createdAt;
     public String bio;
-    public LocalDate birthdate;
+    public LocalDate birthDate;
     public List<ProductOfferInfoResponseDto> products;
 }

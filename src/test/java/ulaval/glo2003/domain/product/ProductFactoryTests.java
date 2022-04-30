@@ -37,6 +37,7 @@ public class ProductFactoryTests {
         assertThat(product.getSuggestedPrice()).isNotNull();
         assertThat(product.getCategories()).isNotNull();
         assertThat(product.getSellerId()).isNotNull();
+        assertThat(product.getVisits()).isNotNull();
     }
 
     @Test
